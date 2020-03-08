@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>ASP.NET Thread Pool 監控 | Marsen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前情提要上一次說明了 .NET Thread Pool 的機制如何影響 Redis,.NET Thread Pool 的機制會貫穿任何與它互動的系統或服務,所以這篇會簡單描述如何對 .NET Thread Pool 建立監控。 步驟 建立監控記數器 在系統寫入監控數值 開啟效能計數器  建立監控記數器   記數器 說明     Available Worker Threads 目前在 thread">
+<meta name="keywords" content=".Net Framework,ASP.Net,Thread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Thread Pool 監控">
+<meta property="og:url" content="http://blog.marsen.me/2017/01/28/aspdotnet_threadpool_monitor/index.html">
+<meta property="og:site_name" content="Marsen">
+<meta property="og:description" content="前情提要上一次說明了 .NET Thread Pool 的機制如何影響 Redis,.NET Thread Pool 的機制會貫穿任何與它互動的系統或服務,所以這篇會簡單描述如何對 .NET Thread Pool 建立監控。 步驟 建立監控記數器 在系統寫入監控數值 開啟效能計數器  建立監控記數器   記數器 說明     Available Worker Threads 目前在 thread">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://i.imgur.com/HhlbNH2.jpg">
+<meta property="og:updated_time" content="2018-04-17T03:12:39.604Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASP.NET Thread Pool 監控">
+<meta name="twitter:description" content="前情提要上一次說明了 .NET Thread Pool 的機制如何影響 Redis,.NET Thread Pool 的機制會貫穿任何與它互動的系統或服務,所以這篇會簡單描述如何對 .NET Thread Pool 建立監控。 步驟 建立監控記數器 在系統寫入監控數值 開啟效能計數器  建立監控記數器   記數器 說明     Available Worker Threads 目前在 thread">
+<meta name="twitter:image" content="https://i.imgur.com/HhlbNH2.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Marsen" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71201782-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="blog-banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Marsen</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.marsen.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-aspdotnet_threadpool_monitor" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/28/aspdotnet_threadpool_monitor/" class="article-date">
+  <time datetime="2017-01-28T12:46:49.000Z" itemprop="datePublished">2017-01-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ASP.NET Thread Pool 監控
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p><a href="/2016/11/21/aspdotnet_threadpool_and_redis/">上一次</a>說明了 .NET Thread Pool 的機制如何影響 Redis,<br>.NET Thread Pool 的機制會貫穿任何與它互動的系統或服務,<br>所以這篇會簡單描述如何對 .NET Thread Pool <a href="https://msdn.microsoft.com/zh-tw/library/ff650682.aspx" target="_blank" rel="noopener">建立監控</a>。</p>
+<h2 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h2><ol>
+<li>建立監控記數器</li>
+<li>在系統寫入監控數值</li>
+<li>開啟效能計數器</li>
+</ol>
+<h2 id="建立監控記數器"><a href="#建立監控記數器" class="headerlink" title="建立監控記數器"></a>建立監控記數器</h2><table>
+<thead>
+<tr>
+<th>記數器</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Available Worker Threads</td>
+<td>目前在 thread-pool 可以使用的 worker threads</td>
+</tr>
+<tr>
+<td>Available IO Threads</td>
+<td>目前在 thread-pool 可以使用的 I/O threads</td>
+</tr>
+<tr>
+<td>Max Worker Threads</td>
+<td>最大可以建立的 worker threads 數量</td>
+</tr>
+<tr>
+<td>Max IO Threads</td>
+<td>最大可以建立的 I/O threads 數量</td>
+</tr>
+</tbody>
+</table>
+<h3 id="建立一個-Console-應用程式"><a href="#建立一個-Console-應用程式" class="headerlink" title="建立一個 Console 應用程式"></a>建立一個 Console 應用程式</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Diagnostics;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">MyAspNetThreadCounters</span></span><br><span class="line">&#123;</span><br><span class="line">  [<span class="meta">STAThread</span>]</span><br><span class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    CreateCounters();</span><br><span class="line">    Console.WriteLine(<span class="string">"MyAspNetThreadCounters performance counter category "</span> +</span><br><span class="line">                      <span class="string">"is created. [Press Enter]"</span>);</span><br><span class="line">    Console.ReadLine();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">CreateCounters</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    CounterCreationDataCollection col =  </span><br><span class="line">      <span class="keyword">new</span> CounterCreationDataCollection();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create custom counter objects</span></span><br><span class="line">    CounterCreationData counter1 = <span class="keyword">new</span> CounterCreationData();</span><br><span class="line">    counter1.CounterName = <span class="string">"Available Worker Threads"</span>;</span><br><span class="line">    counter1.CounterHelp = <span class="string">"The difference between the maximum number "</span> + </span><br><span class="line">                           <span class="string">"of thread pool worker threads and the "</span> +</span><br><span class="line">                           <span class="string">"number currently active."</span>;</span><br><span class="line">    counter1.CounterType = PerformanceCounterType.NumberOfItems32;</span><br><span class="line"></span><br><span class="line">    CounterCreationData counter2 = <span class="keyword">new</span> CounterCreationData();</span><br><span class="line">    counter2.CounterName = <span class="string">"Available IO Threads"</span>;</span><br><span class="line">    counter2.CounterHelp = <span class="string">"The difference between the maximum number of "</span> + </span><br><span class="line">                           <span class="string">"thread pool IO threads and the number "</span>+ </span><br><span class="line">                           <span class="string">"currently active."</span>;</span><br><span class="line">    counter2.CounterType = PerformanceCounterType.NumberOfItems32;</span><br><span class="line"></span><br><span class="line">    CounterCreationData counter3 = <span class="keyword">new</span> CounterCreationData();</span><br><span class="line">    counter3.CounterName = <span class="string">"Max Worker Threads"</span>;</span><br><span class="line">    counter3.CounterHelp = <span class="string">"The number of requests to the thread pool "</span>+ </span><br><span class="line">                           <span class="string">"that can be active concurrently. All "</span>+  </span><br><span class="line">                           <span class="string">"requests above that number remain queued until "</span> +</span><br><span class="line">                           <span class="string">"thread pool worker threads become available."</span>;</span><br><span class="line">    counter3.CounterType = PerformanceCounterType.NumberOfItems32;</span><br><span class="line"></span><br><span class="line">    CounterCreationData counter4 = <span class="keyword">new</span> CounterCreationData();</span><br><span class="line">    counter4.CounterName = <span class="string">"Max IO Threads"</span>;</span><br><span class="line">    counter4.CounterHelp = <span class="string">"The number of requests to the thread pool "</span> + </span><br><span class="line">                           <span class="string">"that can be active concurrently. All "</span>+  </span><br><span class="line">                           <span class="string">"requests above that number remain queued until "</span> +</span><br><span class="line">                           <span class="string">"thread pool IO threads become available."</span>;</span><br><span class="line">    counter4.CounterType = PerformanceCounterType.NumberOfItems32;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom counter objects to CounterCreationDataCollection.</span></span><br><span class="line">    col.Add(counter1);</span><br><span class="line">    col.Add(counter2);</span><br><span class="line">    col.Add(counter3);</span><br><span class="line">    col.Add(counter4);</span><br><span class="line">    <span class="comment">// delete the category if it already exists</span></span><br><span class="line">    <span class="keyword">if</span>(PerformanceCounterCategory.Exists(<span class="string">"MyAspNetThreadCounters"</span>))</span><br><span class="line">    &#123;</span><br><span class="line">      PerformanceCounterCategory.Delete(<span class="string">"MyAspNetThreadCounters"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// bind the counters to the PerformanceCounterCategory</span></span><br><span class="line">    PerformanceCounterCategory category = </span><br><span class="line">            PerformanceCounterCategory.Create(<span class="string">"MyAspNetThreadCounters"</span>, </span><br><span class="line">                                              <span class="string">""</span>, col);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>編譯後並執行即可,<br>執行 <code>regedit</code> 開啟登錄編輯程式,<br>輸入機碼 <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services</code><br>將可以找到剛剛建立的 <code>MyAspNetThreadCounters</code> 記數器</p>
+<h2 id="在系統寫入監控數值"><a href="#在系統寫入監控數值" class="headerlink" title="在系統寫入監控數值"></a>在系統寫入監控數值</h2><p>在站台的 <code>Global.asax</code> 加入以下的程式碼</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">bool</span> MonitorThreadPoolEnabled = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params">Object sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadStart(RefreshCounters));</span><br><span class="line">  t.Start();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">RefreshCounters</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (MonitorThreadPoolEnabled)</span><br><span class="line">  &#123;</span><br><span class="line">    ASPNETThreadInfo t = GetThreadInfo();</span><br><span class="line">    ShowPerfCounters(t);</span><br><span class="line">    System.Threading.Thread.Sleep(<span class="number">500</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_End</span>(<span class="params">Object sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  MonitorThreadPoolEnabled = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> ASPNETThreadInfo</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">int</span> MaxWorkerThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">int</span> MaxIOThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">int</span> MinFreeThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">int</span> MinLocalRequestFreeThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">int</span> AvailableWorkerThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">int</span> AvailableIOThreads;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">Equals</span>(<span class="params">ASPNETThreadInfo other</span>)</span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      MaxWorkerThreads == other.MaxWorkerThreads &amp;&amp;</span><br><span class="line">      MaxIOThreads == other.MaxIOThreads &amp;&amp;</span><br><span class="line">      MinFreeThreads == other.MinFreeThreads &amp;&amp;</span><br><span class="line">      MinLocalRequestFreeThreads == other.MinLocalRequestFreeThreads &amp;&amp;</span><br><span class="line">      AvailableWorkerThreads == other.AvailableWorkerThreads &amp;&amp;</span><br><span class="line">      AvailableIOThreads == other.AvailableIOThreads</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ASPNETThreadInfo <span class="title">GetThreadInfo</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// use ThreadPool to get the current status</span></span><br><span class="line">  <span class="keyword">int</span> availableWorker, availableIO;</span><br><span class="line">  <span class="keyword">int</span> maxWorker, maxIO;</span><br><span class="line"></span><br><span class="line">  ThreadPool.GetAvailableThreads( <span class="keyword">out</span> availableWorker, <span class="keyword">out</span> availableIO);</span><br><span class="line">  ThreadPool.GetMaxThreads(<span class="keyword">out</span> maxWorker, <span class="keyword">out</span> maxIO);</span><br><span class="line"></span><br><span class="line">  ASPNETThreadInfo threadInfo;</span><br><span class="line">  threadInfo.AvailableWorkerThreads = (Int16)availableWorker;</span><br><span class="line">  threadInfo.AvailableIOThreads = (Int16)availableIO;</span><br><span class="line">  threadInfo.MaxWorkerThreads = (Int16)maxWorker;</span><br><span class="line">  threadInfo.MaxIOThreads = (Int16)maxIO;</span><br><span class="line"> <span class="comment">// hard code for now; could get this from  machine.config</span></span><br><span class="line">  threadInfo.MinFreeThreads = <span class="number">8</span>;</span><br><span class="line">  threadInfo.MinLocalRequestFreeThreads = <span class="number">4</span>;</span><br><span class="line">  <span class="keyword">return</span> threadInfo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ShowPerfCounters</span>(<span class="params">ASPNETThreadInfo t</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// get an instance of our Available Worker Threads counter</span></span><br><span class="line">  PerformanceCounter counter1 = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">  counter1.CategoryName = <span class="string">"MyAspNetThreadCounters"</span>;</span><br><span class="line">  counter1.CounterName = <span class="string">"Available Worker Threads"</span>;</span><br><span class="line">  counter1.ReadOnly = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set the value of the counter</span></span><br><span class="line">  counter1.RawValue = t.AvailableWorkerThreads;</span><br><span class="line">  counter1.Close();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// repeat for other counters</span></span><br><span class="line"></span><br><span class="line">  PerformanceCounter counter2 = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">  counter2.CategoryName = <span class="string">"MyAspNetThreadCounters"</span>;</span><br><span class="line">  counter2.CounterName = <span class="string">"Available IO Threads"</span>;</span><br><span class="line">  counter2.ReadOnly = <span class="literal">false</span>;</span><br><span class="line">  counter2.RawValue = t.AvailableIOThreads;</span><br><span class="line">  counter2.Close();</span><br><span class="line"></span><br><span class="line">  PerformanceCounter counter3 = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">  counter3.CategoryName = <span class="string">"MyAspNetThreadCounters"</span>;</span><br><span class="line">  counter3.CounterName = <span class="string">"Max Worker Threads"</span>;</span><br><span class="line">  counter3.ReadOnly = <span class="literal">false</span>;</span><br><span class="line">  counter3.RawValue = t.MaxWorkerThreads;</span><br><span class="line">  counter3.Close();</span><br><span class="line"></span><br><span class="line">  PerformanceCounter counter4 = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">  counter4.CategoryName = <span class="string">"MyAspNetThreadCounters"</span>;</span><br><span class="line">  counter4.CounterName = <span class="string">"Max IO Threads"</span>;</span><br><span class="line">  counter4.ReadOnly = <span class="literal">false</span>;</span><br><span class="line">  counter4.RawValue = t.MaxIOThreads;</span><br><span class="line">  counter4.Close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>當你的站台重新啟動後,<br>就會定期將 Worker Thread 與  I/O Threads 的監控數值傳遞給系統。  </p>
+<h3 id="開啟效能計數器"><a href="#開啟效能計數器" class="headerlink" title="開啟效能計數器"></a>開啟效能計數器</h3><ol>
+<li>執行 <code>perfmon.exe</code> 開啟效能計數器</li>
+<li>新增效能計數器(點選綠色加符號)</li>
+<li>選取前面所建立監控記數器就能看到當前 ThreadPool 的使用狀況。<br><img src="https://i.imgur.com/HhlbNH2.jpg" alt=""></li>
+</ol>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.marsen.me/2017/01/28/aspdotnet_threadpool_monitor/" data-id="cjo2ui2z8000b7cvx5zx5khpg" class="article-share-link">Share</a>
+      
+        <a href="http://blog.marsen.me/2017/01/28/aspdotnet_threadpool_monitor/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/">.Net Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASP-Net/">ASP.Net</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/08/auto_add_trello_card/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          自動化 Trello 操作
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/01/24/iis_tracing_log_setting/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">IIS Tracing Log 設定</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/04/2018/csm/day_2_2/">CSM Day2-2 Daily Scrum 與 Sprint Review 與 Retrospective</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/2018/csm/day_2_1/">CSM Day2-1 Planning</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/27/2018/csm/day_1/">CSM Day1</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/21/books/who_moved_my_cheese/">[閱讀筆記]誰搬走我的乳酪? 堅持與PIVOT</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/2018/hexo_update/">[實作筆記]Hexo Update 與 npm 修復漏洞</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Net-Framework/" style="font-size: 13.33px;">.Net Framework</a> <a href="/tags/AI/" style="font-size: 10px;">AI</a> <a href="/tags/API/" style="font-size: 11.67px;">API</a> <a href="/tags/ASP-Net/" style="font-size: 11.67px;">ASP.Net</a> <a href="/tags/AWS/" style="font-size: 16.67px;">AWS</a> <a href="/tags/Agile/" style="font-size: 13.33px;">Agile</a> <a href="/tags/Agile/" style="font-size: 13.33px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 11.67px;">BootStrap</a> <a href="/tags/BulkInsert/" style="font-size: 10px;">BulkInsert</a> <a href="/tags/C/" style="font-size: 13.33px;">C#</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 15px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Entity-Framework/" style="font-size: 11.67px;">Entity Framework</a> <a href="/tags/Expressjs/" style="font-size: 10px;">Expressjs</a> <a href="/tags/Google/" style="font-size: 13.33px;">Google</a> <a href="/tags/Gulpjs/" style="font-size: 11.67px;">Gulpjs</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 13.33px;">Integrated Testing</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/JQuery/" style="font-size: 11.67px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 11.67px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 13.33px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Teseting/" style="font-size: 10px;">Mutation Teseting</a> <a href="/tags/NPM/" style="font-size: 11.67px;">NPM</a> <a href="/tags/Nodejs/" style="font-size: 16.67px;">Nodejs</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/Openshift/" style="font-size: 11.67px;">Openshift</a> <a href="/tags/Redis/" style="font-size: 11.67px;">Redis</a> <a href="/tags/Root-User/" style="font-size: 11.67px;">Root User</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 10px;">SQL Server</a> <a href="/tags/Scrum/" style="font-size: 18.33px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 11.67px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/TDD/" style="font-size: 11.67px;">TDD</a> <a href="/tags/Testing/" style="font-size: 11.67px;">Testing</a> <a href="/tags/Thread/" style="font-size: 11.67px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 15px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 18.33px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 11.67px;">Unix</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/powershell/" style="font-size: 10px;">powershell</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/時間管理/" style="font-size: 11.67px;">時間管理</a> <a href="/tags/產業趨勢/" style="font-size: 10px;">產業趨勢</a> <a href="/tags/記錄/" style="font-size: 18.33px;">記錄</a> <a href="/tags/閱讀筆記/" style="font-size: 20px;">閱讀筆記</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/">.Net Framework</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/">API</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASP-Net/">ASP.Net</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/">AWS</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/">Agile</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/">Agile</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/">BootStrap</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BulkInsert/">BulkInsert</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C#</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/">CI/CD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/">Content-Type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/">DNS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/">Database</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/">EC2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expressjs/">Expressjs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulpjs/">Gulpjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/">IoT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/">JQuery</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/">Kubernetes</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Teseting/">Mutation Teseting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nodejs/">Nodejs</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Root-User/">Root User</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-Server/">SQL Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/">Scrum</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/">TDD</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/">Testing</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/">domain</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powershell/">powershell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/">website</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/時間管理/">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/產業趨勢/">產業趨勢</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/記錄/">記錄</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/閱讀筆記/">閱讀筆記</a><span class="tag-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">BADGES</h3>
+    <div class="widget">
+        <a href="https://bcert.me/bc/html/show-badge.html?b=uufxvngl">
+            <img src="/images/2018/csm/seal-csm.png" alt="Certified ScrumMaster®">
+        </a>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Marsen L.<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'marsenlin';
+  
+  var disqus_url = 'http://blog.marsen.me/2017/01/28/aspdotnet_threadpool_monitor/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
