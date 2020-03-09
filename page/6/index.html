@@ -80,6 +80,56 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2018/LCM_and_GCD" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/18/2018/LCM_and_GCD/" class="article-date">
+  <time datetime="2018-09-17T16:36:51.000Z" itemprop="datePublished">2018-09-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/18/2018/LCM_and_GCD/">最大公因數與最小公倍數</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>數學系畢業後，在學寫程式雖然偶爾會用到一些數學特性來解題，<br>不過到了工作確不是那麼一回事，大多在處理商業流程，資料流 ;<br>然後在商業流程與資料流中穿梭，找蟲然後補丁 ;  </p>
+<p>這是最近在練習 <a href="https://www.hackerrank.com/challenges/between-two-sets/problem" target="_blank" rel="noopener">Kata 的題目</a>所用到的兩個國中數學，<br>「最大公因數」與「最小公倍數」，還用程式實踐了「輾轉相除法」，<br>真的是有點懷念啊 。</p>
+<p>這是題外話，Rx(Reactive Functional Programing)感覺很有趣<br>最近參與 functional programing 的讀書會，<br>裡面似乎有比現在開發模式更優雅的解決問題方式。<br>不過門檻有點高，需要具備的抽象思考能力，是種非常燒腦的開發方式。</p>
+<h2 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span>/ GCD</span></span><br><span class="line"><span class="keyword">static</span> Func&lt;<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">int</span>&gt; GCD = (numA, numB) =&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> numB == <span class="number">0</span> ? numA : GCD(numB, numA % numB);</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="comment"><span class="doctag">///</span>/ LCM</span></span><br><span class="line"><span class="keyword">static</span> Func&lt;<span class="keyword">int</span>, <span class="keyword">int</span>,<span class="keyword">int</span>&gt; LCM = (numA,numB) =&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> numA * numB / GCD(numA, numB);</span><br><span class="line">        &#125; ;</span><br></pre></td></tr></table></figure>
+
+<h3 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h3><ul>
+<li><a href="https://www.geeksforgeeks.org/gcd-two-array-numbers/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/gcd-two-array-numbers/</a></li>
+<li><a href="https://www.geeksforgeeks.org/lcm-of-given-array-elements/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/lcm-of-given-array-elements/</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/09/18/2018/LCM_and_GCD/" data-id="ck7jfoswi0015yhwfkb4yljno" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/09/18/2018/LCM_and_GCD/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/">.Net Framework</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2018/l10n_i18n" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/07/2018/l10n_i18n/" class="article-date">
@@ -144,7 +194,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/09/07/2018/l10n_i18n/" data-id="ck72rf8rd0021ykvx34i23hw0" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/09/07/2018/l10n_i18n/" data-id="ck7jfoswn001hyhwfgvzdd3au" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/09/07/2018/l10n_i18n/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -257,7 +307,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/09/03/2018/cache_files_and_redis/" data-id="ck72rf8r7001sykvx375vh98v" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/09/03/2018/cache_files_and_redis/" data-id="ck7jfoswk001ayhwf0jsze1lv" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/09/03/2018/cache_files_and_redis/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -451,7 +501,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/08/28/2018/defect_release_cors_and_cdn/" data-id="ck72rf8ra001xykvxe43iah9y" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/08/28/2018/defect_release_cors_and_cdn/" data-id="ck7jfoswl001dyhwfq4yeg2ed" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/08/28/2018/defect_release_cors_and_cdn/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -532,7 +582,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/08/27/2018/where_is_specrun/" data-id="ck72rf8rp002gykvxmo6c9jg0" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/08/27/2018/where_is_specrun/" data-id="ck7jfoswt001xyhwfp7xu6ta5" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/08/27/2018/where_is_specrun/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -592,7 +642,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/07/30/2018/package-lock_modify_after_npm_install/" data-id="ck72rf8rj002aykvxo5gvuhpr" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/07/30/2018/package-lock_modify_after_npm_install/" data-id="ck7jfoswq001qyhwfrsqogy4d" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/07/30/2018/package-lock_modify_after_npm_install/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -639,7 +689,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/07/29/2018/node_set_registry/" data-id="ck72rf8rj0029ykvxrpilgf3v" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/07/29/2018/node_set_registry/" data-id="ck7jfoswq001pyhwflp57rn28" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/07/29/2018/node_set_registry/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -710,7 +760,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/07/25/2018/books/book_the_great_scurm_master_ch2/" data-id="ck72rf8v2007jykvx9rerl2un" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/07/25/2018/books/book_the_great_scurm_master_ch2/" data-id="ck7jfosz3007pyhwfyanjxk1u" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/07/25/2018/books/book_the_great_scurm_master_ch2/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -839,7 +889,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/07/23/2018/books/book_the_great_scurm_master_ch3/" data-id="ck72rf8v4007nykvxy1gmo6oo" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/07/23/2018/books/book_the_great_scurm_master_ch3/" data-id="ck7jfosz1007lyhwfzxf8w095" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/07/23/2018/books/book_the_great_scurm_master_ch3/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -1015,76 +1065,13 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/07/15/2018/books/book_the_great_scurm_master_ch1/" data-id="ck72rf8v0007fykvxi6iz4pbm" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/07/15/2018/books/book_the_great_scurm_master_ch1/" data-id="ck7jfosz0007jyhwfallzz6zl" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/07/15/2018/books/book_the_great_scurm_master_ch1/#disqus_thread" class="article-comment-link">留言</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/">Agile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrum/">Scrum</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/閱讀筆記/">閱讀筆記</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2018/find_intern" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/02/2018/find_intern/" class="article-date">
-  <time datetime="2018-07-02T07:31:23.000Z" itemprop="datePublished">2018-07-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/02/2018/find_intern/">[生活瑣事]徵工讀生有感</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>開發團隊需要找 二名工讀生， 請幫忙問問家裡有沒有專科大學含以上的小朋友，<br>有興趣來公司實習的， 條件可以到公司再談</p>
-<p>我們希望你</p>
-<ul>
-<li>對電子商務有興趣、有熱忱， 喜歡解決問題</li>
-<li>樂於溝通與分享</li>
-<li>喜歡團隊合作</li>
-</ul>
-<p>工作內容</p>
-<ul>
-<li>協助專案開發， 修改前端 Javascript/CSS， HTML頁面調整</li>
-<li>協助頁面功能測試</li>
-</ul>
-<p>條件</p>
-<ol>
-<li>熟悉HTML(接觸過JavaScript，CSS佳）</li>
-<li>接觸過任意後端程式語言(C#，ASP。NET MVC佳）</li>
-<li>具備網頁應用程式開發的概念或經驗佳</li>
-<li>暑假期間7/1 ~ 8/31， 上班時間， 09:00 ~ 18:00 (edited)</li>
-</ol>
-<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>一眨眼也工作十年了，不說自已，<br>身邊年輕的朋友也不是小朋友了;<br>各種意義上也沒有小朋友;<br>視茫茫，髮蒼蒼，齒牙動搖;<br>身體平安，惟膀子疼痛厲害，轉身射門，諸多不便。</p>
-<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><ol>
-<li>薪資會優於勞基法加面議。</li>
-<li>95% 的信賴區間下,可能會落在 150 左右,正負6個百分點。</li>
-</ol>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/07/02/2018/find_intern/" data-id="ck72rf8rb001zykvxzuix3pyp" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/07/02/2018/find_intern/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
     </footer>
   </div>
   
@@ -1108,6 +1095,10 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       <ul>
         
           <li>
+            <a href="/2020/03/10/2020/macbook_ssh_add_and_git_fork/">[實作筆記] Macbook SSH 設置與疑問 </a>
+          </li>
+        
+          <li>
             <a href="/2020/02/26/2020/todo_driven_develop_to_test_driven_develop_1/">[實作筆記] 從 TDD 到 TDD ，Todo 到 Test 趨動開發(一)</a>
           </li>
         
@@ -1123,10 +1114,6 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
             <a href="/2020/01/17/2020/tdd_with_parse_json/">[實作筆記] 記錄用 TDD 寫一個 Entity Parser </a>
           </li>
         
-          <li>
-            <a href="/2020/01/14/2020/requestbin/">[實作筆記] 使用 Request Bin 測試第三方 Webhook 與 Callback </a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1136,7 +1123,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 

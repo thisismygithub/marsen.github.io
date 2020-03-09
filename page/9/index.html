@@ -80,6 +80,76 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2017/test_learn/vs2017_mstest_with_nuget" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/11/2017/test_learn/vs2017_mstest_with_nuget/" class="article-date">
+  <time datetime="2017-12-11T03:17:08.000Z" itemprop="datePublished">2017-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/11/2017/test_learn/vs2017_mstest_with_nuget/">Visual Studio 2017 MSTest Framework 異常修正</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="應該要知道的事"><a href="#應該要知道的事" class="headerlink" title="應該要知道的事"></a>應該要知道的事</h2><ul>
+<li>這是踩雷筆記</li>
+<li>2017的筆記可能會隨時間變得沒有參考價值</li>
+<li>Visual Studio 2017的問題,並不一定適用其他版本</li>
+<li>最後面會有不定時補充</li>
+</ul>
+<h2 id="情境"><a href="#情境" class="headerlink" title="情境"></a>情境</h2><p><img src="https://i.imgur.com/FDDtc9V.jpg" alt="載入測試時發生例外狀況"><br>原本使用 Visual Studio 2015 建立的測試專案,<br>升級到 Visual Studio 2017 後, 發生以下錯誤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[2017/12/11 上午 02:09:59 Error] 測試探索程式 &apos;SpecRunTestDiscoverer&apos; </span><br><span class="line">載入測試時發生例外狀況。例外狀況: 無法載入檔案或組件 </span><br><span class="line">&apos;Microsoft.VisualStudio.QualityTools.UnitTestFramework,</span><br><span class="line">Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a&apos;</span><br><span class="line">或其相依性的其中之一。 系統找不到指定的檔案。</span><br></pre></td></tr></table></figure>
+
+<h2 id="導致結果"><a href="#導致結果" class="headerlink" title="導致結果"></a>導致結果</h2><p><img src="https://i.imgur.com/2REPRzG.jpg" alt="原本的測試數量為1942,變成459,遺失了7成5的測試案例."></p>
+<ol>
+<li>測試專案會找不到測試,或是測試數量不正確.</li>
+<li>可以使用 Visual Studio 2015 重新執行探測索測試,即可排除問題.</li>
+</ol>
+<h2 id="VS2015-已移除或未安裝該怎麼辦？"><a href="#VS2015-已移除或未安裝該怎麼辦？" class="headerlink" title="VS2015 已移除或未安裝該怎麼辦？"></a>VS2015 已移除或未安裝該怎麼辦？</h2><p>透過MsTest直接加入<br><code>Microsoft.VisualStudio.QualityTools.UnitTestFramework</code><br>的參考已經是舊的方法了, </p>
+<h4 id="在-Visual-Studio-2017-建議的解決方案如下"><a href="#在-Visual-Studio-2017-建議的解決方案如下" class="headerlink" title="在 Visual Studio 2017 建議的解決方案如下:"></a>在 Visual Studio 2017 建議的解決方案如下:</h4><ul>
+<li>移除方案中所有對 <code>Microsoft.VisualStudio.QualityTools.UnitTestFramework</code> 的參考</li>
+<li>透過 <code>Nuget</code> 安裝 <code>MSTest.TestAdapter</code> </li>
+<li>透過 <code>Nuget</code> 安裝 <code>MSTest.TestFramework</code></li>
+<li>關閉 Visual Studio 2017</li>
+<li>移除 <code>%temp%\VisualStudioTestExplorerExtensions</code>內所有檔案</li>
+<li>重啟 Visual Studio 2017 並建置以觸發探索測試<br><img src="https://i.imgur.com/RPI77KN.jpg" alt="透過 Nuget 安裝 MSTest.TestAdapter/MSTest.TestFramework"><br><img src="https://i.imgur.com/JQ7zf2S.jpg" alt="重啟 Visual Studio 2017 並建置以觸發探索測試"></li>
+</ul>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="https://developercommunity.visualstudio.com/content/problem/14673/unit-test-fail-cannot-load-microsoftvisualstudiote.html" target="_blank" rel="noopener">Unit test fail - cannot load Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions</a></li>
+</ul>
+<p>(fin)</p>
+<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><ul>
+<li>2018/06/02 :<br>Visual Studio 2017 15.7.* 的版本之後 ,<br><code>%temp%\VisualStudioTestExplorerExtensions</code> 消失了 ,<br>不過正常情況建置後 , visual studio 探索測試仍然可以正確找到測試。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2017/12/11/2017/test_learn/vs2017_mstest_with_nuget/" data-id="ck7jfosyy007dyhwfjzclgynd" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2017/12/11/2017/test_learn/vs2017_mstest_with_nuget/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MsTest/">MsTest</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual-Studio/">Visual Studio</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2017/test_learn/integrated_testing_partice2_question" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/08/2017/test_learn/integrated_testing_partice2_question/" class="article-date">
@@ -127,7 +197,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/12/08/2017/test_learn/integrated_testing_partice2_question/" data-id="ck72rf8uu0077ykvxyq686j4p" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/12/08/2017/test_learn/integrated_testing_partice2_question/" data-id="ck7jfosyy007byhwfoarrvkkg" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/12/08/2017/test_learn/integrated_testing_partice2_question/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -207,7 +277,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/12/08/2018/cloud_learn/aws_creat_ec2_instance/" data-id="ck72rf8va007xykvxm0neora0" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/12/08/2018/cloud_learn/aws_creat_ec2_instance/" data-id="ck7jfosz60081yhwfs6234fpu" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/12/08/2018/cloud_learn/aws_creat_ec2_instance/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -311,7 +381,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/10/31/2017/integrated_testing_partice/" data-id="ck72rf8r1001jykvxi0s70ggh" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/10/31/2017/integrated_testing_partice/" data-id="ck7jfoswg000zyhwfflxz39qn" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/10/31/2017/integrated_testing_partice/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -387,7 +457,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/10/23/2017/weekly_learn/20171023/" data-id="ck72rf8v1007hykvxaasz1p40" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/10/23/2017/weekly_learn/20171023/" data-id="ck7jfosyz007fyhwf3s1r9nzj" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/10/23/2017/weekly_learn/20171023/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -483,7 +553,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/10/22/2018/books/book_outliers_the_story_of_success/" data-id="ck72rf8v3007lykvxw7q5ixl4" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/10/22/2018/books/book_outliers_the_story_of_success/" data-id="ck7jfosz0007hyhwfu7tskulg" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/10/22/2018/books/book_outliers_the_story_of_success/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -547,7 +617,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/09/24/2017/sql_ef6_dateInterceptor/" data-id="ck72rf8r3001mykvx3d1eseu1" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/09/24/2017/sql_ef6_dateInterceptor/" data-id="ck7jfoswh0012yhwfra4jr61z" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/09/24/2017/sql_ef6_dateInterceptor/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -609,7 +679,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/09/18/2017/sql_compatibility_level_with_datetime2/" data-id="ck72rf8r2001kykvxqb3lg04v" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/09/18/2017/sql_compatibility_level_with_datetime2/" data-id="ck7jfoswg0011yhwfcjtvf6k6" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/09/18/2017/sql_compatibility_level_with_datetime2/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -724,7 +794,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/08/16/2016/express_with_typescript/" data-id="ck72rf8qk000yykvxdooni60y" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/08/16/2016/express_with_typescript/" data-id="ck7jfoswx0025yhwf26av60eq" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/08/16/2016/express_with_typescript/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -811,76 +881,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/07/20/2016/google_api_auth_2/" data-id="ck72rf8qm0012ykvxxlugj277" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/07/20/2016/google_api_auth_2/" data-id="ck7jfosx00029yhwfhca2g5ke" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/07/20/2016/google_api_auth_2/#disqus_thread" class="article-comment-link">留言</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OAuth/">OAuth</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2016/google_api_auth_1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/14/2016/google_api_auth_1/" class="article-date">
-  <time datetime="2017-07-14T07:14:27.000Z" itemprop="datePublished">2017-07-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/14/2016/google_api_auth_1/">[記錄]串接 GOOGLE API 取得資料(一)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h2><p>最近看了一本書,「最有生產力的一年」. 書如其名,是一本有關生產力的書,作者用了一年的時間, </p>
-<p>以自已作實驗,測試各種方法並檢驗是否有效. </p>
-<p>作者認為,時間 x 專注力 x 精力 = 生產力, 在他眾多的方法之中, </p>
-<p>「黃金時間」與「精神力評鑑」是一組相關的方法. </p>
-<p>簡單的說,一個人的精力狀況,會隨著一天的生理、心理等客觀或主觀因素起起伏伏,</p>
-<p>就像潮汐一樣,而作者認為人應該在精力最好的時段,作最有價值的事.</p>
-<p>這個時段就被稱作「黃金時間」.</p>
-<p>有些人黃金時間在早上,有些人在晚上,每個人都不相同,</p>
-<p>因此需要記錄精神狀態來判斷.</p>
-<h2 id="規劃"><a href="#規劃" class="headerlink" title="規劃"></a>規劃</h2><p>於是我設計一組簡單的方法來記錄精神狀態</p>
-<p>透過google表單用來作記錄,</p>
-<p><img src="https://i.imgur.com/XjfNTZR.jpg" alt></p>
-<p>狀態我以10分制來作為評選, 再兩兩一組, 共分為五組「優、良、佳、可、劣」</p>
-<p>在評鑑時先以五分法判斷精力狀況, 再以感覺是好一點或差一點來選取分數. </p>
-<h3 id="行動化"><a href="#行動化" class="headerlink" title="行動化"></a>行動化</h3><p>以我個人的習慣, 手機其實是不離身的, 如果每次記錄都要在個人電腦上作業, 其實是很不方便的.</p>
-<p>所以我參考了電腦玩物的「<a href="http://www.playpcesor.com/2015/09/excel-google-sheet-form-account-book.html" target="_blank" rel="noopener">Excel 記帳雲端進化！ Google 表單比記帳 App 還好用</a>」</p>
-<p>將我的表單(偽)APP化</p>
-<p><img src="https://i.imgur.com/FW0VvjY.jpg" alt></p>
-<p>如此一來便完成了方便記錄的工具, 至於記錄下來的數據如何應用</p>
-<p>又是後話了. 不過順帶一提,我會透過整點報時的工具來提醒自已作記錄,</p>
-<p>另外我不像「最有生產力的一年」的作者特別準時睡覺,或是不喝咖啡,</p>
-<p>因為不準時睡覺跟嗜飲咖啡是我目前的習慣,我認為抱持平常的狀態去記錄才有意義.</p>
-<p>又或者當我戒掉咖啡或是開始早睡早起的習慣時,我就可以用記錄來評量這樣的行為是否有所改善.</p>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/07/14/2016/google_api_auth_1/" data-id="ck72rf8qn0013ykvx5at52nix" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2017/07/14/2016/google_api_auth_1/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/時間管理/">時間管理</a></li></ul>
 
     </footer>
   </div>
@@ -905,6 +911,10 @@ ga('send', 'pageview');
       <ul>
         
           <li>
+            <a href="/2020/03/10/2020/macbook_ssh_add_and_git_fork/">[實作筆記] Macbook SSH 設置與疑問 </a>
+          </li>
+        
+          <li>
             <a href="/2020/02/26/2020/todo_driven_develop_to_test_driven_develop_1/">[實作筆記] 從 TDD 到 TDD ，Todo 到 Test 趨動開發(一)</a>
           </li>
         
@@ -920,10 +930,6 @@ ga('send', 'pageview');
             <a href="/2020/01/17/2020/tdd_with_parse_json/">[實作筆記] 記錄用 TDD 寫一個 Entity Parser </a>
           </li>
         
-          <li>
-            <a href="/2020/01/14/2020/requestbin/">[實作筆記] 使用 Request Bin 測試第三方 Webhook 與 Callback </a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -933,7 +939,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
