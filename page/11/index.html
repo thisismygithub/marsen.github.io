@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Marsen&#39;s Blog</title>
@@ -9,9 +9,9 @@
 <meta property="og:title" content="Marsen&#39;s Blog">
 <meta property="og:url" content="https://blog.marsen.me/page/11/index.html">
 <meta property="og:site_name" content="Marsen&#39;s Blog">
-<meta property="og:locale" content="zh-TW">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Marsen L.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Marsen&#39;s Blog">
   
     <link rel="alternate" href="/atom.xml" title="Marsen&#39;s Blog" type="application/atom+xml">
   
@@ -21,7 +21,9 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
   
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -37,9 +39,9 @@ ga('send', 'pageview');
 <!-- End Google Analytics -->
 
 
-  <meta property="og:image" content="https://avatars1.githubusercontent.com/u/4269720?s=460&v=4"> 
-</head>
-</html>
+  <meta property ="og:image" content="https://avatars1.githubusercontent.com/u/4269720?s=460&v=4" /> 
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -102,7 +104,7 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="現有架構"><a href="#現有架構" class="headerlink" title="現有架構"></a>現有架構</h2><p><img src="https://i.imgur.com/QLzPTrp.jpg" alt></p>
+        <h2 id="現有架構"><a href="#現有架構" class="headerlink" title="現有架構"></a>現有架構</h2><p><img src="https://i.imgur.com/QLzPTrp.jpg" alt=""></p>
 <h3 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h3><ol>
 <li>Github</li>
 <li>Openshift<br>Openshift 是實際線上服務所在,也可以稱作是我的產品(Product),<br>Github 則是單純的負責版本控制。<h3 id="開發流程"><a href="#開發流程" class="headerlink" title="開發流程"></a>開發流程</h3>作為獨立開發的專案,這個網站只是我很單純的自我介紹、練習(KATA)、學習與分享的集散地。<br>原本的開發流程很單純,如上圖。完成的CODE同步到 GITHUB 後也同步上 Openshift ,<br>這樣的流程雖然簡單,但是每次都要人工執行,因為其執行順序,其實都隱含著風險,<br>例如:上錯版本或是產品未進版控等等…,<br>而當進一步想要執行建置、編譯 、套件管理、測試、分析與產生報表時,<br>產品與源碼將會產生差異(ex:產品會包含壓縮的檔案而源碼則是未壓縮的檔案)</li>
@@ -112,17 +114,17 @@ ga('send', 'pageview');
 <li>Prod的來源就是程式碼,無法確保與版控一致,如此就喪失版控的用意。</li>
 <li>難以擴展其他功能,如:建置、編譯 、套件管理、測試、分析與產生報表</li>
 </ol>
-<h4 id="目標"><a href="#目標" class="headerlink" title="目標:"></a>目標:</h4><p><img src="https://i.imgur.com/dHYRJKr.jpg" alt><br>如圖所示,<br>第一步 Jenkins要將原始碼自Github pull下來<br>第二到第N步 Jenkins要執行建置、測試、coding style的檢查、壓縮…等等。<br>最後一步 Jenkins 將會將程式碼發佈到Openshift 上面。<br>中間的步驟先跳過,之後再一一補上。<br>所以第一目標很簡單,<br>從Github Pull再Push到Openshift。</p>
+<h4 id="目標"><a href="#目標" class="headerlink" title="目標:"></a>目標:</h4><p><img src="https://i.imgur.com/dHYRJKr.jpg" alt=""><br>如圖所示,<br>第一步 Jenkins要將原始碼自Github pull下來<br>第二到第N步 Jenkins要執行建置、測試、coding style的檢查、壓縮…等等。<br>最後一步 Jenkins 將會將程式碼發佈到Openshift 上面。<br>中間的步驟先跳過,之後再一一補上。<br>所以第一目標很簡單,<br>從Github Pull再Push到Openshift。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/01/15/2017/ci_use_jenkins/" data-id="ck7lml3hv001pnywfswo8volm" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/01/15/2017/ci_use_jenkins/" data-id="ck800m6n8001tn1wf2lro6y6j" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/01/15/2017/ci_use_jenkins/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI-CD/">CI/CD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li></ul>
 
     </footer>
   </div>
@@ -166,9 +168,9 @@ ga('send', 'pageview');
 <li>編輯客製化的StyleCop Rules(直接將4.7的設定檔覆蓋VS會報錯)</li>
 </ol>
 <h2 id="修正記錄"><a href="#修正記錄" class="headerlink" title="修正記錄"></a>修正記錄</h2><ol>
-<li><p>移除 StyleCop<br>控制台 &gt; 新增移除程式<br><img src="https://i.imgur.com/PCYZxIK.png" alt></p>
+<li><p>移除 StyleCop<br>控制台 &gt; 新增移除程式<br><img src="https://i.imgur.com/PCYZxIK.png" alt=""></p>
 </li>
-<li><p>移除 Visual Studio 上的 StyleCop<br>工具 &gt; 擴充功能和更新<br><img src="https://i.imgur.com/1HdVoko.png" alt></p>
+<li><p>移除 Visual Studio 上的 StyleCop<br>工具 &gt; 擴充功能和更新<br><img src="https://i.imgur.com/1HdVoko.png" alt=""></p>
 </li>
 <li><p>自你的程式碼移除所有對StyleCop的參考<br><code>我的程式碼中並不包含對StyleCop的參考，故略過此步驟</code></p>
 </li>
@@ -176,16 +178,15 @@ ga('send', 'pageview');
 </li>
 <li><p>重新安裝 <a href="https://marketplace.visualstudio.com/items?itemName=ChristopheHEISER.VisualStyleCop" target="_blank" rel="noopener">StyleCop Visual Studio Extension</a></p>
 <ol>
-<li><p>安裝完成檢視安裝記錄檔<br><img src="https://i.imgur.com/Kny5aU9.png" alt></p>
+<li><p>安裝完成檢視安裝記錄檔<br><img src="https://i.imgur.com/Kny5aU9.png" alt=""></p>
 </li>
-<li><p>可以透過安裝記錄檔取得安裝路徑<br><img src="https://i.imgur.com/edSDREN.png" alt></p>
+<li><p>可以透過安裝記錄檔取得安裝路徑<br><img src="https://i.imgur.com/edSDREN.png" alt=""></p>
 </li>
 </ol>
 </li>
 </ol>
 <ol start="6">
-<li>客製修改StyleCop設定檔<br> 5-2的步驟可以找到<code>Settings</code>子資料夾，內含預設StyleCop設定檔，<br> 複制這個檔案到上一層，重新命名為<code>Settings.StyleCop</code>,
- 透過<code>StyleCop.SettingsEditor</code>開啟<code>Settings.StyleCop</code>調整設定值。<br> <img src="https://i.imgur.com/DJjoEYJ.gif" alt></li>
+<li>客製修改StyleCop設定檔<br> 5-2的步驟可以找到<code>Settings</code>子資料夾，內含預設StyleCop設定檔，<br> 複制這個檔案到上一層，重新命名為<code>Settings.StyleCop</code>,<br> 透過<code>StyleCop.SettingsEditor</code>開啟<code>Settings.StyleCop</code>調整設定值。<br> <img src="https://i.imgur.com/DJjoEYJ.gif" alt=""></li>
 </ol>
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
 <li><a href="https://github.com/StyleCop" target="_blank" rel="noopener">Github StyleCop</a></li>
@@ -197,12 +198,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/01/11/2017/c_sharp_6_interpolation_string_stylecop_sa0102/" data-id="ck7lml3hv001onywfmgmu3hpm" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/01/11/2017/c_sharp_6_interpolation_string_stylecop_sa0102/" data-id="ck800m6n7001qn1wfd7gldugs" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/01/11/2017/c_sharp_6_interpolation_string_stylecop_sa0102/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/">.Net Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/StyleCop/">StyleCop</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a></li></ul>
 
     </footer>
   </div>
@@ -477,7 +478,7 @@ ga('send', 'pageview');
 <li><a href="#c510">克服恐懼</a></li>
 <li><a href="#c511">輔助工具</a></li>
 </ul>
-<h3 id="勤於思考"><a href="#勤於思考" class="headerlink" title="勤於思考"></a><span id="c51">勤於思考</span></h3><blockquote>
+<h3 id="勤於思考"><a href="#勤於思考" class="headerlink" title="勤於思考"></a><span id='c51'>勤於思考</span></h3><blockquote>
 <p>人都有大腦，閒置還是使用，是個問題。</p>
 </blockquote>
 <ol>
@@ -490,7 +491,7 @@ ga('send', 'pageview');
 <p>Most people would die sooner than think — in fact they do so.<br>— Bertrand Russell，In The ABC of Relativity，1925，P.166</p>
 </blockquote>
 </blockquote>
-<h3 id="思維陷阱"><a href="#思維陷阱" class="headerlink" title="思維陷阱"></a><span id="c52">思維陷阱</span></h3><h4 id="概念不清和拒絕接受不確定性"><a href="#概念不清和拒絕接受不確定性" class="headerlink" title="概念不清和拒絕接受不確定性"></a>概念不清和拒絕接受不確定性</h4><ol>
+<h3 id="思維陷阱"><a href="#思維陷阱" class="headerlink" title="思維陷阱"></a><span id='c52'>思維陷阱</span></h3><h4 id="概念不清和拒絕接受不確定性"><a href="#概念不清和拒絕接受不確定性" class="headerlink" title="概念不清和拒絕接受不確定性"></a>概念不清和拒絕接受不確定性</h4><ol>
 <li>概念不清</li>
 </ol>
 <blockquote><blockquote>
@@ -514,7 +515,7 @@ ga('send', 'pageview');
 <blockquote>
 <p>未知永遠存在。從本質上來看，不確定性和未知是一回事。</p>
 </blockquote>
-<h3 id="因果關係"><a href="#因果關係" class="headerlink" title="因果關係"></a><span id="c53">因果關係</span></h3><h4 id="基礎"><a href="#基礎" class="headerlink" title="基礎"></a>基礎</h4><blockquote>
+<h3 id="因果關係"><a href="#因果關係" class="headerlink" title="因果關係"></a><span id='c53'>因果關係</span></h3><h4 id="基礎"><a href="#基礎" class="headerlink" title="基礎"></a>基礎</h4><blockquote>
 <p>外因會影響內因，內因同樣會影響外因。它們相互影響，互為因果。</p>
 <p>舉一個特別好玩的現象為例：在某種意義上，學生的水平決定教師的水平。</p>
 <p>這話並沒有說反。師生之間的有效溝通，肯定不僅是教師單方面的灌輸。越是用心的教師，越關注學生的反饋；越是用心的學生，越關注教師對他的反饋的反饋。顯然，這種溝通不僅是雙向的，還隨著雙方的用心程度而不斷增強。</p>
@@ -538,7 +539,7 @@ ga('send', 'pageview');
 <blockquote>
 <p>一個原本並不存在的原因竟然“無中生有”變成了真正的原因。</p>
 </blockquote>
-<h4 id="心中恐惧失敗，才是失敗的原因。"><a href="#心中恐惧失敗，才是失敗的原因。" class="headerlink" title="心中恐惧失敗，才是失敗的原因。"></a>心中恐惧失敗，才是失敗的原因。</h4><h3 id="逆命題"><a href="#逆命題" class="headerlink" title="逆命題"></a><span id="c54">逆命題</span></h3><blockquote>
+<h4 id="心中恐惧失敗，才是失敗的原因。"><a href="#心中恐惧失敗，才是失敗的原因。" class="headerlink" title="心中恐惧失敗，才是失敗的原因。"></a>心中恐惧失敗，才是失敗的原因。</h4><h3 id="逆命題"><a href="#逆命題" class="headerlink" title="逆命題"></a><span id='c54'>逆命題</span></h3><blockquote>
 <p><strong>原命題為真，它的逆命題不一定為真。</strong><br>P 則 Q 等於 ~Q 則 ~P<br>但是不一定存在 Q 則 P 的關係</p>
 </blockquote>
 <blockquote>
@@ -548,18 +549,18 @@ ga('send', 'pageview');
 </blockquote>
 </blockquote>
 <p><em>✖ 心得: 人很好騙，至少70%很好騙。</em></p>
-<h3 id="舉證責任"><a href="#舉證責任" class="headerlink" title="舉證責任"></a><span id="c55">舉證責任</span></h3><blockquote>
+<h3 id="舉證責任"><a href="#舉證責任" class="headerlink" title="舉證責任"></a><span id='c55'>舉證責任</span></h3><blockquote>
 <p>“舉證責任”是不對等的<br>爭論雙方的境況常常處於這種狀態：<br>▷其中一方肩負沉重的舉證責任（burden of proof）<br>▷另外一方則享有來自假設的恩惠（benefit of assumption）</p>
 </blockquote>
 <blockquote><p>既然你無法證明我是錯的，那麼我就是對的。這是一種典型的邏輯錯誤</p>
 </blockquote>
 
 <p><em>✖ 套用一下邏輯學:</em><br><em>我是對的 則 你無法証明我是錯的，恒為真。</em><br><em>你無法証明我是錯的 則 我是錯的，恒為真。</em><br><em>你無法證明我是錯的 則 我是對的，不恒為真</em></p>
-<h3 id="案例局限"><a href="#案例局限" class="headerlink" title="案例局限"></a><span id="c56">案例局限</span></h3><blockquote>
+<h3 id="案例局限"><a href="#案例局限" class="headerlink" title="案例局限"></a><span id='c56'>案例局限</span></h3><blockquote>
 <p>最為常見的邏輯錯誤就是“以偏概全”——某種經驗在某個人身上應驗了，並不意味著該經驗在所有人身上都會起作用。</p>
 </blockquote>
 <p><em>✖ 常見的推銷話術，我作得到，你也作得到。努力就會成功。</em><br><em>這類的話術可怕的地方在於它不完全是錯的，但是你必需客觀衡量各種條件，而非局限單一案例。</em></p>
-<h3 id="對立論證"><a href="#對立論證" class="headerlink" title="對立論證"></a><span id="c57">對立論證</span></h3><blockquote><blockquote>
+<h3 id="對立論證"><a href="#對立論證" class="headerlink" title="對立論證"></a><span id='c57'>對立論證</span></h3><blockquote><blockquote>
 <p>人們可能基於一模一樣的原因做出截然相反的決定。換句話說，用同樣的論據證明截然相反的論點。</p>
 </blockquote>
 </blockquote>
@@ -575,7 +576,7 @@ ga('send', 'pageview');
 </blockquote>
 
 <p><em>✖ 職場上不論是留下繼續努力，或是掛冠求去都無對錯之分，而是何者更為合理。這個道理在人生的選擇上也是，需要注意對立論證的存在，堅持或放棄本無對錯，合理的判斷即可。</em></p>
-<h3 id="張冠李戴"><a href="#張冠李戴" class="headerlink" title="張冠李戴"></a><span id="c58">張冠李戴</span></h3><blockquote><blockquote>
+<h3 id="張冠李戴"><a href="#張冠李戴" class="headerlink" title="張冠李戴"></a><span id='c58'>張冠李戴</span></h3><blockquote><blockquote>
 <p>論點和論據之間儘管全無邏輯聯繫，卻可以用一種“顯然合理”的姿態綁在一起。</p>
 </blockquote>
 </blockquote>
@@ -584,7 +585,7 @@ ga('send', 'pageview');
 <blockquote>
 <p>將字母A到Z分別編上1到26的分數（A=1,B=2,…,Z=26），然後比較不同單詞的分值：<br>▷Knowledge（知識）得到96分<br>（11+14+15+23+12+5+4+7+5=96）；<br>▷Hardwork（努力）也只得到98分<br>（8+1+18+4+23+15+18+11=98）；<br>▷Attitude（態度）才能左右你生命的全部，<br>因為它能得到100分<br>（1+20+20+9+20+21+4+5=100）——滿分。<br>得出結論：“態度改變一切”。<br>Bullshit（胡說八道）<br>(2+21+12+12+19+8+9+20=103)</p>
 </blockquote>
-<h3 id="感悟與道理"><a href="#感悟與道理" class="headerlink" title="感悟與道理"></a><span id="c59">感悟與道理</span></h3><blockquote><p>“道理”應該是普適的，而“感悟”只來自個體經驗。</p>
+<h3 id="感悟與道理"><a href="#感悟與道理" class="headerlink" title="感悟與道理"></a><span id='c59'>感悟與道理</span></h3><blockquote><p>“道理”應該是普適的，而“感悟”只來自個體經驗。</p>
 </blockquote>
 
 <blockquote><p>並非只有專家級別的新聞工作者才要分清“看法與事實之間的區別”，其實每個人都需要清楚地認識“道理”和“感悟”之間的巨大差異。</p>
@@ -601,10 +602,10 @@ ga('send', 'pageview');
 
 
 <p><em>✖ 困難的點在於，感悟難以作”雙盲測試”，也深受”案例局限”與”安慰劑效應”影響</em></p>
-<h3 id="克服恐懼"><a href="#克服恐懼" class="headerlink" title="克服恐懼"></a><span id="c510">克服恐懼</span></h3><blockquote><p>“道理都明白，可就做不到”</p>
+<h3 id="克服恐懼"><a href="#克服恐懼" class="headerlink" title="克服恐懼"></a><span id='c510'>克服恐懼</span></h3><blockquote><p>“道理都明白，可就做不到”</p>
 </blockquote>
 
-<h3 id="輔助工具"><a href="#輔助工具" class="headerlink" title="輔助工具"></a><span id="c511">輔助工具</span></h3><h4 id="語言"><a href="#語言" class="headerlink" title="語言"></a>語言</h4><blockquote><p>以下一些句式最好經常使用，因為它們特別有助於獨立思考習慣的養成，並且也有刺激思考的作用：<br>▷……是一回事，而……是另外一回事。<br>▷……和……其實根本不是一回事。<br>▷……不一定……<br>▷……。可是，這並不意味著……<br>▷……也許還有另外一種可能性（解釋）。<br>▷……看起來像……，可是……<br>▷……。而事實卻可能遠比看起來的更為複雜（簡單）。<br>▷……。然而，（這個論斷）反過來（陳述）卻不一定成立……<br>▷……其實很可能與……根本就沒有任何關係。<br>▷……和……之間不一定是單純的因果關係，它們也可能互為因果。<br>▷……和……之間的比較也許沒有任何意義。<br>▷……其實不過是表面現象，其背後的本質是……<br>▷……有一個通常被忽略的前提。<br>▷……儘管聽起來很有道理，然而卻完全不現實。<br>▷……也許有人會說……，但是這種質疑卻……</p>
+<h3 id="輔助工具"><a href="#輔助工具" class="headerlink" title="輔助工具"></a><span id='c511'>輔助工具</span></h3><h4 id="語言"><a href="#語言" class="headerlink" title="語言"></a>語言</h4><blockquote><p>以下一些句式最好經常使用，因為它們特別有助於獨立思考習慣的養成，並且也有刺激思考的作用：<br>▷……是一回事，而……是另外一回事。<br>▷……和……其實根本不是一回事。<br>▷……不一定……<br>▷……。可是，這並不意味著……<br>▷……也許還有另外一種可能性（解釋）。<br>▷……看起來像……，可是……<br>▷……。而事實卻可能遠比看起來的更為複雜（簡單）。<br>▷……。然而，（這個論斷）反過來（陳述）卻不一定成立……<br>▷……其實很可能與……根本就沒有任何關係。<br>▷……和……之間不一定是單純的因果關係，它們也可能互為因果。<br>▷……和……之間的比較也許沒有任何意義。<br>▷……其實不過是表面現象，其背後的本質是……<br>▷……有一個通常被忽略的前提。<br>▷……儘管聽起來很有道理，然而卻完全不現實。<br>▷……也許有人會說……，但是這種質疑卻……</p>
 </blockquote>
 
 <blockquote><p>要刻意迴避的句子<br>▷……難道就沒有一點可取之處嗎？<br>▷……要是……就好了！</p>
@@ -675,10 +676,12 @@ ga('send', 'pageview');
 <h3 id="鼓勵"><a href="#鼓勵" class="headerlink" title="鼓勵"></a>鼓勵</h3><h3 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h3><h3 id="節奏"><a href="#節奏" class="headerlink" title="節奏"></a>節奏</h3><h3 id="物極必反"><a href="#物極必反" class="headerlink" title="物極必反"></a>物極必反</h3><blockquote>
 <ul>
 <li>絕對不要盲目地試圖減少睡眠時間</li>
+</ul>
+</blockquote>
+<ul>
 <li>盡量不要減少與家庭成員交流的時間</li>
 <li>最好不要放棄你的社交時間</li>
 </ul>
-</blockquote>
 <h3 id="自我證明"><a href="#自我證明" class="headerlink" title="自我證明"></a>自我證明</h3><h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
 <li><a href="http://zhibimo.com/read/xiaolai/ba-shi-jian-dang-zuo-peng-you/index.html" target="_blank" rel="noopener">電子書</a></li>
 <li><a href="http://www.books.com.tw/products/CN11349756" target="_blank" rel="noopener">奇特的一生</a></li>
@@ -687,12 +690,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2016/12/05/2016/be_friend_with_time/" data-id="ck7lml3i20024nywf76hjqnmg" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2016/12/05/2016/be_friend_with_time/" data-id="ck800m6n00016n1wfc7orfal3" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2016/12/05/2016/be_friend_with_time/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/閱讀筆記/">閱讀筆記</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a></li></ul>
 
     </footer>
   </div>
@@ -777,12 +780,12 @@ line 48 at [00001F1D][0001:00001F1D], len = 0x1C                 </code></pre><h
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2016/11/28/2016/dotnet_pdb_file/" data-id="ck7lml3i30026nywft0icu3ih" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2016/11/28/2016/dotnet_pdb_file/" data-id="ck800m6my000zn1wf83y765vh" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2016/11/28/2016/dotnet_pdb_file/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/">.Net Framework</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a></li></ul>
 
     </footer>
   </div>
@@ -819,15 +822,14 @@ line 48 at [00001F1D][0001:00001F1D], len = 0x1C                 </code></pre><h
 
 <h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>這時當 StackExchange.Redis 在進行同步作業的時候,<br>如果超過 <code>synctimeout</code> 的設定值(預設是1000ms),<br>Redis 會佔用.NET的 workerthread<br>而在 .NET 底層隱含著一個機制,<br>會導致錯誤。</p>
 <h3 id="Thread-Pool-500ms-的機制"><a href="#Thread-Pool-500ms-的機制" class="headerlink" title="Thread Pool 500ms 的機制"></a>Thread Pool 500ms 的機制</h3><p><em>一種簡化的說法「 ASP.NET Thread Pool 一秒能建立2個Thread。」</em></p>
-<p>設定值 <code>minworkerthread</code> 就像是遊樂場<em>已經開啟</em>的閘門,<br>每當有一個遊客(Task)進來時,立即提供給它使用。<br>但是當遊客(Task)變多的時候,就會開始排隊(Queue),<br>ASP.NET Thread Pool 隱含著一個機制,<br>當它的隊伍(Queue)長達500豪秒沒有移動的話,<br>就會開啟新的閘門(建立新的Thread)。<br>而我的情境屬於<a href="#burst_of_traffic">Burst of traffic</a>,
-突然大量 Task 湧入 Queue ,<br>ThreadPool 需要大量的 Thread<br>每個新的 Thread 都需要 500ms 的反應時間 ,<br>而累積的時間超過 Task 的 Timeout 設定值時 ,<br>就會拋出Exception.</p>
+<p>設定值 <code>minworkerthread</code> 就像是遊樂場<em>已經開啟</em>的閘門,<br>每當有一個遊客(Task)進來時,立即提供給它使用。<br>但是當遊客(Task)變多的時候,就會開始排隊(Queue),<br>ASP.NET Thread Pool 隱含著一個機制,<br>當它的隊伍(Queue)長達500豪秒沒有移動的話,<br>就會開啟新的閘門(建立新的Thread)。<br>而我的情境屬於<a href="#burst_of_traffic">Burst of traffic</a>,<br>突然大量 Task 湧入 Queue ,<br>ThreadPool 需要大量的 Thread<br>每個新的 Thread 都需要 500ms 的反應時間 ,<br>而累積的時間超過 Task 的 Timeout 設定值時 ,<br>就會拋出Exception.</p>
 <p><img src="/images/workerthread_and_iothread/110416_103521_AM.jpg" alt="ASP.NET Thread Pool"></p>
 <p>ASP.NET Thread Pool 的排隊機制與<code>minworkerthread</code> 設定值相關。<br>可以透過調整 <code>machine.config</code> 來修正。<br>參考(<a href="https://support.microsoft.com/zh-tw/kb/821268" target="_blank" rel="noopener">爭用、 效能不佳、 和死結 （deadlock） 當您從 ASP.NET 應用程式呼叫 Web 服務</a>)。  </p>
 <p><code>minworkerthread</code> 的預設值是 1 。<br>但是會與執行環境的CPU個數有關,<br>假設你是四核的主機,那就要乘上 4。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">system.web</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">processModel</span> <span class="attr">autoConfig</span>=<span class="string">"false"</span> <span class="attr">minWorkerThreads</span>=<span class="string">"1"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">system.web</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="範例"><a href="#範例" class="headerlink" title="範例"></a>範例</h3><p>當 Redis 發生 Timeout 時,<br>可以透過錯誤訊息判斷其背後的原因是否與 workerthread 有關。<br>在以下的例子可以看到 IOCP 與 WORKER 兩個值。<br>這兩值表示 .Net ThreadPool 內的兩種執行緒,<br>如果 Busy 值很高, 就有可能是 ThreadPool 來不及建立造成的錯誤。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">System.TimeoutException: Timeout performing MGET <span class="number">2728</span>cc84<span class="number">-58</span>ae<span class="number">-406</span>b<span class="number">-8</span>ec8<span class="number">-3</span>f962419f641,  </span><br><span class="line">inst: <span class="number">1</span>,mgr: Inactive, queue: <span class="number">73</span>, qu=<span class="number">6</span>, qs=<span class="number">67</span>, qc=<span class="number">0</span>, wr=<span class="number">1</span>/<span class="number">1</span>, <span class="keyword">in</span>=<span class="number">0</span>/<span class="number">0</span>  </span><br><span class="line">IOCP: (Busy=<span class="number">0</span>, Free=<span class="number">999</span>, Min=<span class="number">2</span>,Max=<span class="number">1000</span>), WORKER (Busy=<span class="number">7</span>,Free=<span class="number">8184</span>,Min=<span class="number">2</span>,Max=<span class="number">8191</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">System.TimeoutException: Timeout performing MGET <span class="number">2728</span>cc84<span class="number">-58</span>ae<span class="number">-406b</span><span class="number">-8</span>ec8<span class="number">-3f</span>962419f641,  </span><br><span class="line">inst: <span class="number">1</span>,mgr: Inactive, queue: <span class="number">73</span>, qu=<span class="number">6</span>, qs=<span class="number">67</span>, qc=<span class="number">0</span>, wr=<span class="number">1</span>/<span class="number">1</span>, <span class="keyword">in</span>=<span class="number">0</span>/<span class="number">0</span>  </span><br><span class="line">IOCP: (Busy=<span class="number">0</span>, Free=<span class="number">999</span>, Min=<span class="number">2</span>,Max=<span class="number">1000</span>), WORKER (Busy=<span class="number">7</span>,Free=<span class="number">8184</span>,Min=<span class="number">2</span>,Max=<span class="number">8191</span>)</span><br></pre></td></tr></table></figure>
 
 <h3 id="Error-Code-說明"><a href="#Error-Code-說明" class="headerlink" title="Error Code 說明"></a>Error Code 說明</h3><table>
 <thead>
@@ -846,7 +848,7 @@ line 48 at [00001F1D][0001:00001F1D], len = 0x1C                 </code></pre><h
 </tr>
 <tr>
 <td>mgr</td>
-<td>the socket manager is performing “socket.select”, <br>which means it is asking the OS to indicate a socket <br>that has something to do; <br> basically: the reader is not actively reading from <br>the network because it doesn’t think there<br> is anything to do</td>
+<td>the socket manager is performing “socket.select”, <br />which means it is asking the OS to indicate a socket <br />that has something to do; <br /> basically: the reader is not actively reading from <br />the network because it doesn’t think there<br /> is anything to do</td>
 <td></td>
 <td>最後的操作命令</td>
 </tr>
@@ -902,8 +904,7 @@ line 48 at [00001F1D][0001:00001F1D], len = 0x1C                 </code></pre><h
 <p><code>Resolution:</code><br>增加記憶體或是減少記憶體使用量<br>Upgrade to a larger client VM size with more memory or dig into your memory usage patterns<br>to reduce memory consuption.  </p>
 <hr>
 <h3 id="Burst-of-traffic"><a href="#Burst-of-traffic" class="headerlink" title="Burst of traffic"></a><span style="color:red;" id="burst_of_traffic">Burst of traffic</span></h3><p><code>Problem:</code><br>ThreadPool突然大量的工作湧入queue導致執行緒來不及建立。<br> Bursts of traffic combined with poor ThreadPool settings can result in delays in processing<br> data already sent by the Redis Server but not yet consumed on the client side.  </p>
-<p><code>測量:</code><br>可以用<a href="https://github.com/JonCole/SampleCode/blob/master/ThreadPoolMonitor/ThreadPoolLogger.cs" target="_blank" rel="noopener">程式</a>監控 ThreadPool .<br>或是單純透過 TimeoutException 的訊息,觀察IOCP與WORKER的Busy值來判斷.<br><code>Measurement:</code><br>Monitor how your ThreadPool statistics change over time using code like <a href="https://github.com/JonCole/SampleCode/blob/master/ThreadPoolMonitor/ThreadPoolLogger.cs" target="_blank" rel="noopener">this</a>.   
-You can also look at the TimeoutException message from StackExchange.Redis.<br>Here is an example :  </p>
+<p><code>測量:</code><br>可以用<a href="https://github.com/JonCole/SampleCode/blob/master/ThreadPoolMonitor/ThreadPoolLogger.cs" target="_blank" rel="noopener">程式</a>監控 ThreadPool .<br>或是單純透過 TimeoutException 的訊息,觀察IOCP與WORKER的Busy值來判斷.<br><code>Measurement:</code><br>Monitor how your ThreadPool statistics change over time using code like <a href="https://github.com/JonCole/SampleCode/blob/master/ThreadPoolMonitor/ThreadPoolLogger.cs" target="_blank" rel="noopener">this</a>.<br>You can also look at the TimeoutException message from StackExchange.Redis.<br>Here is an example :  </p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.TimeoutException: Timeout performing EVAL, inst: <span class="number">8</span>, mgr: Inactive, queue: <span class="number">0</span>, qu: <span class="number">0</span>, qs: <span class="number">0</span>, qc: <span class="number">0</span>, wr: <span class="number">0</span>, wq: <span class="number">0</span>, <span class="keyword">in</span>: <span class="number">64221</span>, ar: <span class="number">0</span>, </span><br><span class="line">IOCP: (Busy=<span class="number">6</span>,Free=<span class="number">999</span>,Min=<span class="number">2</span>,Max=<span class="number">1000</span>), WORKER: (Busy=<span class="number">7</span>,Free=<span class="number">8184</span>,Min=<span class="number">2</span>,Max=<span class="number">8191</span>)</span><br></pre></td></tr></table></figure>
 
 <p>In the above message, there are several issues that are interesting:<br>Notice that in the “IOCP” section and the “WORKER” section you have a “Busy” value that is<br>greater than the “Min” value. This means that your threadpool settings need adjusting.<br>You can also see “in: 64221”. This indicates that 64211 bytes have been received at the kernel<br>socket layer but haven’t yet been read by the application (e.g. StackExchange.Redis).<br>This typically means that your application isn’t reading data from the network as quickly as<br>the server is sending it to you.  </p>
@@ -928,12 +929,12 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2016/11/21/2016/aspdotnet_threadpool_and_redis/" data-id="ck7lml3i20025nywfpyx3ts11" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2016/11/21/2016/aspdotnet_threadpool_and_redis/" data-id="ck800m6mx000xn1wfgw2085h5" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2016/11/21/2016/aspdotnet_threadpool_and_redis/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/">.Net Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/" rel="tag">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/" rel="tag">Thread</a></li></ul>
 
     </footer>
   </div>
@@ -969,7 +970,6 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
 <hr>
 <h2 id="Content-Type"><a href="#Content-Type" class="headerlink" title="Content-Type"></a>Content-Type</h2><h3 id="application-x-www-form-urlencoded"><a href="#application-x-www-form-urlencoded" class="headerlink" title="application/x-www-form-urlencoded"></a><code>application/x-www-form-urlencoded</code></h3><p>常用的Content-Type,簡單說就是KEY-VALUE的方式<br>如下, KEY firstname 的值是 marsen<br>lastname 是由使用者輸入</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br><span class="line">  First name:<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"firstname"</span> <span class="attr">value</span>=<span class="string">"marsen"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">  Last name:<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"lastname"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
 <p>同時資料會作一次url encoded,<br>產生類似下列的資料<br>firstname=marsen&amp;lastname=lin&amp;key%5b1%5d=value%5b1%5d</p>
 <hr>
 <h3 id="multipart-form-data"><a href="#multipart-form-data" class="headerlink" title="multipart/form-data"></a><code>multipart/form-data</code></h3><p>PostMan中的選項 <code>binary</code> 其實就是包成這種格式<br>上傳檔案會使用這種Content-Type,<br>這通常表示你的html element包含有 <code>&lt;input type=&quot;file&quot;&gt;</code> </p>
@@ -994,12 +994,12 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2016/10/28/2016/about_content_type/" data-id="ck7lml3i00020nywfw3w3490f" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2016/10/28/2016/about_content_type/" data-id="ck800m6mv000un1wf8zqag81u" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2016/10/28/2016/about_content_type/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Content-Type/">Content-Type</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/post/">post</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/post/" rel="tag">post</a></li></ul>
 
     </footer>
   </div>
@@ -1048,23 +1048,23 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
 <li><strong><em>宣告變用要用<code>$</code>字號</em></strong></li>
 <li><strong><em><code>#</code> 是註解</em></strong></li>
 </ul>
-<h3 id="讀取檔案"><a href="#讀取檔案" class="headerlink" title="讀取檔案"></a>讀取檔案</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#用New-Object 建立.Net StreamrReader 物件</span></span><br><span class="line"><span class="variable">$reader</span> = <span class="built_in">New-Object</span> System.io.streamreader(<span class="built_in">get-item</span> <span class="variable">$filePath</span>)</span><br><span class="line"><span class="comment">#使用`[]`建立靜態類別讀取檔案</span></span><br><span class="line"><span class="variable">$file</span> = [System.IO.File]::ReadAllLines(<span class="variable">$filePath</span>)  </span><br><span class="line"><span class="comment">#直接使用Get-Content讀取文檔</span></span><br><span class="line"><span class="variable">$file</span> = <span class="built_in">Get-Content</span>  <span class="string">"C:\filepath\file"</span></span><br></pre></td></tr></table></figure>
+<h3 id="讀取檔案"><a href="#讀取檔案" class="headerlink" title="讀取檔案"></a>讀取檔案</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#用New-Object 建立.Net StreamrReader 物件</span></span><br><span class="line"><span class="variable">$reader</span> = <span class="built_in">New-Object</span> System.io.streamreader(<span class="built_in">get-item</span> <span class="variable">$filePath</span>)</span><br><span class="line"><span class="comment">#使用`[]`建立靜態類別讀取檔案</span></span><br><span class="line"><span class="variable">$file</span> = [<span class="type">System.IO.File</span>]::ReadAllLines(<span class="variable">$filePath</span>)  </span><br><span class="line"><span class="comment">#直接使用Get-Content讀取文檔</span></span><br><span class="line"><span class="variable">$file</span> = <span class="built_in">Get-Content</span>  <span class="string">"C:\filepath\file"</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="連線資料庫與執行語法"><a href="#連線資料庫與執行語法" class="headerlink" title="連線資料庫與執行語法"></a>連線資料庫與執行語法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$connection</span> = <span class="built_in">New-Object</span> System.Data.SQLClient.SQLConnection</span><br><span class="line"><span class="variable">$connection</span>.ConnectionString = <span class="string">"server='<span class="variable">$server</span>';database='<span class="variable">$database</span>';uid='<span class="variable">$user</span>'; pwd='<span class="variable">$pwd</span>';Integrated Security=False;"</span></span><br><span class="line"><span class="variable">$connection</span>.Open()</span><br><span class="line"><span class="comment"># do something</span></span><br><span class="line"><span class="variable">$connection</span>.Close()</span><br></pre></td></tr></table></figure>
 
 <h3 id="BulkInsert"><a href="#BulkInsert" class="headerlink" title="BulkInsert"></a>BulkInsert</h3><ul>
 <li>從檔案建立DataTable</li>
 </ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$table</span> = <span class="built_in">New-Object</span> System.Data.DataTable</span><br><span class="line"><span class="comment">#建立欄位</span></span><br><span class="line"><span class="variable">$col_title</span> = <span class="built_in">New-Object</span> system.Data.DataColumn <span class="string">"Title"</span>,([string])</span><br><span class="line"><span class="variable">$table</span>.Columns.Add(<span class="variable">$col_title</span>);</span><br><span class="line"><span class="variable">$col_content</span> = <span class="built_in">New-Object</span> system.Data.DataColumn <span class="string">"Content"</span>,([string])</span><br><span class="line"><span class="variable">$table</span>.Columns.Add(<span class="variable">$col_content</span>);</span><br><span class="line"><span class="variable">$col_author</span> = <span class="built_in">New-Object</span> system.Data.DataColumn <span class="string">"Author"</span>,([string])</span><br><span class="line"><span class="variable">$table</span>.Columns.Add(<span class="variable">$col_author</span>);</span><br><span class="line"><span class="comment">#建立資料</span></span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$file</span> <span class="keyword">in</span> <span class="variable">$files</span>)&#123;</span><br><span class="line">  <span class="variable">$dr</span> = <span class="variable">$table</span>.NewRow();</span><br><span class="line">  <span class="variable">$dr</span>[<span class="string">"Title"</span>] = <span class="variable">$file</span>[<span class="string">"title"</span>]</span><br><span class="line">  <span class="variable">$dr</span>[<span class="string">"Content"</span>] = <span class="variable">$file</span>[<span class="string">"content"</span>]</span><br><span class="line">  <span class="variable">$dr</span>[<span class="string">"Author"</span>] = <span class="variable">$file</span>[<span class="string">"author"</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#寫入資料表</span></span><br><span class="line"><span class="variable">$table</span>.Rows.Add(<span class="variable">$dr</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$table</span> = <span class="built_in">New-Object</span> System.Data.DataTable</span><br><span class="line"><span class="comment">#建立欄位</span></span><br><span class="line"><span class="variable">$col_title</span> = <span class="built_in">New-Object</span> system.Data.DataColumn <span class="string">"Title"</span>,([<span class="built_in">string</span>])</span><br><span class="line"><span class="variable">$table</span>.Columns.Add(<span class="variable">$col_title</span>);</span><br><span class="line"><span class="variable">$col_content</span> = <span class="built_in">New-Object</span> system.Data.DataColumn <span class="string">"Content"</span>,([<span class="built_in">string</span>])</span><br><span class="line"><span class="variable">$table</span>.Columns.Add(<span class="variable">$col_content</span>);</span><br><span class="line"><span class="variable">$col_author</span> = <span class="built_in">New-Object</span> system.Data.DataColumn <span class="string">"Author"</span>,([<span class="built_in">string</span>])</span><br><span class="line"><span class="variable">$table</span>.Columns.Add(<span class="variable">$col_author</span>);</span><br><span class="line"><span class="comment">#建立資料</span></span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$file</span> <span class="keyword">in</span> <span class="variable">$files</span>)&#123;</span><br><span class="line">  <span class="variable">$dr</span> = <span class="variable">$table</span>.NewRow();</span><br><span class="line">  <span class="variable">$dr</span>[<span class="string">"Title"</span>] = <span class="variable">$file</span>[<span class="string">"title"</span>]</span><br><span class="line">  <span class="variable">$dr</span>[<span class="string">"Content"</span>] = <span class="variable">$file</span>[<span class="string">"content"</span>]</span><br><span class="line">  <span class="variable">$dr</span>[<span class="string">"Author"</span>] = <span class="variable">$file</span>[<span class="string">"author"</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#寫入資料表</span></span><br><span class="line"><span class="variable">$table</span>.Rows.Add(<span class="variable">$dr</span>);</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>透過BulkCopy將DataTable寫入資料庫</li>
 </ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$connection</span>.Open()</span><br><span class="line"><span class="variable">$bulkCopy</span> = <span class="built_in">New-Object</span> (“Data.SqlClient.SqlBulkCopy”) -ArgumentList <span class="variable">$connection</span></span><br><span class="line"><span class="variable">$bulkCopy</span>.DestinationTableName = <span class="string">"tablename"</span></span><br><span class="line"><span class="variable">$bulkCopy</span>.WriteToServer(<span class="variable">$datatable</span>)</span><br><span class="line"><span class="variable">$connection</span>.Close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$connection</span>.Open()</span><br><span class="line"><span class="variable">$bulkCopy</span> = <span class="built_in">New-Object</span> (“Data.SqlClient.SqlBulkCopy”) <span class="literal">-ArgumentList</span> <span class="variable">$connection</span></span><br><span class="line"><span class="variable">$bulkCopy</span>.DestinationTableName = <span class="string">"tablename"</span></span><br><span class="line"><span class="variable">$bulkCopy</span>.WriteToServer(<span class="variable">$datatable</span>)</span><br><span class="line"><span class="variable">$connection</span>.Close()</span><br></pre></td></tr></table></figure>
 
-<h3 id="進度條"><a href="#進度條" class="headerlink" title="進度條"></a>進度條</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Write-Progress</span> -Activity <span class="string">"BulkInsert"</span> -Status <span class="string">"載入百分比: 100 %"</span> -PercentComplete <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="進度條"><a href="#進度條" class="headerlink" title="進度條"></a>進度條</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Write-Progress</span> <span class="literal">-Activity</span> <span class="string">"BulkInsert"</span> <span class="literal">-Status</span> <span class="string">"載入百分比: 100 %"</span> <span class="literal">-PercentComplete</span> <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="產生報表"><a href="#產生報表" class="headerlink" title="產生報表"></a>產生報表</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$datatable</span> | <span class="built_in">export-csv</span> C:\Reports\<span class="number">20161026</span>.csv -Encoding UTF8</span><br></pre></td></tr></table></figure>
+<h3 id="產生報表"><a href="#產生報表" class="headerlink" title="產生報表"></a>產生報表</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$datatable</span> | <span class="built_in">export-csv</span> C:\Reports\<span class="number">20161026</span>.csv <span class="literal">-Encoding</span> UTF8</span><br></pre></td></tr></table></figure>
 
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ol>
 <li><a href="https://msdn.microsoft.com/en-us/powershell" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/powershell</a></li>
@@ -1077,12 +1077,12 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2016/10/21/2016/1st_time_with_powershell/" data-id="ck7lml3i0001znywfzwzpc7dd" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2016/10/21/2016/1st_time_with_powershell/" data-id="ck800m6mu000sn1wf5iyg56q9" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2016/10/21/2016/1st_time_with_powershell/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Database/">Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MsSQL/">MsSQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PowerShell/">PowerShell</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Database/" rel="tag">Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a></li></ul>
 
     </footer>
   </div>
@@ -1143,12 +1143,12 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2016/10/14/2016/todolist_by_typescript_2/" data-id="ck7lml3i8002fnywfw6f2dgh2" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2016/10/14/2016/todolist_by_typescript_2/" data-id="ck800m6n6001nn1wfed280qry" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2016/10/14/2016/todolist_by_typescript_2/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BootStrap/">BootStrap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JQuery/">JQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NPM/">NPM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TypeScript/">TypeScript</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li></ul>
 
     </footer>
   </div>
@@ -1236,12 +1236,12 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2016/10/08/2016/todolist_by_typescript_1/" data-id="ck7lml3i8002enywfvisbd51u" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2016/10/08/2016/todolist_by_typescript_1/" data-id="ck800m6n5001in1wfa85m7mxl" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2016/10/08/2016/todolist_by_typescript_1/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BootStrap/">BootStrap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JQuery/">JQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NPM/">NPM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TypeScript/">TypeScript</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li></ul>
 
     </footer>
   </div>
@@ -1252,7 +1252,7 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
   
     <article id="post-2016/http2 by cloudflare" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/09/04/2016/http2 by cloudflare/" class="article-date">
+    <a href="/2016/09/04/2016/http2%20by%20cloudflare/" class="article-date">
   <time datetime="2016-09-03T17:12:15.000Z" itemprop="datePublished">2016-09-04</time>
 </a>
     
@@ -1264,7 +1264,7 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/04/2016/http2 by cloudflare/">怎麼建立一個網站？(三) - 簡單讓網站升級使用HTTP/2</a>
+      <a class="article-title" href="/2016/09/04/2016/http2%20by%20cloudflare/">怎麼建立一個網站？(三) - 簡單讓網站升級使用HTTP/2</a>
     </h1>
   
 
@@ -1307,19 +1307,17 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ol>
 <li><a href="https://www.cloudflare.com/" target="_blank" rel="noopener">cloudflare</a> 設定DNS，在指定的domain下，設定為「DNS and HTTP Proxy(CDN)」。<br><img src="/images/090516_021242_AM.jpg" alt="設定為「DNS and HTTP Proxy(CDN)」"></li>
 <li>設定Page-Rules，這個是為了開啟SSL<ol>
-<li>設定<code>SSL</code>為<code>Flexible</code>,輸入<code>*.username.com/*</code>。  
-這個時候你就可以瀏覽<code>https://blog.username.com/</code>,但同時也可以瀏覽<code>http://blog.username.com/</code> 。<br>我希望HTTP能自動跳轉HTTPS，這部份如果是Node建立的網站，我可以用程式作轉導，<br>但是如果是github page建立網站，就要再仰賴 <a href="https://www.cloudflare.com/" target="_blank" rel="noopener">cloudflare</a> 了。</li>
+<li>設定<code>SSL</code>為<code>Flexible</code>,輸入<code>*.username.com/*</code>。<br>這個時候你就可以瀏覽<code>https://blog.username.com/</code>,但同時也可以瀏覽<code>http://blog.username.com/</code> 。<br>我希望HTTP能自動跳轉HTTPS，這部份如果是Node建立的網站，我可以用程式作轉導，<br>但是如果是github page建立網站，就要再仰賴 <a href="https://www.cloudflare.com/" target="_blank" rel="noopener">cloudflare</a> 了。</li>
 </ol>
 </li>
 <li>設定Page-Rules，這個是為了開啟SSL<ol>
-<li>設定<code>ALWAYS USE HTTPS</code>,輸入<code>http://*.username.com/*</code>。  
-<img src="/images/090516_023252_AM.jpg" alt="設定為「DNS and HTTP Proxy(CDN)」"></li>
+<li>設定<code>ALWAYS USE HTTPS</code>,輸入<code>http://*.username.com/*</code>。<br><img src="/images/090516_023252_AM.jpg" alt="設定為「DNS and HTTP Proxy(CDN)」"></li>
 </ol>
 </li>
 </ol>
-<p>設定完大致如下，順利的話幾分鐘就生效了。<br><img src="/images/090516_023554_AM.jpg" alt></p>
+<p>設定完大致如下，順利的話幾分鐘就生效了。<br><img src="/images/090516_023554_AM.jpg" alt=""></p>
 <p>這時候瀏覽<code>http://blog.username.com/</code>就會轉導到<code>https://blog.username.com/</code>了 。</p>
-<h2 id="檢驗"><a href="#檢驗" class="headerlink" title="檢驗"></a>檢驗</h2><p>使用support HTTP/2的瀏覽器，瀏覽網頁，觀察其protocol 。<br><img src="/images/090516_024550_AM.jpg" alt></p>
+<h2 id="檢驗"><a href="#檢驗" class="headerlink" title="檢驗"></a>檢驗</h2><p>使用support HTTP/2的瀏覽器，瀏覽網頁，觀察其protocol 。<br><img src="/images/090516_024550_AM.jpg" alt=""></p>
 <p>(fin)</p>
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
 <li><a href="https://simular.co/knowledge/site-build/68-about-http2-and-http11.html" target="_blank" rel="noopener">了解 HTTP/2 的特色與 HTTP/1.1 的差異</a></li>
@@ -1332,12 +1330,12 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2016/09/04/2016/http2 by cloudflare/" data-id="ck7lml3i7002cnywfsaimjn0j" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2016/09/04/2016/http2%20by%20cloudflare/" data-id="ck800m6n3001dn1wf1ai77lcv" class="article-share-link">Share</a>
       
-        <a href="https://blog.marsen.me/2016/09/04/2016/http2 by cloudflare/#disqus_thread" class="article-comment-link">留言</a>
+        <a href="https://blog.marsen.me/2016/09/04/2016/http2%20by%20cloudflare/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a></li></ul>
 
     </footer>
   </div>
@@ -1349,7 +1347,7 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/10/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/12/">下一頁 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/10/">&amp;laquo; 上一頁</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/12/">下一頁 &amp;raquo;</a>
   </nav>
 </section>
         
@@ -1400,7 +1398,7 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
   <div class="widget-wrap">
     <h3 class="widget-title">標籤雲</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Net-Framework/" style="font-size: 17.78px;">.Net Framework</a> <a href="/tags/AI/" style="font-size: 10px;">AI</a> <a href="/tags/API/" style="font-size: 12.22px;">API</a> <a href="/tags/AWS/" style="font-size: 16.67px;">AWS</a> <a href="/tags/Agile/" style="font-size: 18.89px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 11.11px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 14.44px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 13.33px;">Container</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/Database/" style="font-size: 15.56px;">Database</a> <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Entity-Framework/" style="font-size: 11.11px;">Entity Framework</a> <a href="/tags/Expressjs/" style="font-size: 10px;">Expressjs</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Google/" style="font-size: 12.22px;">Google</a> <a href="/tags/Gulpjs/" style="font-size: 11.11px;">Gulpjs</a> <a href="/tags/HTTP/" style="font-size: 11.11px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 11.11px;">Hexo</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 12.22px;">Integrated Testing</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/JQuery/" style="font-size: 11.11px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 13.33px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 11.11px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 12.22px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Teseting/" style="font-size: 10px;">Mutation Teseting</a> <a href="/tags/NPM/" style="font-size: 11.11px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 16.67px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/Openshift/" style="font-size: 11.11px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 12.22px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 11.11px;">Redis</a> <a href="/tags/Root-User/" style="font-size: 10px;">Root User</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 12.22px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 10px;">SQL Server</a> <a href="/tags/Scrum/" style="font-size: 18.89px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 11.11px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/TDD/" style="font-size: 17.78px;">TDD</a> <a href="/tags/Testing/" style="font-size: 15.56px;">Testing</a> <a href="/tags/Thread/" style="font-size: 11.11px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 14.44px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 20px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 11.11px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/實作筆記/" style="font-size: 10px;">實作筆記</a> <a href="/tags/工作筆記/" style="font-size: 10px;">工作筆記</a> <a href="/tags/時間管理/" style="font-size: 11.11px;">時間管理</a> <a href="/tags/產業趨勢/" style="font-size: 10px;">產業趨勢</a> <a href="/tags/記錄/" style="font-size: 14.44px;">記錄</a> <a href="/tags/重構/" style="font-size: 13.33px;">重構</a> <a href="/tags/閱讀筆記/" style="font-size: 20px;">閱讀筆記</a>
+      <a href="/tags/Net-Framework/" style="font-size: 17.78px;">.Net Framework</a> <a href="/tags/AI/" style="font-size: 10px;">AI</a> <a href="/tags/API/" style="font-size: 12.22px;">API</a> <a href="/tags/AWS/" style="font-size: 16.67px;">AWS</a> <a href="/tags/Agile/" style="font-size: 18.89px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 11.11px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 14.44px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 13.33px;">Container</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/Database/" style="font-size: 15.56px;">Database</a> <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Entity-Framework/" style="font-size: 11.11px;">Entity Framework</a> <a href="/tags/Expressjs/" style="font-size: 10px;">Expressjs</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Google/" style="font-size: 12.22px;">Google</a> <a href="/tags/Gulpjs/" style="font-size: 11.11px;">Gulpjs</a> <a href="/tags/HTTP/" style="font-size: 11.11px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 11.11px;">Hexo</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 12.22px;">Integrated Testing</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/JQuery/" style="font-size: 11.11px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 13.33px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 11.11px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 12.22px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Teseting/" style="font-size: 10px;">Mutation Teseting</a> <a href="/tags/NPM/" style="font-size: 11.11px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 16.67px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/Openshift/" style="font-size: 11.11px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 12.22px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 11.11px;">Redis</a> <a href="/tags/Root-User/" style="font-size: 10px;">Root User</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 12.22px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 10px;">SQL Server</a> <a href="/tags/Scrum/" style="font-size: 18.89px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 11.11px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/TDD/" style="font-size: 17.78px;">TDD</a> <a href="/tags/Testing/" style="font-size: 15.56px;">Testing</a> <a href="/tags/Thread/" style="font-size: 11.11px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 14.44px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 20px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 11.11px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 10px;">實作筆記</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 10px;">工作筆記</a> <a href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" style="font-size: 11.11px;">時間管理</a> <a href="/tags/%E7%94%A2%E6%A5%AD%E8%B6%A8%E5%8B%A2/" style="font-size: 10px;">產業趨勢</a> <a href="/tags/%E8%A8%98%E9%8C%84/" style="font-size: 14.44px;">記錄</a> <a href="/tags/%E9%87%8D%E6%A7%8B/" style="font-size: 13.33px;">重構</a> <a href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" style="font-size: 20px;">閱讀筆記</a>
     </div>
   </div>
 
@@ -1409,7 +1407,7 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
   <div class="widget-wrap">
     <h3 class="widget-title">標籤</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/">Agile</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/">BootStrap</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/">CI/CD</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/">Content-Type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/">DNS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/">EC2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expressjs/">Expressjs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulpjs/">Gulpjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/">IoT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/">JQuery</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Teseting/">Mutation Teseting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Root-User/">Root User</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-Server/">SQL Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/">Scrum</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/">TDD</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/">domain</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/">website</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/實作筆記/">實作筆記</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作筆記/">工作筆記</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/時間管理/">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/產業趨勢/">產業趨勢</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/記錄/">記錄</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重構/">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/閱讀筆記/">閱讀筆記</a><span class="tag-list-count">13</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expressjs/" rel="tag">Expressjs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulpjs/" rel="tag">Gulpjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Teseting/" rel="tag">Mutation Teseting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Root-User/" rel="tag">Root User</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-Server/" rel="tag">SQL Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/" rel="tag">domain</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">工作筆記</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%A2%E6%A5%AD%E8%B6%A8%E5%8B%A2/" rel="tag">產業趨勢</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -1429,7 +1427,7 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
     <div class="widget-wrap">
     <h3 class="widget-title">BADGES</h3>
     <div class="widget">
-        <a href="https://bcert.me/bc/html/show-badge.html?b=uufxvngl">
+        <a href="https://bcert.me/bc/html/show-badge.html?b=uufxvngl" target="_blank" rel="noopener">
             <img src="/images/2018/csm/seal-csm.png" alt="Certified ScrumMaster®">
         </a>
     </div>
@@ -1472,8 +1470,12 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
 
 
 <script>
@@ -1481,7 +1483,9 @@ You can also look at the TimeoutException message from StackExchange.Redis.<br>H
 </script>
   
 
-<script src="/js/script.js?v=0"></script>
+
+<script src="/js/script.js?v=0.js"></script>
+
 
   </div>
 </body>
