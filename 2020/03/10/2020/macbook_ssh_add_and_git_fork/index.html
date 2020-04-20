@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://blog.marsen.me/images/2020/3/030901_fork_setting_ssh.png">
 <meta property="article:published_time" content="2020-03-09T18:02:31.000Z">
-<meta property="article:modified_time" content="2020-04-07T14:53:10.716Z">
+<meta property="article:modified_time" content="2020-04-20T15:54:21.509Z">
 <meta property="article:author" content="Marsen L.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.marsen.me/images/2020/3/030901_fork_setting_ssh.png">
@@ -119,7 +119,7 @@ ga('send', 'pageview');
 <p>所以我透過一個指令來取得更多資訊</p>
 <p><code>ssh -vT git@github.com</code></p>
 <p>輸出如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">marsen@MarsendeMacBook-Pro ~ % ssh -vT git@github.com</span><br><span class="line">OpenSSH_7.9p1， LibreSSL 2.7.3</span><br><span class="line">debug1: Reading configuration data &#x2F;etc&#x2F;ssh&#x2F;ssh_config</span><br><span class="line">debug1: &#x2F;etc&#x2F;ssh&#x2F;ssh_config line 48: Applying options for *</span><br><span class="line">debug1: Connecting to github.com [192.30.253.112] port 22.</span><br><span class="line">debug1: Connection established.</span><br><span class="line">debug1: identity file &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_rsa type -1</span><br><span class="line">debug1: identity file &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_rsa-cert type -1</span><br><span class="line">中間省略... </span><br><span class="line">debug1: Trying private key: &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_ecdsa</span><br><span class="line">debug1: Trying private key: &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_ed25519</span><br><span class="line">debug1: Trying private key: &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_xmss</span><br><span class="line">debug1: No more authentication methods to try.</span><br><span class="line">git@github.com: Permission denied (publickey).</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">marsen@MarsendeMacBook-Pro ~ % ssh -vT git@github.com</span><br><span class="line">OpenSSH_7.9p1， LibreSSL 2.7.3</span><br><span class="line">debug1: Reading configuration data &#x2F;etc&#x2F;ssh&#x2F;ssh_config</span><br><span class="line">debug1: &#x2F;etc&#x2F;ssh&#x2F;ssh_config line 48: Applying options for *</span><br><span class="line">debug1: Connecting to github.com [192.30.253.112] port 22.</span><br><span class="line">debug1: Connection established.</span><br><span class="line">debug1: identity file &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_rsa type -1</span><br><span class="line">debug1: identity file &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_rsa-cert type -1</span><br><span class="line">中間省略...  </span><br><span class="line">debug1: Trying private key: &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_ecdsa</span><br><span class="line">debug1: Trying private key: &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_ed25519</span><br><span class="line">debug1: Trying private key: &#x2F;Users&#x2F;marsen&#x2F;.ssh&#x2F;id_xmss</span><br><span class="line">debug1: No more authentication methods to try.</span><br><span class="line">git@github.com: Permission denied (publickey).</span><br></pre></td></tr></table></figure>
 
 <p>幾個奇怪的地方<br>一個是 identity file 或是 Trying private key 的檔案我都找不到 ，<br>另一個奇怪的點是 <code>~/.ssh/Macbook</code> 這組我剛剛建立的 private key 明明存在 ，<br>我確找不到他顯示在 identity file 或是 Trying private key 的記錄之中<br>總而言之，最後的訊息仍然是</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git@github.com: Permission denied (publickey).</span><br></pre></td></tr></table></figure>
@@ -135,7 +135,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/03/10/2020/macbook_ssh_add_and_git_fork/" data-id="ck800m6oi0060n1wfa04ffs2x" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2020/03/10/2020/macbook_ssh_add_and_git_fork/" data-id="ck98nv0m0005u8twf4a0v4d69" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2020/03/10/2020/macbook_ssh_add_and_git_fork/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -168,6 +168,11 @@ ga('send', 'pageview');
 
 
 <section id="comments">
+
+  <div id="likecoin">
+  Please enable JavaScript to view the LikeCoin.
+  </div>
+
   <div id="disqus_thread">
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
   </div>
@@ -276,8 +281,18 @@ ga('send', 'pageview');
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
-    
-<script>
+    <script>
+
+  (function(){
+    var ifrm = document.createElement("iframe");
+    ifrm.setAttribute("src", "https://button.like.co/in/embed/marsenlin/button?referrer=https%3A%2F%2Fblog.marsen.me%2F2020%2F03%2F10%2F2020%2Fmacbook_ssh_add_and_git_fork%2F");      
+    ifrm.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox");
+    ifrm.frameborder = "0";
+    ifrm.scrolling = "no";
+    (document.getElementById("likecoin").replaceChild(ifrm, document.getElementById("likecoin").childNodes[0]));
+  })();
+
+
   var disqus_shortname = 'marsenlin';
   
   var disqus_url = 'https://blog.marsen.me/2020/03/10/2020/macbook_ssh_add_and_git_fork/';
@@ -289,8 +304,8 @@ ga('send', 'pageview');
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
-</script>
 
+</script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 

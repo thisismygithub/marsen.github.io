@@ -207,7 +207,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/01/04/2018/coding_standard_and_coding_style_and_principle/" data-id="ck800m6nj002sn1wf38p4c37d" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/01/04/2018/coding_standard_and_coding_style_and_principle/" data-id="ck98nv0l4002q8twf1lki4iw4" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/01/04/2018/coding_standard_and_coding_style_and_principle/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -242,6 +242,11 @@ ga('send', 'pageview');
 
 
 <section id="comments">
+
+  <div id="likecoin">
+  Please enable JavaScript to view the LikeCoin.
+  </div>
+
   <div id="disqus_thread">
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
   </div>
@@ -350,8 +355,18 @@ ga('send', 'pageview');
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
-    
-<script>
+    <script>
+
+  (function(){
+    var ifrm = document.createElement("iframe");
+    ifrm.setAttribute("src", "https://button.like.co/in/embed/marsenlin/button?referrer=https%3A%2F%2Fblog.marsen.me%2F2018%2F01%2F04%2F2018%2Fcoding_standard_and_coding_style_and_principle%2F");      
+    ifrm.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox");
+    ifrm.frameborder = "0";
+    ifrm.scrolling = "no";
+    (document.getElementById("likecoin").replaceChild(ifrm, document.getElementById("likecoin").childNodes[0]));
+  })();
+
+
   var disqus_shortname = 'marsenlin';
   
   var disqus_url = 'https://blog.marsen.me/2018/01/04/2018/coding_standard_and_coding_style_and_principle/';
@@ -363,8 +378,8 @@ ga('send', 'pageview');
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
-</script>
 
+</script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 

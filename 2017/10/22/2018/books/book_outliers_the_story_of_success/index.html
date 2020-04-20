@@ -166,7 +166,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/10/22/2018/books/book_outliers_the_story_of_success/" data-id="ck800m6pk00b1n1wf88ph8dp6" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2017/10/22/2018/books/book_outliers_the_story_of_success/" data-id="ck98nv0n800b58twf9cdndp2u" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2017/10/22/2018/books/book_outliers_the_story_of_success/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -201,6 +201,11 @@ ga('send', 'pageview');
 
 
 <section id="comments">
+
+  <div id="likecoin">
+  Please enable JavaScript to view the LikeCoin.
+  </div>
+
   <div id="disqus_thread">
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
   </div>
@@ -309,8 +314,18 @@ ga('send', 'pageview');
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
-    
-<script>
+    <script>
+
+  (function(){
+    var ifrm = document.createElement("iframe");
+    ifrm.setAttribute("src", "https://button.like.co/in/embed/marsenlin/button?referrer=https%3A%2F%2Fblog.marsen.me%2F2017%2F10%2F22%2F2018%2Fbooks%2Fbook_outliers_the_story_of_success%2F");      
+    ifrm.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox");
+    ifrm.frameborder = "0";
+    ifrm.scrolling = "no";
+    (document.getElementById("likecoin").replaceChild(ifrm, document.getElementById("likecoin").childNodes[0]));
+  })();
+
+
   var disqus_shortname = 'marsenlin';
   
   var disqus_url = 'https://blog.marsen.me/2017/10/22/2018/books/book_outliers_the_story_of_success/';
@@ -322,8 +337,8 @@ ga('send', 'pageview');
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
-</script>
 
+</script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 

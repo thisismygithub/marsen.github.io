@@ -17,9 +17,9 @@
 <meta property="article:published_time" content="2018-03-25T15:01:24.000Z">
 <meta property="article:modified_time" content="2020-03-08T09:31:52.199Z">
 <meta property="article:author" content="Marsen L.">
+<meta property="article:tag" content="AWS">
 <meta property="article:tag" content="Docker">
 <meta property="article:tag" content="Container">
-<meta property="article:tag" content="AWS">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/dNGygaT.jpg">
   
@@ -144,7 +144,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/03/25/2018/cloud_learn/aws_cli_login/" data-id="ck800m6pp00bfn1wfc041096x" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/03/25/2018/cloud_learn/aws_cli_login/" data-id="ck98nv0nd00bk8twf3a641eim" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2018/03/25/2018/cloud_learn/aws_cli_login/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -179,6 +179,11 @@ ga('send', 'pageview');
 
 
 <section id="comments">
+
+  <div id="likecoin">
+  Please enable JavaScript to view the LikeCoin.
+  </div>
+
   <div id="disqus_thread">
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
   </div>
@@ -287,8 +292,18 @@ ga('send', 'pageview');
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
-    
-<script>
+    <script>
+
+  (function(){
+    var ifrm = document.createElement("iframe");
+    ifrm.setAttribute("src", "https://button.like.co/in/embed/marsenlin/button?referrer=https%3A%2F%2Fblog.marsen.me%2F2018%2F03%2F25%2F2018%2Fcloud_learn%2Faws_cli_login%2F");      
+    ifrm.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox");
+    ifrm.frameborder = "0";
+    ifrm.scrolling = "no";
+    (document.getElementById("likecoin").replaceChild(ifrm, document.getElementById("likecoin").childNodes[0]));
+  })();
+
+
   var disqus_shortname = 'marsenlin';
   
   var disqus_url = 'https://blog.marsen.me/2018/03/25/2018/cloud_learn/aws_cli_login/';
@@ -300,8 +315,8 @@ ga('send', 'pageview');
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
-</script>
 
+</script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
