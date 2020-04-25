@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.marsen.me/"/>
-  <updated>2020-04-04T10:34:54.580Z</updated>
+  <updated>2020-04-25T07:49:49.695Z</updated>
   <id>https://blog.marsen.me/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>[實作筆記] 使用 IIS 作為 Reverse Proxy Server</title>
+    <link href="https://blog.marsen.me/2020/04/24/2020/iis_reverse_proxy/"/>
+    <id>https://blog.marsen.me/2020/04/24/2020/iis_reverse_proxy/</id>
+    <published>2020-04-24T02:31:22.000Z</published>
+    <updated>2020-04-25T07:49:49.695Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="情境"><a href="#情境" class="headerlink" title="情境"></a>情境</h2><ol><li>作業系統為 Windows 10</li><li>IIS 的版本為 10.0.18362.1</li><li>前端使用 nodejs 開發了一個網站，會在 localhost:3000 執行，提供 UI</li><li>使用 dotnet core 開發了一個網站，在 IIS 上執行，用來提供 Api</li><li>透過鎖 Host 的方式 dotnet core 的網站綁定在 <code>http://dev.api.test</code></li></ol><h2 id="目標"><a href="#目標" class="headerlink" title="目標"></a>目標</h2><ol><li>即使只有開發階段，我也不想看到 localhost:3000 作為我的網址</li><li>我想看到 <code>http://dev.site.test</code> 作為我的站台</li></ol><h2 id="本文"><a href="#本文" class="headerlink" title="本文"></a>本文</h2><p>首先，鎖 Host <code>127.0.0.1 dev.site.test</code>，<br>Host 的檔案路徑為 <code>C:\Windows\System32\drivers\etc</code>。</p><p>接下來請下載並安裝 <a href="https://www.iis.net/downloads/microsoft/url-rewrite" target="_blank" rel="noopener">URL Rewrite</a> 與 <a href="https://www.iis.net/downloads/microsoft/application-request-routing" target="_blank" rel="noopener">Application Request Routing</a>。</p><p>IIS 建立網站，繫結我設定為 <code>dev.site.test:80</code>，<br>應用程式集區我沒有特別處。<br>到 IIS 選取站台的 Url Rewrite 新增規則<br><img src="/images/2020/4/iis_reverse_proxy_01.jpg" alt="到 IIS 選取站台的 Url Rewrite 新增規則"><br>選取 Reverse Proxy 規則  </p><p><img src="/images/2020/4/iis_reverse_proxy_02.jpg" alt="選取 Reverse Proxy 規則">  </p><p>填寫 <code>localhost:3000</code></p><p><img src="/images/2020/4/iis_reverse_proxy_03.jpg" alt="填寫 `localhost:3000`">  </p><p>這個時候前往 dev.site.test 就可以看到站台囉。</p><h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul><li><a href="https://www.iis.net/downloads/microsoft/url-rewrite" target="_blank" rel="noopener">URL Rewrite</a></li><li><a href="https://www.iis.net/downloads/microsoft/application-request-routing" target="_blank" rel="noopener">Application Request Routing</a></li><li><a href="https://dev.to/petereysermans/hosting-a-node-js-application-on-windows-with-iis-as-reverse-proxy-397b" target="_blank" rel="noopener">Hosting a Node.js application on Windows with IIS as reverse proxy</a></li><li><a href="https://tecadmin.net/set-up-reverse-proxy-using-iis/" target="_blank" rel="noopener">How to Setup Reverse Proxy on IIS with URL-Rewrite</a></li><li><a href="https://blog.miniasp.com/post/2009/04/13/Using-ARR-to-implement-Reverse-Proxy" target="_blank" rel="noopener">如何利用 IIS7 的 ARR 模組實做 Reverse Proxy 機制</a></li></ul><p>(fin)</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;情境&quot;&gt;&lt;a href=&quot;#情境&quot; class=&quot;headerlink&quot; title=&quot;情境&quot;&gt;&lt;/a&gt;情境&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;作業系統為 Windows 10&lt;/li&gt;
+&lt;li&gt;IIS 的版本為 10.0.18362.1&lt;/li&gt;
+&lt;li&gt;前端使用 no
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>[實作筆記] 從 TDD 到 TDD ，Todo 到 Test 趨動開發(二)</title>
@@ -474,31 +499,6 @@
     
     
       <category term="閱讀筆記" scheme="https://blog.marsen.me/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[學習筆記] 重構使用 Introduce Variable for Substring</title>
-    <link href="https://blog.marsen.me/2019/07/09/2019/introduce_variable_for_substring/"/>
-    <id>https://blog.marsen.me/2019/07/09/2019/introduce_variable_for_substring/</id>
-    <published>2019-07-09T12:02:13.000Z</published>
-    <updated>2020-03-08T09:31:52.219Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="要知道的事"><a href="#要知道的事" class="headerlink" title="要知道的事"></a>要知道的事</h2><ul><li>這是個人的學習記錄</li><li>可能對你沒幫助</li><li>不知不知最可怕。快不起來,因為你不覺得慢</li><li>希望對你有幫助</li><li>使用 Visual Studio &amp; ReSharper</li></ul><h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><blockquote><p>把原本的程式<br>string url = “<a href="http://localhost:5000/api/v3.3/refund/PayPal/SF188964T&quot;" target="_blank" rel="noopener">http://localhost:5000/api/v3.3/refund/PayPal/SF188964T&quot;</a></p><p>變成下面這樣</p><p>string domain = “<a href="http://localhost:5000&quot;;">http://localhost:5000&quot;;</a><br>string code = “SF188964T”;<br>string payType = “PayPal”;<br>string url = $”{domain}/api/refund/{payType}/{code}”;  </p><p>你會怎麼作 ?</p></blockquote><p>我原本的作法，一個字一個挖出來，命名變數，再填回去。</p><p><strong>怎麼作可以更快 ?</strong></p><p>透過 Resharper 的 Refactor &gt; Introduce Variable &gt; Introduce Variable for Substring 即可快速重構。</p><p>參考 91 的影片</p><div class="video-container"><iframe src="https://www.youtube.com/embed/Nqz8qapjjz4" frameborder="0" loading="lazy" allowfullscreen></iframe></div><p>我實測原本的開發時間約為2~3分鐘，善用工具約可以在 30 ~ 45 s 完成。<br>效能提昇 400 % !!!!!(聽起來就很威)</p><div class="video-container"><iframe src="https://www.youtube.com/embed/C9jLXrh3LRg" frameborder="0" loading="lazy" allowfullscreen></iframe></div><p>當然結合了 Vim 與 Visual Studio 的工具才達到這樣的速度，強烈推薦以下課程。</p><h2 id="我只推薦好東西"><a href="#我只推薦好東西" class="headerlink" title="我只推薦好東西"></a>我只推薦好東西</h2><p><a href="https://dotblogs.com.tw/hatelove/2019/06/17/extreme-developing-training-202002" target="_blank" rel="noopener">【極速開發+】 202002 第九梯次 台北</a></p><h3 id="課程優點"><a href="#課程優點" class="headerlink" title="課程優點"></a>課程優點</h3><ol><li>學心法也學作法，不是只有理論的打高空</li><li>認識同好 ，來上課的同學都是願意精進自已的人，所以身上有很多寶可以挖</li><li>認識 91 ，遇到 91 盡量挖就對了，偷到一招半式都完勝 10 年在那邊處理 NullReferenceException</li><li>學習怎麼學習</li></ol><h2 id="其它本周學習事項"><a href="#其它本周學習事項" class="headerlink" title="其它本周學習事項"></a>其它本周學習事項</h2><ol><li>可以讓中斷點停留在 lambda express 中</li><li>MSTest 請用 DescriptionAttribute 加入測試描述</li><li><a href="https://docs.microsoft.com/zh-tw/dotnet/api/system.web.ui.webcontrols.boundfield.convertemptystringtonull?view=netframework-4.8" target="_blank" rel="noopener">.Net MVC Model Binding 若欄位為空字串預設為轉為 Null</a></li></ol><h2 id="本周待確認事項"><a href="#本周待確認事項" class="headerlink" title="本周待確認事項"></a>本周待確認事項</h2><ol><li>如何對 HttpClient 測試 ?</li><li>如何用 <a href="https://fluentvalidation.net/testing" target="_blank" rel="noopener">FluentValidation</a> 作測試 ?</li></ol><p>(fin)</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;要知道的事&quot;&gt;&lt;a href=&quot;#要知道的事&quot; class=&quot;headerlink&quot; title=&quot;要知道的事&quot;&gt;&lt;/a&gt;要知道的事&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;這是個人的學習記錄&lt;/li&gt;
-&lt;li&gt;可能對你沒幫助&lt;/li&gt;
-&lt;li&gt;不知不知最可怕。快不起來,因為你
-      
-    
-    </summary>
-    
-    
     
   </entry>
   

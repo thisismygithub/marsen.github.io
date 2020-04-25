@@ -82,6 +82,99 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2016/todolist_by_typescript_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/08/2016/todolist_by_typescript_1/" class="article-date">
+  <time datetime="2016-10-08T02:34:27.000Z" itemprop="datePublished">2016-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/08/2016/todolist_by_typescript_1/">[KATA]用typescript作一個簡易的todolist(一) - 前置作業</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="目標"><a href="#目標" class="headerlink" title="目標"></a>目標</h2><ol>
+<li>使用 typescript 開發</li>
+<li>顯示/新增/刪除 todolist </li>
+</ol>
+<h2 id="功能分析"><a href="#功能分析" class="headerlink" title="功能分析"></a>功能分析</h2><ol>
+<li>只是練習,故不開發server side的程式</li>
+<li>暫時存在 cookie 上</li>
+<li>用 bootstrap 作簡單的樣式</li>
+</ol>
+<h2 id="實作記錄"><a href="#實作記錄" class="headerlink" title="實作記錄"></a>實作記錄</h2><h3 id="UI-使用-Bootstrap-沒有必要重新打造輪子-能用的就拿來用"><a href="#UI-使用-Bootstrap-沒有必要重新打造輪子-能用的就拿來用" class="headerlink" title="UI : 使用 Bootstrap 沒有必要重新打造輪子,能用的就拿來用"></a>UI : 使用 Bootstrap <em>沒有必要重新打造輪子,能用的就拿來用</em></h3><ul>
+<li>找到一個TODOLIST的<a href="http://bootsnipp.com/index.php/snippets/featured/todo-example" target="_blank" rel="noopener">樣版</a>,內含 HTML 、 CSS 與 JS ,功能完整.</li>
+<li>取用<a href="http://bootsnipp.com/index.php/snippets/featured/todo-example" target="_blank" rel="noopener">樣版</a>的HTML .     </li>
+<li>引用 bootstrap 3.3.5 CDN上的 css .</li>
+<li>建立一個 todo.css 直接引用<a href="http://bootsnipp.com/index.php/snippets/featured/todo-example" target="_blank" rel="noopener">樣版</a>的 css 並加入頁面參考.</li>
+</ul>
+<h3 id="開發環境"><a href="#開發環境" class="headerlink" title="開發環境"></a>開發環境</h3><ol>
+<li>安裝 typescript<br><code>npm install typescript --save</code></li>
+<li>安裝 gulp<br><code>npm install gulp</code><br><code>npm install --global gulp</code> </li>
+<li>安裝 gulp-typescript<br><code>npm install gulp-typescript</code></li>
+<li>建立gulpfile.js </li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> tsc = <span class="built_in">require</span>(<span class="string">'gulp-typescript'</span>);</span><br><span class="line">gulp.task(<span class="string">'default'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;     </span><br><span class="line">        <span class="keyword">return</span> gulp.src(<span class="string">'public/javascripts/**/*.ts'</span>)</span><br><span class="line">        .pipe(tsc())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'public/javascripts/'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Typescript"><a href="#Typescript" class="headerlink" title="Typescript"></a>Typescript</h3><ol>
+<li><p>關於 typescript 的定義檔, 以前有 tsd 與 typings兩種管理工具,現在可以更簡便的合併到 npm 作管理 .</p>
+</li>
+<li><p>透過 <a href="http://microsoft.github.io/TypeSearch/" target="_blank" rel="noopener">TypeSearch</a> 可以找到 <a href="https://www.npmjs.com/package/@types/bootstrap" target="_blank" rel="noopener">bootstrap</a> 的 typescript 定義檔.</p>
+</li>
+<li><p>執行 <code>npm install --save @types/bootstrap</code> 安裝 bootstrap (目前的版本是 Bootstrap 3.3.5) , 因為相依於 jquery 所以也會一併安裝</p>
+</li>
+<li><p>安裝 jquery-ui 的定義檔<br><code>npm install --save @types/jqueryui</code></p>
+</li>
+<li><p>新增檔案 <code>todo.ts</code> ,將 <a href="http://bootsnipp.com/index.php/snippets/featured/todo-example" target="_blank" rel="noopener">樣版</a> 的 javascript 複製貼上 .<br><em>*註:因為 typescript 是 javascript 的 superset , 完全可以相容原生 javascript, 如果有任何錯誤, TypeScript將會提示你</em></p>
+</li>
+<li><p>todo.ts 引用 jquery 、jquery-ui 與 bootstrap 的 typescript 定義檔.  </p>
+<pre><code>/// &lt;reference path=&quot;../../../node_modules/@types/jquery/index.d.ts&quot;/&gt;  
+/// &lt;reference path=&quot;../../../node_modules/@types/bootstrap/index.d.ts&quot;/&gt;  
+/// &lt;reference path=&quot;../../../node_modules/@types/jqueryui/index.d.ts&quot;/&gt;</code></pre></li>
+<li><p>頁面載入對應的js檔,記得放置順序 jquery 要在最前面,並將放在<code>&lt;\body&gt;</code>之後  </p>
+<pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-2.2.4.min.js&quot;   integrity=&quot;sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=&quot;   crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://code.jquery.com/ui/1.12.1/jquery-ui.min.js&quot;   integrity=&quot;sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=&quot;   crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</code></pre></li>
+<li><p>執行 <code>gulp</code> ,會產生todo.js</p>
+</li>
+<li><p>頁面載入js檔,記得要放在相依的js( jquery 、 bootstap 、 jqueryui)之後.</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;/javascripts/kata/todo.js&quot;&gt;&lt;/script&gt;</code></pre></li>
+</ol>
+<h4 id="截至目前為止-僅僅是在作複製樣版-同時一併處理一些基本-gulp-與-typescript-相關的配置"><a href="#截至目前為止-僅僅是在作複製樣版-同時一併處理一些基本-gulp-與-typescript-相關的配置" class="headerlink" title="截至目前為止,僅僅是在作複製樣版,同時一併處理一些基本 gulp 與 typescript 相關的配置"></a>截至目前為止,僅僅是在作複製樣版,同時一併處理一些基本 gulp 與 typescript 相關的配置</h4><h4 id="接下來才要開始寫-typescript"><a href="#接下來才要開始寫-typescript" class="headerlink" title="接下來才要開始寫 typescript"></a>接下來才要開始寫 typescript</h4><p>(待續)</p>
+<h4 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h4><ol>
+<li><a href="http://blog.miniasp.com/post/2016/08/22/TypeScript-Future-Declaration-Files.aspx" target="_blank" rel="noopener">關於 TypeScript 2.0 之後的模組定義檔 ( Declaration Files ) ( *.d.ts )</a></li>
+<li><a href="http://bootsnipp.com/" target="_blank" rel="noopener">bootsnipp</a></li>
+<li><a href="http://com-brianflove.appspot.com/2016/03/29/typescript-express-node-js/" target="_blank" rel="noopener">TYPESCRIPT + EXPRESS + NODE.JS</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2016/10/08/2016/todolist_by_typescript_1/" data-id="ck98nwuse001ah1wf1zzedc71" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2016/10/08/2016/todolist_by_typescript_1/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2016/http2 by cloudflare" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/09/04/2016/http2%20by%20cloudflare/" class="article-date">
@@ -564,6 +657,10 @@ mydomain.me</code></pre></li>
       <ul>
         
           <li>
+            <a href="/2020/04/24/2020/iis_reverse_proxy/">[實作筆記] 使用 IIS 作為 Reverse Proxy Server</a>
+          </li>
+        
+          <li>
             <a href="/2020/04/04/2020/todo_driven_develop_to_test_driven_develop_2/">[實作筆記] 從 TDD 到 TDD ，Todo 到 Test 趨動開發(二)</a>
           </li>
         
@@ -579,10 +676,6 @@ mydomain.me</code></pre></li>
             <a href="/2020/01/29/2020/tdd_pay_api/">[實作筆記] 用 TDD 寫一個 API Pay </a>
           </li>
         
-          <li>
-            <a href="/2020/01/28/2020/book/better_by_atul_gawande/">[閱讀筆記] 開刀房裡的沉思 -- 一位外科醫師的精進</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -592,7 +685,7 @@ mydomain.me</code></pre></li>
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
