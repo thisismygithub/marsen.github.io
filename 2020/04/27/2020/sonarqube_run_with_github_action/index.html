@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 | Marsen&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前情提要大概一年前我曾寫過一篇 Blog [實作筆記] 讓 SonarQube 檢查你的代碼，沒什麼含金量，只是我個人用來記錄的筆記。當初有一些問題沒有排除，加上工作一忙就沒有後續了。   我的理想目標是，每當我上 Code 到線上 Repo 時(Github)，SonarCloud 可以幫我檢查代碼，跑跑測試覆蓋率，刷新一下 Budget，如果有異常(覆蓋率下降、壞味道等…)最好再發個通知給我。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[實作筆記] Github 結合 SonarCloud 作代碼質量檢查">
+<meta property="og:url" content="https://blog.marsen.me/2020/04/27/2020/sonarqube_run_with_github_action/index.html">
+<meta property="og:site_name" content="Marsen&#39;s Blog">
+<meta property="og:description" content="前情提要大概一年前我曾寫過一篇 Blog [實作筆記] 讓 SonarQube 檢查你的代碼，沒什麼含金量，只是我個人用來記錄的筆記。當初有一些問題沒有排除，加上工作一忙就沒有後續了。   我的理想目標是，每當我上 Code 到線上 Repo 時(Github)，SonarCloud 可以幫我檢查代碼，跑跑測試覆蓋率，刷新一下 Budget，如果有異常(覆蓋率下降、壞味道等…)最好再發個通知給我。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.marsen.me/images/2020/4/sonarqube_run_with_github_action_02.jpg">
+<meta property="og:image" content="https://blog.marsen.me/images/2020/4/sonarqube_run_with_github_action_01.jpg">
+<meta property="og:image" content="https://blog.marsen.me/images/2020/4/sonarqube_run_with_github_action_03.jpg">
+<meta property="og:image" content="https://sonarcloud.io/api/project_badges/quality_gate?project=marsen_Marsen.NetCore.Dojo">
+<meta property="article:published_time" content="2020-04-27T09:01:46.000Z">
+<meta property="article:modified_time" content="2020-04-27T11:09:59.368Z">
+<meta property="article:author" content="Marsen L.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.marsen.me/images/2020/4/sonarqube_run_with_github_action_02.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Marsen&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71201782-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  <meta property ="og:image" content="https://avatars1.githubusercontent.com/u/4269720?s=460&v=4" /> 
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="blog-banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Marsen&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle"></a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.marsen.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2020/sonarqube_run_with_github_action" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/27/2020/sonarqube_run_with_github_action/" class="article-date">
+  <time datetime="2020-04-27T09:01:46.000Z" itemprop="datePublished">2020-04-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [實作筆記] Github 結合 SonarCloud 作代碼質量檢查
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>大概一年前我曾寫過一篇 Blog <a href="https://blog.marsen.me/2019/05/16/2019/opensource_with_sonarcloud/">[實作筆記] 讓 SonarQube 檢查你的代碼</a>，<br>沒什麼含金量，只是我個人用來記錄的筆記。<br>當初有一些問題沒有排除，加上工作一忙就沒有後續了。  </p>
+<p>我的理想目標是，每當我上 Code 到線上 Repo 時(Github)，<br>SonarCloud 可以幫我檢查代碼，跑跑測試覆蓋率，刷新一下 Budget，<br>如果有異常(覆蓋率下降、壞味道等…)最好再發個通知給我。<br>這些功能要怎麼作到呢 ?</p>
+<p>然後我會實際用在我的<a href="https://github.com/marsen/Marsen.NetCore.Dojo" target="_blank" rel="noopener">SideProject</a>上，<br>這個 Project 單純只是為了練習而生，<br>專注於我個人的測試項目，主要語言為 Csharp 也有一些 TypeScript 。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>首先先排序一下優先序吧。</p>
+<ol>
+<li>一定要可以執行代碼檢查</li>
+<li>要能結合 CI ，我以 Github Action 作為我的主要 CI 工具</li>
+<li>能夠跑測試並輸出測試報告</li>
+<li>Buget 刷新</li>
+<li>發通知</li>
+</ol>
+<p>這篇主要會說明如何結合 CI 執行代碼檢查。<br>執行代碼檢查就發現有一個問題， SonarCloud 一次只能對一種語言作檢查，<br>雖然我的專案裡有兩種語言，但是以 C# 佔大宗(93%)，所以調整一下目標，<br>先優先完成 C# 的代碼檢查、結合 CI 與輸出測試報告。<br>之後再進行 Typescript 的檢查與測試，最後通知有的話很棒，沒有也沒關係啦 :)。  </p>
+<h2 id="本機執行代碼檢查"><a href="#本機執行代碼檢查" class="headerlink" title="本機執行代碼檢查"></a>本機執行代碼檢查</h2><p>我本機的環境有兩個，一個是 Windows 一個 macOS，我這裡只討論 Windows 的作法，<br>然後我就要直上 CI 了，Github Action 我並不熟悉，但是我知道上面應該是執行 Linux like 的作業系統。  </p>
+<p>首先要在 SonarCloud 上建立 Project ，<br>可以參考<a href="https://sonarcloud.io/documentation/integrations/github/" target="_blank" rel="noopener">Get started with GitHub.com</a>快速建立。  </p>
+<p>Administrator &gt; Analysis Method  </p>
+<p><img src="/images/2020/4/sonarqube_run_with_github_action_02.jpg" alt="Analysis Methodn">  </p>
+<p>這裡要把 SonarCloud Automatic Analysis 的功能關掉。<br>SonarCloud 支援自動分析語言只有以下</p>
+<p>ABAP, Apex, CSS, Flex, Go, HTML, JS, Kotlin, PHP, Python, Ruby, Scala, Swift, TypeScript, XML.  </p>
+<p>雖然有很多，但可惜並沒有 C# ，所以要先關掉，不然 Github Action 執行時會收到下面的錯誤。</p>
+<p><code>You are running CI analysis while Automatic Analysis is enabled. Please consider disabling one or the other.</code></p>
+<p>另外目前支援的 CI 服務有 Circle CI 與 Travis CI ，<br>一樣殘念的是沒有支援 Github Action 。<br>另外兩個選項目是 Other CI 與 Manunlly(手動) 。<br>我的前一篇文章就是使用手動的方式把檢查報告打到 SonarCloud。<br>雖然只隔一年，但 UI 介面上已經有些差距，我還是再作一次介紹。</p>
+<p><img src="/images/2020/4/sonarqube_run_with_github_action_01.jpg" alt="Analysis Methodn"></p>
+<p>首先先下載 SonarScanner，選擇正確的語言(Others)與OS(Windows)後下載，<br>接著設定環境變數  </p>
+<p><img src="/images/2020/4/sonarqube_run_with_github_action_03.jpg" alt="Setting Path">  </p>
+<p>最後開啟 CMD 切換到專案目錄底下後。<br>執行語法，如果照著上述步驟，你可以在 Download 的按鈕下方找到語法，同時它會幫你填好 Token。  </p>
+<p>Begin</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet sonarscanner begin /k:"$ProjectKey" /o:"$Oragnization" /d:"sonar.host.url=https://sonarcloud.io" /d:"sonar.login="$Sonar_Login</span><br></pre></td></tr></table></figure>
+
+<p>MSBuild</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet build ".\Marsen.NetCore.Dojo.Integration.Test.sln"</span><br></pre></td></tr></table></figure>
+
+<p>End</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet sonarscanner end /d:"sonar.login="$Sonar_Login</span><br></pre></td></tr></table></figure>
+
+<p><code>$ProjectKey</code> 與 <code>$Oragnization</code> 這兩個變數可以在 SonarCloud 的 Overview 介面的右下角找到，<br><code>$Sonar_Login</code> 則可以透過 <a href="https://sonarcloud.io/account/security" target="_blank" rel="noopener">Security</a> 設定。</p>
+<p>執行命名完成後，大概幾秒內就可以在 SonarCloud 中看到結果了。</p>
+<p>簡單總結一下</p>
+<ol>
+<li>你要有 SonarCloud</li>
+<li>要下載 SonarSanner</li>
+<li>依序執行 Begin &gt; MSBuild &gt; End</li>
+</ol>
+<p>另外有一些雷包，在這裡也記錄一下</p>
+<ul>
+<li>要安裝 Java (Java8)</li>
+<li>執行語法的目錄底下不能有<code>sonar-project.properties</code><ul>
+<li>不然會報錯 (sonar-project.properties files are not understood by the SonarScanner for MSBuild.)</li>
+<li>我覺得應該是我的檔案內容有誤，但是還不知道怎麼修正。總之直接移除對我來說是可以 work 的。  </li>
+</ul>
+</li>
+</ul>
+<h2 id="CI-執行代碼檢查"><a href="#CI-執行代碼檢查" class="headerlink" title="CI 執行代碼檢查"></a>CI 執行代碼檢查</h2><p>同上面的概念，只要讓你的 CI Server 在執行的過程中依序執行 Begin &gt; MSBuild &gt; End 即可，<br>參考 Github Action 的 yaml 檔</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#上略</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dotnet</span> <span class="string">Sonarscanner</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">dotnet</span> <span class="string">tool</span> <span class="string">install</span> <span class="string">--global</span> <span class="string">dotnet-sonarscanner</span> <span class="string">--version</span> <span class="number">4.8</span><span class="number">.0</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">SonarScanner</span> <span class="string">Begin</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">dotnet</span> <span class="string">sonarscanner</span> <span class="string">begin</span> <span class="string">/k:"marsen_Marsen.NetCore.Dojo"</span> <span class="string">/o:"marsen-github"</span> <span class="string">/d:"sonar.host.url=https://sonarcloud.io"</span> <span class="string">/d:"sonar.login="$SONAR_LOGIN</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">with</span> <span class="string">dotnet</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">dotnet</span> <span class="string">build</span> <span class="string">".\Marsen.NetCore.Dojo.Integration.Test.sln"</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">SonarScanner</span> <span class="string">End</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">dotnet</span> <span class="string">sonarscanner</span> <span class="string">end</span> <span class="string">/d:"sonar.login="$SONAR_LOGIN</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">      <span class="attr">GITHUB_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">      <span class="attr">SONAR_LOGIN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.SONAR_LOGIN</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這裡要注意的是，<br>首先每次你都需要安裝 Dotnet Sonarscanner ，<br>其實我不清楚 Github Action 背後的機制，但是我猜測應該是用到容器化的技術，<br>每次 CI 執行時都會起一個實體(這個可設定，但是 Linux Like 的 OS 又快又便，就別考慮 Windows了吧)<br>所以每次都要重頭安裝相關的軟體，比如 : Dotnet Sonarscanner  。</p>
+<p>另外一點是，環境變數的設定，可以看到最後面的 <code>env</code> 變數。<br>這個是機制是將 CI 的設定傳到實體的環境變數之中。<br>在 yaml 中綁定要使用 <code>$+變數名</code> EX: <code>SONAR_LOGIN</code><br>其它的變數，你可以在 Github 的 <a href="https://github.com/marsen/Marsen.NetCore.Dojo/settings/secrets" target="_blank" rel="noopener">Secrets</a> 頁面設定。<br>另外 Github 有些預設的<a href="https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables" target="_blank" rel="noopener">變數</a>。<br>更多資訊可以<a href="https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#in-this-article" target="_blank" rel="noopener">參考</a></p>
+<p>設定成功後，每次進 Code 就能看到代碼的壞味道、重複或是資安風險等資訊囉。<br>可以參觀一下<a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener">我的專案</a>。</p>
+<p><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/quality_gate?project=marsen_Marsen.NetCore.Dojo" alt="Quality gate"></a></p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="https://sonarcloud.io/documentation/integrations/github/" target="_blank" rel="noopener">Get started with GitHub.com</a></li>
+<li><a href="https://github.com/marketplace/actions/sonarcloud-scan" target="_blank" rel="noopener">SonarCloud Scan</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/04/27/2020/sonarqube_run_with_github_action/" data-id="ck9icpepw0000s0ugfah2c55a" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/04/27/2020/sonarqube_run_with_github_action/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/24/2020/iis_reverse_proxy/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">[實作筆記] 使用 IIS 作為 Reverse Proxy Server</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+
+  <div id="likecoin">
+  Please enable JavaScript to view the LikeCoin.
+  </div>
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/27/2020/sonarqube_run_with_github_action/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/24/2020/iis_reverse_proxy/">[實作筆記] 使用 IIS 作為 Reverse Proxy Server</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/04/2020/todo_driven_develop_to_test_driven_develop_2/">[實作筆記] 從 TDD 到 TDD ，Todo 到 Test 趨動開發(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/10/2020/macbook_ssh_add_and_git_fork/">[實作筆記] Macbook SSH 設置與疑問 </a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/26/2020/todo_driven_develop_to_test_driven_develop_1/">[實作筆記] 從 TDD 到 TDD ，Todo 到 Test 趨動開發(一)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Net-Framework/" style="font-size: 16.36px;">.Net Framework</a> <a href="/tags/AI/" style="font-size: 10px;">AI</a> <a href="/tags/API/" style="font-size: 11.82px;">API</a> <a href="/tags/AWS/" style="font-size: 15.45px;">AWS</a> <a href="/tags/Agile/" style="font-size: 18.18px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 10.91px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 13.64px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 12.73px;">Container</a> <a href="/tags/Content-Type/" style="font-size: 10px;">Content-Type</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/Database/" style="font-size: 14.55px;">Database</a> <a href="/tags/Docker/" style="font-size: 12.73px;">Docker</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Entity-Framework/" style="font-size: 10.91px;">Entity Framework</a> <a href="/tags/Expressjs/" style="font-size: 10px;">Expressjs</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Google/" style="font-size: 11.82px;">Google</a> <a href="/tags/Gulpjs/" style="font-size: 10.91px;">Gulpjs</a> <a href="/tags/HTTP/" style="font-size: 10.91px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 10.91px;">Hexo</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 11.82px;">Integrated Testing</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/JQuery/" style="font-size: 10.91px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 12.73px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 10.91px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 11.82px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Teseting/" style="font-size: 10px;">Mutation Teseting</a> <a href="/tags/NPM/" style="font-size: 10.91px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 15.45px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/Openshift/" style="font-size: 10.91px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 11.82px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 10.91px;">Redis</a> <a href="/tags/Root-User/" style="font-size: 10px;">Root User</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 11.82px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 10px;">SQL Server</a> <a href="/tags/Scrum/" style="font-size: 18.18px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 10.91px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/TDD/" style="font-size: 17.27px;">TDD</a> <a href="/tags/Testing/" style="font-size: 14.55px;">Testing</a> <a href="/tags/Thread/" style="font-size: 10.91px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 13.64px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 20px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 10.91px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 10px;">實作筆記</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 10px;">工作筆記</a> <a href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" style="font-size: 10.91px;">時間管理</a> <a href="/tags/%E7%94%A2%E6%A5%AD%E8%B6%A8%E5%8B%A2/" style="font-size: 10px;">產業趨勢</a> <a href="/tags/%E8%A8%98%E9%8C%84/" style="font-size: 13.64px;">記錄</a> <a href="/tags/%E9%87%8D%E6%A7%8B/" style="font-size: 12.73px;">重構</a> <a href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" style="font-size: 19.09px;">閱讀筆記</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Content-Type/" rel="tag">Content-Type</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expressjs/" rel="tag">Expressjs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulpjs/" rel="tag">Gulpjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Teseting/" rel="tag">Mutation Teseting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Root-User/" rel="tag">Root User</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-Server/" rel="tag">SQL Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/" rel="tag">domain</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">工作筆記</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%A2%E6%A5%AD%E8%B6%A8%E5%8B%A2/" rel="tag">產業趨勢</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">多語系</h3>
+    <div class="widget">
+        <div id="ytWidget"></div>
+    </div>
+</div>
+<script src="https://translate.yandex.net/website-widget/v1/widget.js?widgetId=ytWidget&pageLang=zh&widgetTheme=dark&autoMode=false" type="text/javascript"></script>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">BADGES</h3>
+    <div class="widget">
+        <a href="https://bcert.me/bc/html/show-badge.html?b=uufxvngl" target="_blank" rel="noopener">
+            <img src="/images/2018/csm/seal-csm.png" alt="Certified ScrumMaster®">
+        </a>
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Marsen L.<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    <script>
+
+  (function(){
+    var ifrm = document.createElement("iframe");
+    ifrm.setAttribute("src", "https://button.like.co/in/embed/marsenlin/button?referrer=https%3A%2F%2Fblog.marsen.me%2F2020%2F04%2F27%2F2020%2Fsonarqube_run_with_github_action%2F");      
+    ifrm.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox");
+    ifrm.frameborder = "0";
+    ifrm.scrolling = "no";
+    (document.getElementById("likecoin").replaceChild(ifrm, document.getElementById("likecoin").childNodes[0]));
+  })();
+
+
+  var disqus_shortname = 'marsenlin';
+  
+  var disqus_url = 'https://blog.marsen.me/2020/04/27/2020/sonarqube_run_with_github_action/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+<script>
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticsim: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Togethor is better","The best way to find out if it will work is to do it. --- Togethor is better","To go fast, go alone. To go far, go togethor. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。---Fever Pitch"];
+</script>
+  
+
+
+<script src="/js/script.js?v=0.js"></script>
+
+
+  </div>
+</body>
+</html>

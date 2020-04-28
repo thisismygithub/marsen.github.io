@@ -82,6 +82,69 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2017/sql_compatibility_level_with_datetime2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/18/2017/sql_compatibility_level_with_datetime2/" class="article-date">
+  <time datetime="2017-09-18T03:30:13.000Z" itemprop="datePublished">2017-09-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/18/2017/sql_compatibility_level_with_datetime2/">SQL Compatibility Level 對MsSQL時間查詢的影響</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="大綱"><a href="#大綱" class="headerlink" title="大綱"></a>大綱</h2><p>這次透過Entity Framework(EF5)作了一個簡單的資料庫更新,<br>恰巧的是這次更新的Table因為某些需求,使用 datetime 作為 Key 值.<br>進而引發一連串的錯誤, 最後才找到 SQL Compatibility Level 對 MsSQL 時間查詢影響. </p>
+<h3 id="正式環境-SQL-版本-13-0-4422-0"><a href="#正式環境-SQL-版本-13-0-4422-0" class="headerlink" title="正式環境 SQL 版本 13.0.4422.0"></a>正式環境 SQL 版本 13.0.4422.0</h3><h3 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">UpdateBatchUploadData</span>(<span class="params">BatchUploadDataEntity batchUploadDataEntity</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> (WebStoreDBEntitiesV2 context = <span class="keyword">this</span>.LifetimeScope.Resolve&lt;WebStoreDBEntitiesV2&gt;())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> item = (<span class="keyword">from</span> batchUploadData <span class="keyword">in</span> context.BatchUploadData.Valids()</span><br><span class="line">                    <span class="keyword">where</span> batchUploadData.BatchUploadData_Id == batchUploadDataEntity.BatchUploadData_Id</span><br><span class="line">                    <span class="keyword">select</span> batchUploadData).FirstOrDefault();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.MapBatchUploadData(batchUploadDataEntity, item);</span><br><span class="line"></span><br><span class="line">        context.SaveChanges();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上面程式所示, <code>item</code> 是透過 Key 值 <code>BatchUploadData_Id</code> 取回來的物件.<br>而 <code>MapBatchUploadData</code> 是一段簡單的程式碼,<br>單純的將 <code>batchUploadDataEntity</code> 的值 mapping 到 item<br>再呼叫 SaveChanges , 卻引發了 <a href="https://msdn.microsoft.com/en-us/library/system.data.entity.infrastructure.dbupdateconcurrencyexception(v=vs.103).aspx" target="_blank" rel="noopener">dbupdateconcurrencyexception</a></p>
+<h3 id="錯誤畫面"><a href="#錯誤畫面" class="headerlink" title="錯誤畫面"></a>錯誤畫面</h3><p><img src="https://i.imgur.com/8kBIYRr.jpg" alt=""></p>
+<h3 id="錯誤訊息"><a href="#錯誤訊息" class="headerlink" title="錯誤訊息"></a>錯誤訊息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">存放區更新、插入或刪除陳述式影響到非預期數目的資料列 (0)。</span><br><span class="line">這些實體載入之後可能被修改或刪除了。請重新整理 ObjectStateManager 實體。</span><br></pre></td></tr></table></figure>
+
+
+<p>這一段訊息的意思就是: Entity Framework 預期更新了<code>0</code>筆資料，與它所預期的不符, 所以拋出錯誤。</p>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>透過用<strong>Sql Profiler</strong>我們錄製到了以下的SQL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">exec sp_executesql N'<span class="keyword">update</span> [dbo].[BatchUploadData]</span><br><span class="line"><span class="keyword">set</span> [BatchUploadData_StatusDef] = @<span class="number">0</span>, [BatchUploadData_UpdatedTimes] = @<span class="number">1</span>, [BatchUploadData_UpdatedDateTime] = @<span class="number">2</span></span><br><span class="line"><span class="keyword">where</span> (([BatchUploadData_Id] = @<span class="number">3</span>) <span class="keyword">and</span> ([BatchUploadData_CreatedDateTime] = @<span class="number">4</span>))</span><br><span class="line"><span class="keyword">select</span> [BatchUploadData_Rowversion]</span><br><span class="line"><span class="keyword">from</span> [dbo].[BatchUploadData]</span><br><span class="line"><span class="keyword">where</span> @@ROWCOUNT &gt; <span class="number">0</span> <span class="keyword">and</span> [BatchUploadData_Id] = @<span class="number">3</span> <span class="keyword">and</span> [BatchUploadData_CreatedDateTime] = @<span class="number">4</span><span class="string">',N'</span>@<span class="number">0</span> <span class="built_in">varchar</span>(<span class="number">30</span>),@<span class="number">1</span> <span class="built_in">tinyint</span>,@<span class="number">2</span> datetime2(<span class="number">7</span>),@<span class="number">3</span> <span class="built_in">bigint</span>,@<span class="number">4</span> datetime2(<span class="number">7</span>)<span class="string">',@0='</span>ProcessFailed<span class="string">',@1=1,@2='</span><span class="number">2017</span><span class="number">-09</span><span class="number">-16</span> <span class="number">11</span>:<span class="number">29</span>:<span class="number">35.3720061</span><span class="string">',@3=52,@4='</span><span class="number">2017</span><span class="number">-09</span><span class="number">-05</span> <span class="number">18</span>:<span class="number">53</span>:<span class="number">36.3530000</span><span class="string">'</span></span><br></pre></td></tr></table></figure>
+
+<p>請注意到 <strong>@4 datetime2(7) … @4=’2017-09-05 18:53:36.3530000’</strong><br>如果將 <code>datetime2(7)</code> 改為 <code>datetime</code>或是將查詢語句改為 <code>@4=&#39;2017-09-05 18:53:36.353</code> 就能正確更新資料.  </p>
+<p><img src="https://i.imgur.com/8pGTYL4.gif" alt=""></p>
+<h3 id="本機實測-SQL-版本-12-0-4459-0"><a href="#本機實測-SQL-版本-12-0-4459-0" class="headerlink" title="本機實測 (SQL 版本 12.0.4459.0)"></a>本機實測 (SQL 版本 12.0.4459.0)</h3><p>透過本機寫了一小段的SQL作測試,<br><img src="https://i.imgur.com/iJntV1i.gif" alt=""><br><strong>竟然不會有問題!!!</strong>  </p>
+<p>這跟 SQL Compatibility Level 有關,<br>mssql 2014 預設是 120, 2016 預設是130,<br>Datetime2 在 120 跟 130 的結果會不一樣.  </p>
+<h3 id="解決方法"><a href="#解決方法" class="headerlink" title="解決方法"></a>解決方法</h3><p>主要的查詢與更新 SQL 是 Entity Framework 產生的,<br>所以我無法透過修改 SQL 的方式解決這個問題,<br>而正式環境的 SQL Compatibility Level 調整將會牽一髮動全身<br>且基於版本演進, 往新的版本靠攏是合理的選擇<br>暫時的解法是透過修改 edmx ,<br>不讓 datetime 作為整個 table 的 Key值.<br>較好的解法是升級 Entity Framework<br>透過 Entity Framework 的機制, 指定查詢時間的精準度.<br>實作的部份未來再補上. </p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-database-transact-sql-compatibility-level" target="_blank" rel="noopener">ALTER DATABASE (Transact-SQL) Compatibility</a></li>
+<li><a href="https://social.msdn.microsoft.com/Forums/silverlight/en-US/de5dbf3e-8c95-40f4-9e31-b71f1f31983d/change-in-datetime2-implementation-in-sql-server-2016?forum=transactsql" target="_blank" rel="noopener">Change in datetime2 implementation in SQL Server 2016</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database" target="_blank" rel="noopener">檢視或變更資料庫的相容性層級</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2017/09/18/2017/sql_compatibility_level_with_datetime2/" data-id="ck98nwusl001yh1wffyxzhbm3" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2017/09/18/2017/sql_compatibility_level_with_datetime2/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Database/" rel="tag">Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2016/express_with_typescript" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/16/2016/express_with_typescript/" class="article-date">
@@ -912,71 +975,6 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2017/iis_tracing_log_setting" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/24/2017/iis_tracing_log_setting/" class="article-date">
-  <time datetime="2017-01-24T06:27:12.000Z" itemprop="datePublished">2017-01-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/24/2017/iis_tracing_log_setting/">IIS Tracing Log 設定</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="緣由"><a href="#緣由" class="headerlink" title="緣由"></a>緣由</h2><p>當你需要Trace送到IIS的每個Request的細節(包含在pipe line各個模組之間的input/output 與 傳入的參數、header等…),<br>可以透過開啟tracing log來作追蹤</p>
-<h2 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h2><ol>
-<li>Windows Server 2012 R2</li>
-<li>IIS 8.5.9600.16384</li>
-</ol>
-<h2 id="開啟-tracing-log"><a href="#開啟-tracing-log" class="headerlink" title="開啟 tracing log"></a>開啟 tracing log</h2><ol>
-<li>新增 Tracing Rules<br><img src="https://i.imgur.com/4llAgOa.jpg" alt=""><br><img src="https://i.imgur.com/BavVoWy.gif" alt=""></li>
-</ol>
-<ol start="2">
-<li>開啟網站 Tracing 功能<br><img src="https://i.imgur.com/LUgbESR.jpg" alt=""><br><img src="https://i.imgur.com/aKtgj5m.jpg" alt=""></li>
-</ol>
-<h2 id="調整-IE-Security-層級"><a href="#調整-IE-Security-層級" class="headerlink" title="調整 IE Security 層級"></a>調整 IE Security 層級</h2><ol>
-<li><p>使用 IE 開啟 Log，因 Security 設定無法套用版型<br><img src="https://i.imgur.com/4VsuQWp.jpg" alt=""></p>
-</li>
-<li><p>調整ie enhanced security</p>
-</li>
-</ol>
-<p><img src="https://i.imgur.com/Lvnygqr.jpg" alt=""></p>
-<ol start="3">
-<li><p>開啟IE &gt; 點選小齒輪，選擇  Internet Options &gt; 點選 Security 頁籤 &gt; 將 Internet 的 Security Level 調整為 Medium-high<br><img src="https://i.imgur.com/H2F06OU.jpg" alt=""></p>
-</li>
-<li><p>完成<br><img src="https://i.imgur.com/biiX6w8.jpg" alt=""></p>
-</li>
-</ol>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/01/24/2017/iis_tracing_log_setting/" data-id="ck98nwusj001ph1wfhx5if40e" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2017/01/24/2017/iis_tracing_log_setting/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IIS/" rel="tag">IIS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -991,6 +989,10 @@ ga('send', 'pageview');
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/04/27/2020/sonarqube_run_with_github_action/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查</a>
+          </li>
         
           <li>
             <a href="/2020/04/24/2020/iis_reverse_proxy/">[實作筆記] 使用 IIS 作為 Reverse Proxy Server</a>
@@ -1008,10 +1010,6 @@ ga('send', 'pageview');
             <a href="/2020/02/26/2020/todo_driven_develop_to_test_driven_develop_1/">[實作筆記] 從 TDD 到 TDD ，Todo 到 Test 趨動開發(一)</a>
           </li>
         
-          <li>
-            <a href="/2020/01/29/2020/tdd_pay_api/">[實作筆記] 用 TDD 寫一個 API Pay </a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1021,7 +1019,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
