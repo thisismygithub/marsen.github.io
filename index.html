@@ -84,8 +84,8 @@ ga('send', 'pageview');
   
     <article id="post-2020/sonarqube_run_with_github_action_coverage" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/04/29/2020/sonarqube_run_with_github_action_coverage/" class="article-date">
-  <time datetime="2020-04-29T00:43:01.000Z" itemprop="datePublished">2020-04-29</time>
+    <a href="/2020/04/30/2020/sonarqube_run_with_github_action_coverage/" class="article-date">
+  <time datetime="2020-04-30T07:30:43.000Z" itemprop="datePublished">2020-04-30</time>
 </a>
     
   </div>
@@ -96,7 +96,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/29/2020/sonarqube_run_with_github_action_coverage/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 - 測試覆蓋率篇</a>
+      <a class="article-title" href="/2020/04/30/2020/sonarqube_run_with_github_action_coverage/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 - 測試覆蓋率篇</a>
     </h1>
   
 
@@ -104,13 +104,106 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>承<a href="https://blog.marsen.me/2020/04/27/2020/sonarqube_run_with_github_action/">上篇</a>,<br>我已經將 SonarCloud 的代碼檢查與 Github Action 結合在一起了。<br>透過專案首頁的 Dashboard 與專案的 Budget 我可以知道目前專案的一些狀況，<br>壞味道、技術債等 …</p>
+<h3 id="題外話，測試分類"><a href="#題外話，測試分類" class="headerlink" title="題外話，測試分類"></a>題外話，測試分類</h3><p>在我的專案中有兩種測試，單元測試與整合測試。<br>我的分類方法，單一類別的 public 方法就用單元測試包覆。<br>不同的類別之如果有組合的交互行為，就用整合測試包覆。</p>
+<p>舉個簡單的例子，以購物流程來說，我有的類別如下 :  </p>
+<ul>
+<li>Cart(購物車)<ul>
+<li>Add (加入商品)</li>
+<li>Substract (移除商品)</li>
+<li>CheckOut (結帳)</li>
+</ul>
+</li>
+<li>Order (訂單)<ul>
+<li>Caculate (計算結帳金額)</li>
+</ul>
+</li>
+</ul>
+<p>另外有兩種類別如下，</p>
+<ul>
+<li>ECoupon<ul>
+<li>Caculate</li>
+</ul>
+</li>
+<li>Promotion<ul>
+<li>Caculate</li>
+</ul>
+</li>
+</ul>
+<p>上面的所有方法我都會加上單元測試作保護，<br>但是 Order 在呼叫 Caculate 的時候，<br>會以不同的順序組合 ECoupon.Caculate 與 Promotion.Caculate，<br>這個時候就有可能會產生不同的結果。</p>
+<h2 id="執行測試"><a href="#執行測試" class="headerlink" title="執行測試"></a>執行測試</h2><p>同上一篇，整體的流程我們只要在 Build 完後加上測試即可。</p>
+<ol>
+<li>Begin</li>
+<li>MSBuild</li>
+<li><strong>Test</strong></li>
+<li>End</li>
+</ol>
+<p>開發環境執行測試</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet test ./test/Marsen.NetCore.Dojo.Tests/Marsen.NetCore.Dojo.Tests.csproj</span><br></pre></td></tr></table></figure>
+
+<p>產生測試報告</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet test ./test/Marsen.NetCore.Dojo.Tests/Marsen.NetCore.Dojo.Tests.csproj --logger:trx;LogFileName=result.trx</span><br></pre></td></tr></table></figure>
+
+<p>測試報告會產生一份 <code>result.trx</code> 檔，在測試專案目錄底下的 <code>TestResults</code> 資料夾裡。<br>如果要在 SonarCloud 上使用請設定 sonar.cs.vstest.reportsPaths (VSTest適用)，更多資訊請<a href="https://docs.sonarqube.org/latest/analysis/coverage/" target="_blank" rel="noopener">參考</a>。</p>
+<p><img src="/images/2020/4/sonarqube_run_with_github_action_04.jpg" alt="result.trx">  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dotnet sonarscanner begin /k:"marsen_Marsen.NetCore.Dojo" /o:"marsen-github" /d:"sonar.host.url=https://sonarcloud.io" /d:"sonar.login="$SONAR_LOGIN</span><br><span class="line">dotnet build ".\Marsen.NetCore.Dojo.Integration.Test.sln"</span><br><span class="line">dotnet test ./test/Marsen.NetCore.Dojo.Tests/Marsen.NetCore.Dojo.Tests.csproj --logger:trx;LogFileName=result.trx</span><br><span class="line">dotnet sonarscanner end /d:"sonar.login="$SONAR_LOGIN</span><br></pre></td></tr></table></figure>
+
+<h2 id="覆蓋率"><a href="#覆蓋率" class="headerlink" title="覆蓋率"></a>覆蓋率</h2><ol>
+<li>Begin</li>
+<li>MSBuild</li>
+<li><strong>Test -產生報告</strong></li>
+<li><strong>Test -覆蓋率</strong></li>
+<li>End</li>
+</ol>
+<p>這裡實作上很簡單，但是在選擇上有一些困難與試誤，稍微作個記錄。</p>
+<ol>
+<li><p>dotconver (棄選)</p>
+<ul>
+<li>似乎要綁定 resharper 的 lincese</li>
+<li>有 30 天的限制，不知道會不會影響功能</li>
+<li>不知道怎麼用 commandline 下載執行程式至 Github Action 執行實體上。</li>
+</ul>
+</li>
+<li><p>vstest.console.exe (棄選)</p>
+<ul>
+<li><del>似乎只能在 windows 上執行</del></li>
+<li>可以透過參數開始功能 <code>--collect:&quot;Code Coverage&quot;</code>，但產生的 .cover 檔 SonarCloud 不支援需要轉換格式</li>
+<li>不知道如何將 .cover 轉換為 .coverxml ， 可能是 visual studio enter prise 才有的功能 ?</li>
+</ul>
+</li>
+<li><p>opencover (coverlet)</p>
+<ul>
+<li><del><code>/p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage/</code> 的語法不 Work</del></li>
+<li><code>--collect:&quot;XPlat Code Coverage&quot;</code> 是比較新的參數用法，可以使用設定檔</li>
+</ul>
+</li>
+</ol>
+<p>因諸多原因，我最後選擇了 Opencover(Coverlet) 的作法，<br>記錄步驟如下，</p>
+<p>首先要在測試專案上安裝 Nuget 套件 <code>coverlet.collector</code>。<br>然後執行以下語法產生覆蓋率報告。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet test ./test/Marsen.NetCore.Dojo.Tests/Marsen.NetCore.Dojo.Tests.csproj --settings coverage.xml</span><br></pre></td></tr></table></figure>
+
+<p>coverage.xml 設定檔如下，這個檔案必須是 xml 檔，檔名並沒有限制 :<br>Configuration &gt; Format 請記得填寫 <code>opencover</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">RunSettings</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">DataCollectionRunSettings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">DataCollectors</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">DataCollector</span> <span class="attr">friendlyName</span>=<span class="string">"XPlat code coverage"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">Format</span>&gt;</span>opencover<span class="tag">&lt;/<span class="name">Format</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">Configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">DataCollector</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">DataCollectors</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">DataCollectionRunSettings</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">RunSettings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最後至 <code>SonarCloud</code> 上設定 <code>sonar.cs.opencover.reportsPaths</code> 的路徑</p>
+<p><img src="/images/2020/4/sonarqube_run_with_github_action_05.jpg" alt="result.trx">  </p>
+<p>最後的最後，就來個 Budget 大集合吧</p>
+<p><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=bugs" alt="Bugs"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=code_smells" alt="Code Smells"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=coverage" alt="Coverage"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=duplicated_lines_density" alt="Duplicated Lines (%)"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=ncloc" alt="Lines of Code"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=sqale_rating" alt="Maintainability Rating"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=alert_status" alt="Quality Gate Status"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=reliability_rating" alt="Reliability Rating"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=security_rating" alt="Security Rating"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=sqale_index" alt="Technical Debt"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/measure?project=marsen_Marsen.NetCore.Dojo&metric=vulnerabilities" alt="Vulnerabilities"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/images/project_badges/sonarcloud-black.svg" alt="SonarCloud"></a><br><a href="https://sonarcloud.io/dashboard?id=marsen_Marsen.NetCore.Dojo" target="_blank" rel="noopener"><img src="https://sonarcloud.io/api/project_badges/quality_gate?project=marsen_Marsen.NetCore.Dojo" alt="Quality gate"></a></p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="https://docs.sonarqube.org/latest/analysis/coverage/" target="_blank" rel="noopener">Test Coverage &amp; Execution</a></li>
+<li><a href="https://blog.johnwu.cc/article/docker-dotnet-coverage-report-generator.html" target="_blank" rel="noopener">Docker 教學 - .NET Core 測試報告 (Coverlet + ReportGenerator)</a></li>
+<li><a href="https://discoverdot.net/projects/coverlet" target="_blank" rel="noopener">Coverlet</a></li>
+<li><a href="https://medium.com/agilix/collecting-test-coverage-using-coverlet-and-sonarqube-for-a-net-core-project-ef4a507d4b28" target="_blank" rel="noopener">Collecting test coverage using Coverlet and SonarQube for a .net core project</a></li>
+<li><a href="https://codeburst.io/code-coverage-in-net-core-projects-c3d6536fd7d7" target="_blank" rel="noopener">Code Coverage in .NET Core Projects</a></li>
+</ul>
+<p>(fin)</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/04/29/2020/sonarqube_run_with_github_action_coverage/" data-id="ck9knke4n00009cug7qk36294" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2020/04/30/2020/sonarqube_run_with_github_action_coverage/" data-id="ck9knke4n00009cug7qk36294" class="article-share-link">Share</a>
       
-        <a href="https://blog.marsen.me/2020/04/29/2020/sonarqube_run_with_github_action_coverage/#disqus_thread" class="article-comment-link">留言</a>
+        <a href="https://blog.marsen.me/2020/04/30/2020/sonarqube_run_with_github_action_coverage/#disqus_thread" class="article-comment-link">留言</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI-CD/" rel="tag">CI-CD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
@@ -157,7 +250,7 @@ ga('send', 'pageview');
 </ol>
 <p>這篇主要會說明如何結合 CI 執行代碼檢查。<br>執行代碼檢查就發現有一個問題， SonarCloud 一次只能對一種語言作檢查，<br>雖然我的專案裡有兩種語言，但是以 C# 佔大宗(93%)，所以調整一下目標，<br>先優先完成 C# 的代碼檢查、結合 CI 與輸出測試報告。<br>之後再進行 Typescript 的檢查與測試，最後通知有的話很棒，沒有也沒關係啦 :)。  </p>
 <h2 id="本機執行代碼檢查"><a href="#本機執行代碼檢查" class="headerlink" title="本機執行代碼檢查"></a>本機執行代碼檢查</h2><p>我本機的環境有兩個，一個是 Windows 一個 macOS，我這裡只討論 Windows 的作法，<br>然後我就要直上 CI 了，Github Action 我並不熟悉，但是我知道上面應該是執行 Linux like 的作業系統。  </p>
-<p>首先要在 SonarCloud 上建立 Project ，<br>可以參考<a href="https://sonarcloud.io/documentation/integrations/github/" target="_blank" rel="noopener">Get started with GitHub.com</a>快速建立。  </p>
+<p>首先要在 SonarCloud 上建立 Project ，<br>可以參考 <a href="https://sonarcloud.io/documentation/integrations/github/" target="_blank" rel="noopener">Get started with GitHub.com</a> 快速建立。  </p>
 <p>Administrator &gt; Analysis Method  </p>
 <p><img src="/images/2020/4/sonarqube_run_with_github_action_02.jpg" alt="Analysis Methodn">  </p>
 <p>這裡要把 SonarCloud Automatic Analysis 的功能關掉。<br>SonarCloud 支援自動分析語言只有以下</p>
@@ -1069,7 +1162,7 @@ ga('send', 'pageview');
       <ul>
         
           <li>
-            <a href="/2020/04/29/2020/sonarqube_run_with_github_action_coverage/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 - 測試覆蓋率篇</a>
+            <a href="/2020/04/30/2020/sonarqube_run_with_github_action_coverage/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 - 測試覆蓋率篇</a>
           </li>
         
           <li>

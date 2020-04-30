@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://blog.marsen.me/images/2020/4/sonarqube_run_with_github_action_03.jpg">
 <meta property="og:image" content="https://sonarcloud.io/api/project_badges/quality_gate?project=marsen_Marsen.NetCore.Dojo">
 <meta property="article:published_time" content="2020-04-27T09:01:46.000Z">
-<meta property="article:modified_time" content="2020-04-29T17:41:11.554Z">
+<meta property="article:modified_time" content="2020-04-30T07:35:07.316Z">
 <meta property="article:author" content="Marsen L.">
 <meta property="article:tag" content="實作筆記">
 <meta property="article:tag" content="CI-CD">
@@ -126,7 +126,7 @@ ga('send', 'pageview');
 </ol>
 <p>這篇主要會說明如何結合 CI 執行代碼檢查。<br>執行代碼檢查就發現有一個問題， SonarCloud 一次只能對一種語言作檢查，<br>雖然我的專案裡有兩種語言，但是以 C# 佔大宗(93%)，所以調整一下目標，<br>先優先完成 C# 的代碼檢查、結合 CI 與輸出測試報告。<br>之後再進行 Typescript 的檢查與測試，最後通知有的話很棒，沒有也沒關係啦 :)。  </p>
 <h2 id="本機執行代碼檢查"><a href="#本機執行代碼檢查" class="headerlink" title="本機執行代碼檢查"></a>本機執行代碼檢查</h2><p>我本機的環境有兩個，一個是 Windows 一個 macOS，我這裡只討論 Windows 的作法，<br>然後我就要直上 CI 了，Github Action 我並不熟悉，但是我知道上面應該是執行 Linux like 的作業系統。  </p>
-<p>首先要在 SonarCloud 上建立 Project ，<br>可以參考<a href="https://sonarcloud.io/documentation/integrations/github/" target="_blank" rel="noopener">Get started with GitHub.com</a>快速建立。  </p>
+<p>首先要在 SonarCloud 上建立 Project ，<br>可以參考 <a href="https://sonarcloud.io/documentation/integrations/github/" target="_blank" rel="noopener">Get started with GitHub.com</a> 快速建立。  </p>
 <p>Administrator &gt; Analysis Method  </p>
 <p><img src="/images/2020/4/sonarqube_run_with_github_action_02.jpg" alt="Analysis Methodn">  </p>
 <p>這裡要把 SonarCloud Automatic Analysis 的功能關掉。<br>SonarCloud 支援自動分析語言只有以下</p>
@@ -193,7 +193,7 @@ ga('send', 'pageview');
     
 <nav id="article-nav">
   
-    <a href="/2020/04/29/2020/sonarqube_run_with_github_action_coverage/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/04/30/2020/sonarqube_run_with_github_action_coverage/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -235,7 +235,7 @@ ga('send', 'pageview');
       <ul>
         
           <li>
-            <a href="/2020/04/29/2020/sonarqube_run_with_github_action_coverage/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 - 測試覆蓋率篇</a>
+            <a href="/2020/04/30/2020/sonarqube_run_with_github_action_coverage/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 - 測試覆蓋率篇</a>
           </li>
         
           <li>
