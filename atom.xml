@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.marsen.me/"/>
-  <updated>2020-04-30T07:35:07.316Z</updated>
+  <updated>2020-05-06T02:46:46.423Z</updated>
   <id>https://blog.marsen.me/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>[實作筆記] Github 結合 Stryker 作變異測試</title>
+    <link href="https://blog.marsen.me/2020/05/06/2020/github_action_with_stryker_mutator/"/>
+    <id>https://blog.marsen.me/2020/05/06/2020/github_action_with_stryker_mutator/</id>
+    <published>2020-05-06T01:03:30.000Z</published>
+    <updated>2020-05-06T02:46:46.423Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>前年初次接觸<a href="https://blog.marsen.me/2018/03/20/2018/mutation_testing/">變異測試</a>，去年在看<a href="https://blog.marsen.me/2019/03/01/2019/book/refactoring/refactoring_Ch1/">重構</a>時偷換了概念，<br>將兩者結合了。</p><p>這次我想更進一步，將 CI Server 與之結合。</p><h2 id="Stryker-Net"><a href="#Stryker-Net" class="headerlink" title="Stryker.Net"></a>Stryker.Net</h2><p>跟據<a href="https://github.com/stryker-mutator/stryker-handbook/blob/master/dashboard.md" target="_blank" rel="noopener">Stryker Handbook</a>，<br>Stryker 主要有三個專案，</p><ul><li>Stryker (Javascript &amp; TypeScript)</li><li>Stryker4s (Scala)</li><li>Stryker.NET (.NET)</li></ul><p>我會使用我的練習用<a href="https://github.com/marsen/Marsen.NetCore.Dojo/" target="_blank" rel="noopener">專案</a>作為目標，<br>所以很理所當然的我會選擇 <code>Stryker.NET</code>，那我們就開始吧。</p><h2 id="開始"><a href="#開始" class="headerlink" title="開始"></a>開始</h2><h3 id="安裝-Stryker"><a href="#安裝-Stryker" class="headerlink" title="安裝 Stryker"></a>安裝 Stryker</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet tool install -g dotnet-stryker</span><br></pre></td></tr></table></figure><h3 id="執行-Stryker"><a href="#執行-Stryker" class="headerlink" title="執行 Stryker"></a>執行 Stryker</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet stryker -tp "['./test/Marsen.NetCore.Dojo.Tests/Marsen.NetCore.Dojo.Tests.csproj','./test/Marsen.NetCore.Dojo.Integration.Tests/Marsen.NetCore.Dojo.Integration.Tests.csproj']" -p="Marsen.NetCore.Dojo.csproj" -dk=$STRYKER_DASHBOARD_API_KEY</span><br></pre></td></tr></table></figure><p>注意幾個 cli 參數，<br><code>-tp</code> 明確指定測試的專案有哪些，可以用中括號<code>[]</code>傳入多個測試專案名稱，使用<code>,</code>作為分隔符<br><code>-p</code> 專案名稱<br><code>-dk</code> dashboard-api-key 這組 key 是用來與 <code>https://dashboard.stryker-mutator.io/</code> 互動的，<br>最主的功能是將報告上傳。<br>$STRYKER_DASHBOARD_API_KEY 是 <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets" target="_blank" rel="noopener">Github 的 Secrets</a></p><p>你可以執行 <code>dotnet stryker -h</code> 查看更多原始說明  </p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-tp|--test-projects Specify what test projects should run on the project under test.</span><br><span class="line">-p|--project-file &lt;projectFileName&gt; Used for matching the project references when finding the project to</span><br><span class="line">                                              mutate. Example: "ExampleProject.csproj"</span><br><span class="line">-dk|--dashboard-api-key &lt;api-key&gt; Api key for dashboard reporter. You can get your key here: https://dashboard.stryker-mutator.io</span><br></pre></td></tr></table></figure><h3 id="專案設定"><a href="#專案設定" class="headerlink" title="專案設定"></a>專案設定</h3><p>新增一個 <code>stryker-config.json</code><br>對我來說，最重要的是要記得設定 <code>stryker-config &gt; reporters &gt; dashboard</code> 這筆資料。<br><a href="https://github.com/stryker-mutator/stryker-net/blob/master/docs/Configuration.md" target="_blank" rel="noopener">詳細的說明的可以參考這篇</a>  </p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"stryker-config"</span>: &#123;</span><br><span class="line">    <span class="attr">"dashboard-project"</span>: <span class="string">"github.com/marsen/Marsen.NetCore.Dojo"</span>,</span><br><span class="line">    <span class="attr">"dashboard-version"</span>: <span class="string">"master"</span>,</span><br><span class="line">    <span class="attr">"reporters"</span>: [</span><br><span class="line">      <span class="string">"json"</span>,</span><br><span class="line">      <span class="string">"dashboard"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="在-Github-上工作"><a href="#在-Github-上工作" class="headerlink" title="在 Github 上工作"></a>在 Github 上工作</h3><p>首先你必須在 <a href="https://dashboard.stryker-mutator.io/" target="_blank" rel="noopener">Dashboard</a>中 Enable Repository</p><p><img src="/images/2020/5/github_action_with_stryker_mutator_01.jpg" alt="Enable Repository">  </p><p>然後產生一組 Key</p><p><img src="/images/2020/5/github_action_with_stryker_mutator_02.jpg" alt="產生一組 Key"></p><p>接下來到 Github ， 我們將這組 Key 設定到 Secrets 之中</p><p><img src="/images/2020/5/github_action_with_stryker_mutator_03.jpg" alt="將 Key 設定至 Github"></p><p>再到 Github Actions 中，把 workflow 指令設定完成，</p><p><img src="/images/2020/5/github_action_with_stryker_mutator_04.jpg" alt="Github Actions"></p><p>觸發 CI 完成後，就可以在 <a href="https://dashboard.stryker-mutator.io/reports/github.com/marsen/Marsen.NetCore.Dojo/master" target="_blank" rel="noopener">Dashboard</a> 上看到報表啦。</p><p><img src="/images/2020/5/github_action_with_stryker_mutator_05.jpg" alt="結果呈現"></p><h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul><li><a href="https://blog.marsen.me/2019/03/01/2019/book/refactoring/refactoring_Ch1/">https://blog.marsen.me/2019/03/01/2019/book/refactoring/refactoring_Ch1/</a></li><li><a href="https://blog.marsen.me/2018/03/20/2018/mutation_testing/">https://blog.marsen.me/2018/03/20/2018/mutation_testing/</a></li><li><a href="https://github.com/stryker-mutator/stryker-handbook/blob/master/dashboard.md" target="_blank" rel="noopener">https://github.com/stryker-mutator/stryker-handbook/blob/master/dashboard.md</a></li><li><a href="https://github.com/stryker-mutator/stryker-net/blob/master/docs/Reporters.md#dashboard-reporter" target="_blank" rel="noopener">https://github.com/stryker-mutator/stryker-net/blob/master/docs/Reporters.md#dashboard-reporter</a></li></ul><p>(fin)</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前情提要&quot;&gt;&lt;a href=&quot;#前情提要&quot; class=&quot;headerlink&quot; title=&quot;前情提要&quot;&gt;&lt;/a&gt;前情提要&lt;/h2&gt;&lt;p&gt;前年初次接觸&lt;a href=&quot;https://blog.marsen.me/2018/03/20/2018/mutation
+      
+    
+    </summary>
+    
+    
+    
+      <category term="實作筆記" scheme="https://blog.marsen.me/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/"/>
+    
+      <category term="CI-CD" scheme="https://blog.marsen.me/tags/CI-CD/"/>
+    
+  </entry>
   
   <entry>
     <title>[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 - 測試覆蓋率篇</title>
@@ -498,30 +524,6 @@
     </summary>
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>[閱讀筆記] 執行力的修練</title>
-    <link href="https://blog.marsen.me/2019/08/10/2019/book/the_4_disciplines_of_execution/"/>
-    <id>https://blog.marsen.me/2019/08/10/2019/book/the_4_disciplines_of_execution/</id>
-    <published>2019-08-09T19:10:15.000Z</published>
-    <updated>2020-03-08T09:31:52.218Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="與成功有約的四個實踐原則"><a href="#與成功有約的四個實踐原則" class="headerlink" title="與成功有約的四個實踐原則"></a>與成功有約的四個實踐原則</h2><p><img src="https://i.imgur.com/RyowM2h.jpg" alt="四個實踐原則"></p><h2 id="紀律一、鎖定極重要目標"><a href="#紀律一、鎖定極重要目標" class="headerlink" title="紀律一、鎖定極重要目標"></a>紀律一、鎖定極重要目標</h2><p>80 % 用來維持改進日常工作，<br>20% 的時間與心力投入能帶來影響的目標，<br>尋找與使命有更直接關連的目標。  </p><h3 id="法則"><a href="#法則" class="headerlink" title="法則"></a>法則</h3><ol><li>不能聚焦顧於兩個以上的極重要目標</li><li>選擇能幫助打贏戰爭(高層次)的戰役(低層次)</li><li>高階領導人可以否決，但不能命令(賦予所有權與參與感)</li><li>設定「在何時之前從X到Y」的終點線</li></ol><h3 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h3><ol><li>在我們營運的其它部份保持目前績效的前提下，哪一部份的改變能帶來最大的影響 ?</li><li>為了在這場戰爭中取勝，至少一定要打贏哪些戰役 ?</li></ol><h3 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h3><blockquote><p>影響地圖 ?<br>OKR</p></blockquote><h2 id="紀律二、從領先指標下手"><a href="#紀律二、從領先指標下手" class="headerlink" title="紀律二、從領先指標下手"></a>紀律二、從領先指標下手</h2><p>領先指標的特徵  </p><ol><li>具有預測作用</li><li>團隊有能力影響它</li><li>領先指標可能是違反直覺的</li></ol><p>找到槓桿(領先指標)的支點<br><img src="https://i.imgur.com/DyfN3F5.jpg" alt="領先指標"></p><h2 id="紀律三、設置醒目計分板"><a href="#紀律三、設置醒目計分板" class="headerlink" title="紀律三、設置醒目計分板"></a>紀律三、設置醒目計分板</h2><ul><li>優秀的團隊隨時知道自已是屬於領先還是落後。</li><li>制定一個屬於「隊員」的計分板<ul><li>必須簡單</li><li>必須顯而易見</li><li>同時揭露領先與落後指標</li><li>知道正在贏或輸</li></ul></li><li>賽局本身比計分板重要<ul><li>求「勝」而非求「不敗」</li></ul></li></ul><h3 id="反思-1"><a href="#反思-1" class="headerlink" title="反思"></a>反思</h3><ul><li>看板</li><li>Burn Down/Up Chart</li><li>電子看板的便利，實體看版的可視性</li></ul><h2 id="紀律四、落實當責"><a href="#紀律四、落實當責" class="headerlink" title="紀律四、落實當責"></a>紀律四、落實當責</h2><p>為了把績效得分往前推進而向整個團隊作出承諾，並以有紀律的方式貫徹執行。  </p><ul><li>《爛工作的三個跡象》<ol><li>無人聞問</li><li>可有可無</li><li>無從評量</li></ol></li></ul><h3 id="原則"><a href="#原則" class="headerlink" title="原則"></a>原則</h3><ol><li>每周的同一時間開會</li><li>別讓日常事項進入會議</li></ol><h3 id="議程"><a href="#議程" class="headerlink" title="議程"></a>議程</h3><ol><li>報告:報告上次作出的承諾</li><li>檢討:從成功和失敗中學習</li><li>計畫:釐清並作出新承諾</li></ol><h3 id="問題-1"><a href="#問題-1" class="headerlink" title="問題"></a>問題</h3><ul><li>我可以作什麼會對領先指標有幫助 ?</li></ul><h3 id="反思-2"><a href="#反思-2" class="headerlink" title="反思"></a>反思</h3><ul><li>Scurm 四大會議的立會與 Retrospective</li></ul><h2 id="執行"><a href="#執行" class="headerlink" title="執行"></a>執行</h2><table><thead><tr><th>極重要目標構想</th><th>目前的成果(從X)</th><th>期望的成果(到Y)</th><th>期限(在何時之前)</th><th>排序</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>領先指標構想</th><th>如何評量</th><th>排序</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr></tbody></table><p>領先指標 Check List</p><ul><li>是否從團隊成員及其他人蒐集了大量意見與建議 ?</li><li>是否有預測作用 ?</li><li>團隊能不能影響它 ?</li><li>它是不是可以被測量 ?</li><li>蒐集他的價值是否高於成本 ?</li><li>每個指標是否包含動詞 ?</li><li>是否可以量化 ?</li></ul><p>計分版主題</p><ol><li>趨勢線</li><li>速度計</li><li>長條圖</li><li>紅綠燈</li></ol><table><thead><tr><th>團隊極重要目標</th><th>落後指標</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td>領先指標1</td><td>圖表</td></tr><tr><td></td><td></td></tr><tr><td>領先指標2</td><td>圖表</td></tr><tr><td></td><td></td></tr></tbody></table><p>(fin)</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;與成功有約的四個實踐原則&quot;&gt;&lt;a href=&quot;#與成功有約的四個實踐原則&quot; class=&quot;headerlink&quot; title=&quot;與成功有約的四個實踐原則&quot;&gt;&lt;/a&gt;與成功有約的四個實踐原則&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/
-      
-    
-    </summary>
-    
-    
-    
-      <category term="閱讀筆記" scheme="https://blog.marsen.me/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/"/>
     
   </entry>
   
