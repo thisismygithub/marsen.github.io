@@ -40,7 +40,7 @@ ga('send', 'pageview');
 
 
   <meta property ="og:image" content="https://avatars1.githubusercontent.com/u/4269720?s=460&v=4" /> 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -82,10 +82,10 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
-    <article id="post-2018/books/who_moved_my_cheese" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2018/git_delete_remote_branch" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/10/21/2018/books/who_moved_my_cheese/" class="article-date">
-  <time datetime="2018-10-21T11:19:41.000Z" itemprop="datePublished">2018-10-21</time>
+    <a href="/2018/12/12/2018/git_delete_remote_branch/" class="article-date">
+  <time datetime="2018-12-12T10:36:31.000Z" itemprop="datePublished">2018-12-12</time>
 </a>
     
   </div>
@@ -96,7 +96,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/21/2018/books/who_moved_my_cheese/">[閱讀筆記]誰搬走我的乳酪? 堅持與PIVOT</a>
+      <a class="article-title" href="/2018/12/12/2018/git_delete_remote_branch/">[實作筆記] Git 批次刪除分支</a>
     </h1>
   
 
@@ -104,33 +104,151 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="故事簡述"><a href="#故事簡述" class="headerlink" title="故事簡述"></a>故事簡述</h2><p>一個大的迷宮裡面有許多乳酪，<br>四個角色「哈哈」、「猶豫」、「好鼻鼠」、「飛腿鼠」<br>「哈哈」是主角，它們在迷宮裡找乳酪，<br>每個人喜歡的乳酪都不相同，一開始他們找到了一個大乳酪站，<br>但是隨著時間過去，乳酪消失了，<br>「好鼻鼠」、「飛腿鼠」很快的離開尋找新的乳酪，<br>「哈哈」與「猶豫」在原處停留了一陣子，<br>最後「哈哈」終於啟程去尋找乳酪的心路歷程…  </p>
-<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>「哈哈」是主角，<br>「猶豫」代表過去的自已，<br>「好鼻鼠」、「飛腿鼠」分別代表兩種成功的人，<br>一種是有敏銳的嗅覺，能快速找到「乳酪」所在的方向<br>另一種是行動派，能快速嚐試迷宮的各個走道。  </p>
-<p>迷宮意謂著這個世界，乳酪讓人生成功與幸福的事物。<br>是的，乳酪是會改變的，就像是<strong>人生的目標也會改變</strong>，<br>不論是人生的階段的不同，或是市場的變化或是單純心境的改變。<br>你的乳酪就是會改變。  </p>
-<p>我想起「牧羊少年奇幻之旅」的商人，他永遠不會去麥加(假的乳酪)，反而期待著去麥加<br>才是他真正的乳酪。真實的生活上也是這樣，我們會訂定很多目標，<br>但是許多目標不是你真正熱情所在，反而訂目標這個行為會成為安慰自已的碎屑乳酪，<br>訂目標多容易不是嗎？比起實踐它。</p>
-<p>最近在看另一本書「OKR工作法」，裡面也有提到訂定目標(乳酪)的原則。  </p>
+        <h2 id="要知道的事"><a href="#要知道的事" class="headerlink" title="要知道的事"></a>要知道的事</h2><ul>
+<li>OS : Windows 10</li>
+</ul>
+<h2 id="易學難精的-Git-與-Flow"><a href="#易學難精的-Git-與-Flow" class="headerlink" title="易學難精的 Git 與 Flow"></a>易學難精的 Git 與 Flow</h2><p>在使用 Git 時，分支的策略往往比 Git 本身更複雜。<br>Git 在建立分支是成本非常低的一件事情，<br>也因此很容易開出一堆分支，<br>這與團隊規模和PR的流程有關，可以參考文末的分支策略聯結。<br>因為 Git 開分支實在太便宜了，<br>我的 Remote Repo 不知不覺中竟然有了破千的分支。<br>大量的分支意味著大量的需求，其實是好事，<br>但是大部份的分支都已經功成身該退了，<br>當我使用一些 GUI 工具，為了顯示這些分支時，<br>這樣的數量反而成了阻礙。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><h3 id="大量刪除遠端分支的方法"><a href="#大量刪除遠端分支的方法" class="headerlink" title="大量刪除遠端分支的方法"></a>大量刪除遠端分支的方法</h3><p>Step1. 可以透過正規表示式查詢大量分支。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -r | awk -Forigin/ '/\/feature\/BTS14/&#123;print $2&#125;'</span><br></pre></td></tr></table></figure>
+
+<p>Step2. 同上的語法，但是後面　pipeline 串接 xargs push 到指定的遠端(這個例子是 origin)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -r | awk -Forigin/ '/\/feature\/BTS14/&#123;print $2&#125;'| xargs -I &#123;&#125; git push origin :&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>特別看一下 <code>{} git push origin :{}</code> ，我們實際上是透過 push 語法刪除分支的。</p>
+<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><h3 id="2019-05-09"><a href="#2019-05-09" class="headerlink" title="2019/05/09"></a>2019/05/09</h3><h3 id="大量刪除本地分支的方法"><a href="#大量刪除本地分支的方法" class="headerlink" title="大量刪除本地分支的方法"></a>大量刪除本地分支的方法</h3><p>Step1. 可以透過正規表示式查詢大量分支。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch | grep "pattern"</span><br></pre></td></tr></table></figure>
+
+<p>Step2. 同上的語法，但是後面　pipeline 串接 xargs push 到指定的遠端(這個例子是 origin)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch | grep "pattern" | xargs git branch -D</span><br></pre></td></tr></table></figure>
+
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2012/07/git.html" target="_blank" rel="noopener">Git分支管理策略 - 阮一峰的网络日志</a></li>
+<li><a href="http://nedwu13.blogspot.com/2014/01/tbd-what-is-trunk-based-development.html" target="_blank" rel="noopener">筆記：TBD是三小?—What is Trunk Based Development?</a><ul>
+<li>主幹開發主幹發佈/主幹開發分支發佈/分支開發主幹發佈</li>
+</ul>
+</li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/12/12/2018/git_delete_remote_branch/" data-id="ck98nwutt005eh1wfcsw3el3a" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/12/12/2018/git_delete_remote_branch/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018/csm/n_company_log_201811" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/04/2018/csm/n_company_log_201811/" class="article-date">
+  <time datetime="2018-12-04T03:14:05.000Z" itemprop="datePublished">2018-12-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/04/2018/csm/n_company_log_201811/">[N社筆記]敏捷路上跌倒站起來 2018/11 月</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="2018-11-30"><a href="#2018-11-30" class="headerlink" title="2018/11/30"></a>2018/11/30</h2><p>Planning 有沒有優先討論重點項目？</p>
 <ol>
-<li>目標要明確方向且鼓舞人心</li>
-<li>要有時間限制</li>
-<li>由獨立團隊來執行目標</li>
+<li>最先討論上個 Sprint 的 UnDone </li>
+<li>順序等於優先權嗎？</li>
+<li>工作是事先 Assign 好，而不是</li>
+<li>兩個 Team 的 Backlog 放在一起，結果順序是 <ul>
+<li>A Team (B Team 發呆)</li>
+<li>B Team (A Team 發呆)</li>
+</ul>
+</li>
 </ol>
-<p>我只談第一點，但在工作上很少有目標讓自已能振奮起來的，<br>缺乏獎勵是其一，不合個人目標是其二，說一套作一套是其三。<br>當然我相信有的幸運兒會工作與個人目標契合的，<br>缺乏獎勵在台灣是常態，但我認為獎勵只是特效藥，<br>最糟糕的是說一套作一套，目前有點陷入這樣的困境了。</p>
-<p>我的乳酪究竟是什麼呢 ?<br>不要停在沒有乳酪的地方，但是離開的時機很關鍵啊…<br>這個小寓言仍然是很樂觀的，完全沒有描述在尋找乳酪的路上餓死情境。<br>我的乳酪究竟是什麼呢 ?  </p>
-<h2 id="哈哈的牆上筆記"><a href="#哈哈的牆上筆記" class="headerlink" title="哈哈的牆上筆記"></a>哈哈的牆上筆記</h2><p>「有了乳酪，你就會快樂」<br>「乳酪對你愈重要，你就愈想擁有它」<br>「如果你不改變自已，你就會被淘汰」<br>「如果你對未來無所謂畏懼的話，你會怎麼作?」<br>「雖然比較晚才開始，但也比從來都沒有開始要好得多了!」<br>「要常常嗅一嗅乳酪的氣味，如此你才會知道它何時開始變質!」<br>「往新的方向移動能幫助你找到新乳酪!」<br>「當你擺脫了自已的恐懼，你就會感到無比的暢快和舒適!」<br>「在還沒有享用乳酪前，先想像我正在享用那些乳酪，這會幫助我快點找到乳酪!」<br>「你愈找放棄舊乳酪，你就會愈快找到新乳酪!」<br>「進入迷宮裡尋找新的乳酪，比繼續停留在已經沒有乳酪的地方要安全得多了!」<br>「食古不化的想法，不會幫助你找到新的乳酪。」<br>「當你覺得你會發現並享受新的乳酪時，你就會改變你的路徑。」<br>「及早注意事情的小變化，就能幫助提早適應即將到來的大變化。」</p>
-<blockquote>
-<p>變化是會發生的<br>預期改變的到來<br>觀察變化<br>迅速地適應變化<br>改變自已<br>享受自已的改變<br>隨時準備好迅速地適應改變並再度享用美味的乳酪</p>
+<p>PO 只作明顯短期可見效果但低價的項目(沒有 Focos 價值)，如何引導 ?</p>
+<h3 id="Scrum-Master-消失-，Planning-沒有-Couch-PO"><a href="#Scrum-Master-消失-，Planning-沒有-Couch-PO" class="headerlink" title="Scrum Master 消失 ，Planning 沒有 Couch PO"></a>Scrum Master 消失 ，Planning 沒有 Couch PO</h3><ul>
+<li>Scrum Master 兼任主管</li>
+<li>Scrum Master 兼任開發人員</li>
+</ul>
+<h3 id="KA-後台要中文-前台要英文"><a href="#KA-後台要中文-前台要英文" class="headerlink" title="KA 後台要中文 / 前台要英文"></a>KA 後台要中文 / 前台要英文</h3><ul>
+<li>要問 Why：KA 面對的客戶也以中文為大宗，為什麼要英文？</li>
+</ul>
+<h2 id="2018-11-28"><a href="#2018-11-28" class="headerlink" title="2018/11/28"></a>2018/11/28</h2><blockquote>
+<p>Demo 會議是由「 PO 介紹給 stackholder ?」<br>還是「 Team 介紹給 PO ,有 stackholder 最好。」<br>如果可以看錄影就當作 Demo 過了，那還需要 Demo 嗎 ? </p>
 </blockquote>
+<blockquote>
+<p>三個 Team 各自有各自優先級最高的項目，這樣會不會陷入局部優化，過早進入細節 ?</p>
+</blockquote>
+<ul>
+<li>無法集中火力處理優先度最高的需求</li>
+</ul>
+<h3 id="最大的-PO-沒進來"><a href="#最大的-PO-沒進來" class="headerlink" title="最大的 PO 沒進來"></a>最大的 PO 沒進來</h3><p>會後主管和小 PO 們再討論，有好有壞？<br>Scrum 怎麼說?</p>
+<ul>
+<li>主管應該不要進來</li>
+<li>PO 最好能夠進來</li>
+<li>不要在團隊裡形成小圈圈</li>
+</ul>
+<h2 id="2018-11-26"><a href="#2018-11-26" class="headerlink" title="2018/11/26"></a>2018/11/26</h2><h3 id="無限站立會議之卷"><a href="#無限站立會議之卷" class="headerlink" title="無限站立會議之卷"></a>無限<del>站立</del>會議之卷</h3><p>10:10 SRG 站立<br>10:20 A Team 站立<br>10:30 B Team 站立<br>11:30 RD1 周會</p>
+<h2 id="2018-11-23"><a href="#2018-11-23" class="headerlink" title="2018/11/23"></a>2018/11/23</h2><ul>
+<li><p>你需要一個旁觀者，不然只是自 high</p>
+<ul>
+<li>觀查群眾的反應</li>
+<li>客觀點出講者的優缺點</li>
+<li>再好的內容沒有人聽也是枉然</li>
+</ul>
+</li>
+<li><p>成為 SM 之前要小心，不要急著成為 SM (特別是你是兼職的 SM 時)</p>
+<blockquote>
+<p>小心過早聚焦到細節，例如:安排會議/主持/作簡報<br>  不然你會變成「借會議室的人」、「照表操課的 Scrum Master」</p>
+</blockquote>
+</li>
+<li><p>用誇張口吻重複他說的理想，你就會知道他是在說理想還是說幹話</p>
+</li>
+</ul>
+<h2 id="2018-11-22"><a href="#2018-11-22" class="headerlink" title="2018/11/22"></a>2018/11/22</h2><p>情境:<br>團隊開發會與其它團隊開發相依或衝突，導致 Release 的品質有所缺陷。</p>
+<ul>
+<li><p>用更多的會議/文件/Check List作控管，有沒有辦法從 root cause 解決問題 ?</p>
+</li>
+<li><p>主管為什麼會想看「沒意義」又「不真實」的東西 ?<br><img src="https://i.imgur.com/xSq4oHY.jpg" alt=""></p>
+<h2 id="2018-11-21"><a href="#2018-11-21" class="headerlink" title="2018/11/21"></a>2018/11/21</h2></li>
+<li><p>口頭敘述</p>
+</li>
+</ul>
+<h2 id="2018-11-19"><a href="#2018-11-19" class="headerlink" title="2018/11/19"></a>2018/11/19</h2><ul>
+<li>Scrum 不要拿 A 會議的時間作 B 會議的事<ul>
+<li>觀注目的</li>
+<li>作該作的事</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h3 id="有關進步"><a href="#有關進步" class="headerlink" title="有關進步"></a>有關進步</h3><p><a href="https://www.ted.com/talks/david_epstein_are_athletes_really_getting_faster_better_stronger/transcript?language=zh-tw" target="_blank" rel="noopener">運動員是否真的變得更快、更好、更強 ?</a></p>
 <p>(fin)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/10/21/2018/books/who_moved_my_cheese/" data-id="ck98nwuvb00anh1wf5juifsx1" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/12/04/2018/csm/n_company_log_201811/" data-id="ck98nwuvm00bkh1wfh1fv4ut6" class="article-share-link">Share</a>
       
-        <a href="https://blog.marsen.me/2018/10/21/2018/books/who_moved_my_cheese/#disqus_thread" class="article-comment-link">留言</a>
+        <a href="https://blog.marsen.me/2018/12/04/2018/csm/n_company_log_201811/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/" rel="tag">Agile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a></li></ul>
 
     </footer>
   </div>
@@ -139,10 +257,10 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2018/hexo_update" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2018/colorfull_cmder" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/10/20/2018/hexo_update/" class="article-date">
-  <time datetime="2018-10-20T03:41:05.000Z" itemprop="datePublished">2018-10-20</time>
+    <a href="/2018/11/25/2018/colorfull_cmder/" class="article-date">
+  <time datetime="2018-11-25T09:58:59.000Z" itemprop="datePublished">2018-11-25</time>
 </a>
     
   </div>
@@ -153,7 +271,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/20/2018/hexo_update/">[實作筆記]Hexo Update 與 npm 修復漏洞</a>
+      <a class="article-title" href="/2018/11/25/2018/colorfull_cmder/">如何讓 windows 也有美美命令提示視窗</a>
     </h1>
   
 
@@ -161,489 +279,54 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>好久沒有作 hexo 更新了，<br>本身這個 Blog 就是透過 <a href="https://blog.marsen.me/2016/08/28/how_to_use_github_page/">hexo 與 Github 建置</a>的 。<br>眨眼也過了兩年，文筆仍然很差;<br>說真的有很大的<a href="https://www.darencademy.com/article/view/id/16485" target="_blank" rel="noopener">資訊焦慮</a>，文章的內容也不夠充實，<br>很多觀點無法忠實的記錄下來，更無法連貫成線;<br>自已還要多方努力與學習。</p>
-<p>如前面所說，這個 Blog 是透過 Github 作存放的空間，<br>雖然 <a href="https://news.microsoft.com/2018/06/04/microsoft-to-acquire-github-for-7-5-billion/" target="_blank" rel="noopener">Github 最近被 Microsoft 收購</a>了;<br>不過它仍是開發人員最常使用的代碼托管服務與社群，<br>而且微軟近年轉型相同成功 –— 未來會怎麼樣我們可以觀察後再下定論。  </p>
-<p>Github 一直以來都有一個很棒的功能，<br><a href="https://help.github.com/articles/about-security-alerts-for-vulnerable-dependencies/" target="_blank" rel="noopener">GitHub’s security alerts for vulnerable dependencies</a></p>
-<p>它能夠對你的 Repo 提供安全警告，<br>如下圖，這是對我的個人 Blog 所使用的框架 Hexo 的相依性安全警告，<br>這封信說明了 lodash 這個套件的版本存在著高風險的資安問題，<br>建議升級套件以解決這個問題。<br><img src="https://i.imgur.com/HYBh5vv.jpg" alt="升級套件"></p>
-<h3 id="解決方式"><a href="#解決方式" class="headerlink" title="解決方式"></a>解決方式</h3><p>使用 <a href="https://docs.npmjs.com/cli/update" target="_blank" rel="noopener"><code>npm update</code></a> , 這個命令會更新專案的 package 到最新版本  </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm update</span><br></pre></td></tr></table></figure>
-
-<p>可能會看到類似以下的結果，同時提示你可以使用 <a href="https://docs.npmjs.com/cli/audit" target="_blank" rel="noopener"><code>npm audit fix</code></a> 更新有風險的 package 以修複這些漏洞  </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.4 (node_modules\nunjucks\node_modules\fsevents):</span><br><span class="line">npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform <span class="keyword">for</span> fsevents@1.2.4: wanted &#123;<span class="string">"os"</span>:<span class="string">"darwin"</span>,<span class="string">"arch"</span>:<span class="string">"any"</span>&#125; (current: &#123;<span class="string">"os"</span>:<span class="string">"win32"</span>,<span class="string">"arch"</span>:<span class="string">"x64"</span>&#125;)</span><br><span class="line">npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.1.3 (node_modules\fsevents):</span><br><span class="line">npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform <span class="keyword">for</span> fsevents@1.1.3: wanted &#123;<span class="string">"os"</span>:<span class="string">"darwin"</span>,<span class="string">"arch"</span>:<span class="string">"any"</span>&#125; (current: &#123;<span class="string">"os"</span>:<span class="string">"win32"</span>,<span class="string">"arch"</span>:<span class="string">"x64"</span>&#125;)</span><br><span class="line"></span><br><span class="line">+ hexo@3.8.0</span><br><span class="line">added 126 packages from 59 contributors, removed 80 packages, updated 21 packages, moved 14 packages and audited 3143 packages <span class="keyword">in</span> 25.064s</span><br><span class="line">found 68 vulnerabilities (21 low, 38 moderate, 9 high)</span><br><span class="line">run `npm audit fix` to fix them, or `npm audit` <span class="keyword">for</span> details</span><br></pre></td></tr></table></figure>
-
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/10/20/2018/hexo_update/" data-id="ck98nwutv005hh1wf7zql0c18" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/10/20/2018/hexo_update/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2018/linkserver_with_sp_executesql" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/17/2018/linkserver_with_sp_executesql/" class="article-date">
-  <time datetime="2018-10-17T10:05:33.000Z" itemprop="datePublished">2018-10-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/17/2018/linkserver_with_sp_executesql/">[實作筆記]SQL Server 與 Linked Server 注意事項</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="原始-SQL"><a href="#原始-SQL" class="headerlink" title="原始 SQL"></a>原始 SQL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> NationalDB</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">BEGIN</span> TRY</span><br><span class="line"><span class="comment">---Select Cross Linked Server</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">Name</span> <span class="keyword">From</span> LinkedServer.Shop.dbo.Member</span><br><span class="line"><span class="comment">---DO SOMETHING</span></span><br><span class="line"><span class="keyword">END</span> TRY</span><br><span class="line"><span class="keyword">BEGIN</span> CATCH</span><br><span class="line">  <span class="keyword">DECLARE</span> @errorMessage <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>) = ERROR_MESSAGE();</span><br><span class="line">  RAISERROR (@errorMessage, 16, 1);</span><br><span class="line"><span class="keyword">END</span> CATCH</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>變數先行宣告</li>
-<li>非必要不要宣告<code>MAX</code></li>
-<li>跨DB存取不使用四節式的查詢語法，改用 <code>sp_executesql</code></li>
+        <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p><img src="/images/2018/colorfull_cmder/result.jpg" alt="就是要美美命令提示視窗"><br>常常在一些社群看到，大神都超會下 command，<br>開始學習使用各種 command 之後，才發現那個美美的 terminal 不只是華麗而已，<br>實際上也可以加速閱讀，而且潮指數也是怒加一波(畫錯重點)，<br>當然要研究一下如何讓自已擁有一個賞心悅目的 commander 囉</p>
+<h2 id="作法"><a href="#作法" class="headerlink" title="作法"></a>作法</h2><p>使用 <a href="http://cmder.net/" target="_blank" rel="noopener">Cmder</a> ， 這是一個 Windows 的開發人員常用的 terminal 介面，<br>他可以執行一般的 CMD、Bash 與 PowerShell ，別想得太複雜，就是一個命令提示視窗。  </p>
+<h3 id="安裝字型-on-Windows-10"><a href="#安裝字型-on-Windows-10" class="headerlink" title="安裝字型 on Windows 10"></a>安裝字型 on Windows 10</h3><ol>
+<li>下載 <a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">powerline</a>，選擇 Clone or download &gt; Download ZIP</li>
+<li>解壓縮後，選擇使用 AnonymousPro 字型(主要是要那些git icon的圖案，如果別的字型有 也可以使用)</li>
+<li>控制台&gt;字型 把 ttf 拖進去安裝</li>
 </ol>
-<h3 id="修改後的語法"><a href="#修改後的語法" class="headerlink" title="修改後的語法"></a>修改後的語法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> NationalDB</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">DECLARE</span> @errorMessage <span class="keyword">NVARCHAR</span>(<span class="number">4000</span>) = ERROR_MESSAGE();</span><br><span class="line"><span class="keyword">BEGIN</span> TRY</span><br><span class="line"><span class="comment">---Select Cross Linked Server</span></span><br><span class="line">EXEC  LinkedServer.Shop.dbo.sp_executesql N<span class="string">'</span></span><br><span class="line"><span class="string">        SELECT @Name = Name</span></span><br><span class="line"><span class="string">        FROM dbo.Member</span></span><br><span class="line"><span class="string">        WHERE MemberId = @MemberId</span></span><br><span class="line"><span class="string">        AND Valid = 1'</span>,N<span class="string">'@MemberId bigint,@Name varchar(20) OUTPUT'</span>,@MemberId,@<span class="keyword">Name</span> <span class="keyword">OUTPUT</span></span><br><span class="line"><span class="comment">---DO SOMETHING</span></span><br><span class="line"><span class="keyword">END</span> TRY</span><br><span class="line"><span class="keyword">BEGIN</span> CATCH</span><br><span class="line">  RAISERROR (@errorMessage, <span class="number">16</span>, <span class="number">1</span>);</span><br><span class="line"><span class="keyword">END</span> CATCH</span><br></pre></td></tr></table></figure>
-
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/10/17/2018/linkserver_with_sp_executesql/" data-id="ck98nwuty005vh1wf187r3a64" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/10/17/2018/linkserver_with_sp_executesql/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Database/" rel="tag">Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2018/docker_error" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/12/2018/docker_error/" class="article-date">
-  <time datetime="2018-10-12T03:33:45.000Z" itemprop="datePublished">2018-10-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/2018/docker_error/">[踩雷筆記]Docker 啟動 MongoDB Server Error</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="錯誤訊息"><a href="#錯誤訊息" class="headerlink" title="錯誤訊息"></a>錯誤訊息</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> docker-compose up db</span></span><br><span class="line">Starting marsen-mongodb ... error</span><br><span class="line">ERROR: for marsen-mongodb  Cannot start service db:  </span><br><span class="line">driver failed programming external connectivity on </span><br><span class="line">endpoint marsen-mongodb (6f2be666a700187b7f30884478d7231cc210182e2650602e513c6627d0bc3e5a):  </span><br><span class="line">Error starting userland proxy: mkdir /port/tcp:0.0.0.0:27017:tcp:172.18.0.2:27017: input/output error</span><br></pre></td></tr></table></figure>
-
-<h2 id="除錯"><a href="#除錯" class="headerlink" title="除錯"></a>除錯</h2><p><strong>重啟 docker</strong></p>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/10/12/2018/docker_error/" data-id="ck98nwuts0059h1wfgqyb17qr" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/10/12/2018/docker_error/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Container/" rel="tag">Container</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2018/books/book_history_of_finance" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/02/2018/books/book_history_of_finance/" class="article-date">
-  <time datetime="2018-10-02T02:22:43.000Z" itemprop="datePublished">2018-10-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/02/2018/books/book_history_of_finance/">[閱讀筆記]拿破崙不是敗在滑鐵盧戰役而是金融戰爭</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><p>猶太教典</p>
-<ul>
-<li>財富是要塞，貧苦是廢墟</li>
-<li>金錢並非罪惡、並非詛咒，而是給予人的祝福</li>
-<li>有三件事情會傷人:煩惱、爭吵、空錢包。其中尤以空錢包最為傷人</li>
-</ul>
-</li>
-<li><p>伊斯蘭人</p>
-<ul>
-<li>發明複式簿記</li>
-<li>損益表(銷售額與支出費用)</li>
-<li>資產負債表(資產與負債)</li>
-</ul>
-</li>
-<li><p>內克爾</p>
-<ul>
-<li>公開透明引發法國大革命</li>
-</ul>
-</li>
-<li><p>第一艘蒸汽船停駛</p>
-<ul>
-<li>既得利益者(運河公司與船東)的反對</li>
-</ul>
-</li>
-<li><p>緬甸因英國殖民政策引發種族問題</p>
-<ul>
-<li>社會地位，英國人 &gt; 中國/印度人 &gt; 克倫族(少數民族) &gt; 緬甸人</li>
-<li>獨立後，克倫族反而持續遭受迫害至今</li>
-</ul>
-</li>
-<li><p>猶太人待過的金融重鎮</p>
-<ul>
-<li>西班牙</li>
-<li>荷蘭 阿姆斯特丹</li>
-<li>英國 倫敦</li>
-<li>美國 紐約</li>
-</ul>
-</li>
-<li><p>一次大戰</p>
-<ul>
-<li>四打一的圍毆(英法俄美vs德)</li>
-<li>德國的優勢，與土耳其建鐵路，與奧匈帝國相同語言，若統一會成為歐陸強國</li>
-<li>美國產石油，英國產煤，能源革命導致需求轉向</li>
-</ul>
-</li>
-<li><p>希特勒</p>
-<ul>
-<li>凡爾賽條約是個源頭</li>
-<li>希特勒被提名過諾貝爾獎</li>
-<li>一開始的「侵略」是「收復國土」</li>
-</ul>
-</li>
-<li><p>二戰的好處</p>
-<ul>
-<li>亞非各國的獨立</li>
-</ul>
-</li>
-<li><p>共產主義</p>
-<ul>
-<li>建立平等社會</li>
-<li>平均分配財富</li>
-<li>蘇聯未受大蕭條影響</li>
-<li>短期的極權，有效;長期的極權，腐敗</li>
-<li>蘇聯比其它國家更不平等</li>
-<li>「當下有事情該作，只要沒納入事前計劃中就不能作;而當下發現沒必要作的事情，只要已經在計劃裡就非作不可，所以完全無法發揮第一線人員的創意」</li>
-</ul>
-</li>
-<li><p>凱因斯</p>
-<ul>
-<li>二戰對德不合理條款的警告</li>
-<li>對「廢除德匯兌保護條款」的警告</li>
-<li>美元本位的警告</li>
-</ul>
-</li>
-<li><p>亡國模式</p>
-<ul>
-<li>富人有逃(節)稅特權</li>
-<li>國家對窮人課重稅</li>
-<li>貧富差距變大</li>
-</ul>
-</li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/10/02/2018/books/book_history_of_finance/" data-id="ck98nwuv900aih1wfd7949xt4" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/10/02/2018/books/book_history_of_finance/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2018/LCM_and_GCD" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/18/2018/LCM_and_GCD/" class="article-date">
-  <time datetime="2018-09-17T16:36:51.000Z" itemprop="datePublished">2018-09-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/18/2018/LCM_and_GCD/">最大公因數與最小公倍數</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>數學系畢業後，在學寫程式雖然偶爾會用到一些數學特性來解題，<br>不過到了工作確不是那麼一回事，大多在處理商業流程，資料流 ;<br>然後在商業流程與資料流中穿梭，找蟲然後補丁 ;  </p>
-<p>這是最近在練習 <a href="https://www.hackerrank.com/challenges/between-two-sets/problem" target="_blank" rel="noopener">Kata 的題目</a>所用到的兩個國中數學，<br>「最大公因數」與「最小公倍數」，還用程式實踐了「輾轉相除法」，<br>真的是有點懷念啊 。</p>
-<p>這是題外話，Rx(Reactive Functional Programing)感覺很有趣<br>最近參與 functional programing 的讀書會，<br>裡面似乎有比現在開發模式更優雅的解決問題方式。<br>不過門檻有點高，需要具備的抽象思考能力，是種非常燒腦的開發方式。</p>
-<h2 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span>/ GCD</span></span><br><span class="line"><span class="keyword">static</span> Func&lt;<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">int</span>&gt; GCD = (numA, numB) =&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> numB == <span class="number">0</span> ? numA : GCD(numB, numA % numB);</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="comment"><span class="doctag">///</span>/ LCM</span></span><br><span class="line"><span class="keyword">static</span> Func&lt;<span class="keyword">int</span>, <span class="keyword">int</span>,<span class="keyword">int</span>&gt; LCM = (numA,numB) =&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> numA * numB / GCD(numA, numB);</span><br><span class="line">        &#125; ;</span><br></pre></td></tr></table></figure>
-
-<h3 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h3><ul>
-<li><a href="https://www.geeksforgeeks.org/gcd-two-array-numbers/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/gcd-two-array-numbers/</a></li>
-<li><a href="https://www.geeksforgeeks.org/lcm-of-given-array-elements/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/lcm-of-given-array-elements/</a></li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/09/18/2018/LCM_and_GCD/" data-id="ck98nwuto004zh1wfcat17ash" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/09/18/2018/LCM_and_GCD/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2018/l10n_i18n" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/07/2018/l10n_i18n/" class="article-date">
-  <time datetime="2018-09-07T03:51:45.000Z" itemprop="datePublished">2018-09-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/07/2018/l10n_i18n/">i18n 與 l10n</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="I18n-國際化"><a href="#I18n-國際化" class="headerlink" title="I18n 國際化"></a>I18n 國際化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| I | n | t | e | r | n | a | t | i | o | n | a | l | i | z | a | t | i | o | n |</span><br><span class="line">|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|</span><br><span class="line">|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |10 |11 |12 |13 |14 |15 |16 |17 |18 |   |</span><br></pre></td></tr></table></figure>
-
-<p><code>Internationalization</code> 因為字首I到字尾N18個英文字  </p>
-<h2 id="L10n-在地化"><a href="#L10n-在地化" class="headerlink" title="L10n 在地化"></a>L10n 在地化</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| L | o | c | a | l | i | z | a | t | i | o | n |</span><br><span class="line">|---|---|---|---|---|---|---|---|---|---|---|---|</span><br><span class="line">|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |10 |   |</span><br></pre></td></tr></table></figure>
-
-<p><code>Localization</code> 因為字首L到字尾N共10個英文字</p>
-<h2 id="國際化-在地化常見問題"><a href="#國際化-在地化常見問題" class="headerlink" title="國際化/在地化常見問題"></a>國際化/在地化常見問題</h2><ul>
-<li>語言<ul>
-<li><code>語系-區碼</code></li>
-</ul>
-</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">  [</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"af-ZA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Afrikaans - South Africa"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"sq-AL"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Albanian - Albania"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-DZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Algeria"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-BH"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Bahrain"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-EG"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Egypt"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-IQ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Iraq"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-JO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Jordan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-KW"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Kuwait"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-LB"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Lebanon"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-LY"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Libya"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-MA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Morocco"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-OM"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Oman"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-QA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Qatar"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-SA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Saudi Arabia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-SY"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Syria"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-TN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Tunisia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-AE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - United Arab Emirates"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ar-YE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Arabic - Yemen"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"hy-AM"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Armenian - Armenia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"Cy-az-AZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Azeri (Cyrillic) - Azerbaijan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"Lt-az-AZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Azeri (Latin) - Azerbaijan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"eu-ES"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Basque - Basque"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"be-BY"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Belarusian - Belarus"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"bg-BG"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Bulgarian - Bulgaria"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ca-ES"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Catalan - Catalan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"zh-CN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Chinese - China"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"zh-HK"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Chinese - Hong Kong SAR"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"zh-MO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Chinese - Macau SAR"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"zh-SG"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Chinese - Singapore"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"zh-TW"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Chinese - Taiwan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"zh-CHS"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Chinese (Simplified)"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"zh-CHT"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Chinese (Traditional)"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"hr-HR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Croatian - Croatia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"cs-CZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Czech - Czech Republic"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"da-DK"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Danish - Denmark"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"div-MV"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Dhivehi - Maldives"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"nl-BE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Dutch - Belgium"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"nl-NL"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Dutch - The Netherlands"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-AU"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Australia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-BZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Belize"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-CA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Canada"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-CB"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Caribbean"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-IE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Ireland"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-JM"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Jamaica"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-NZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - New Zealand"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-PH"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Philippines"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-ZA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - South Africa"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-TT"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Trinidad and Tobago"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-GB"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - United Kingdom"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-US"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - United States"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"en-ZW"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"English - Zimbabwe"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"et-EE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Estonian - Estonia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fo-FO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Faroese - Faroe Islands"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fa-IR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Farsi - Iran"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fi-FI"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Finnish - Finland"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fr-BE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"French - Belgium"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fr-CA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"French - Canada"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fr-FR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"French - France"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fr-LU"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"French - Luxembourg"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fr-MC"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"French - Monaco"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"fr-CH"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"French - Switzerland"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"gl-ES"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Galician - Galician"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ka-GE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Georgian - Georgia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"de-AT"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"German - Austria"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"de-DE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"German - Germany"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"de-LI"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"German - Liechtenstein"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"de-LU"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"German - Luxembourg"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"de-CH"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"German - Switzerland"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"el-GR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Greek - Greece"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"gu-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Gujarati - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"he-IL"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Hebrew - Israel"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"hi-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Hindi - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"hu-HU"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Hungarian - Hungary"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"is-IS"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Icelandic - Iceland"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"id-ID"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Indonesian - Indonesia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"it-IT"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Italian - Italy"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"it-CH"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Italian - Switzerland"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ja-JP"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Japanese - Japan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"kn-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Kannada - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"kk-KZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Kazakh - Kazakhstan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"kok-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Konkani - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ko-KR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Korean - Korea"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ky-KZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Kyrgyz - Kazakhstan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"lv-LV"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Latvian - Latvia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"lt-LT"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Lithuanian - Lithuania"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"mk-MK"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Macedonian (FYROM)"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ms-BN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Malay - Brunei"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ms-MY"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Malay - Malaysia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"mr-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Marathi - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"mn-MN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Mongolian - Mongolia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"nb-NO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Norwegian (Bokmål) - Norway"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"nn-NO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Norwegian (Nynorsk) - Norway"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"pl-PL"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Polish - Poland"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"pt-BR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Portuguese - Brazil"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"pt-PT"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Portuguese - Portugal"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"pa-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Punjabi - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ro-RO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Romanian - Romania"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ru-RU"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Russian - Russia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"sa-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Sanskrit - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"Cy-sr-SP"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Serbian (Cyrillic) - Serbia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"Lt-sr-SP"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Serbian (Latin) - Serbia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"sk-SK"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Slovak - Slovakia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"sl-SI"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Slovenian - Slovenia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-AR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Argentina"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-BO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Bolivia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-CL"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Chile"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-CO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Colombia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-CR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Costa Rica"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-DO"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Dominican Republic"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-EC"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Ecuador"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-SV"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - El Salvador"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-GT"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Guatemala"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-HN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Honduras"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-MX"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Mexico"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-NI"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Nicaragua"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-PA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Panama"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-PY"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Paraguay"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-PE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Peru"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-PR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Puerto Rico"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-ES"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Spain"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-UY"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Uruguay"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"es-VE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Spanish - Venezuela"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"sw-KE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Swahili - Kenya"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"sv-FI"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Swedish - Finland"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"sv-SE"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Swedish - Sweden"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"syr-SY"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Syriac - Syria"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ta-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Tamil - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"tt-RU"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Tatar - Russia"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"te-IN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Telugu - India"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"th-TH"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Thai - Thailand"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"tr-TR"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Turkish - Turkey"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"uk-UA"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Ukrainian - Ukraine"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"ur-PK"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Urdu - Pakistan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"Cy-uz-UZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Uzbek (Cyrillic) - Uzbekistan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"Lt-uz-UZ"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Uzbek (Latin) - Uzbekistan"</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">"LangCultureName"</span>: <span class="string">"vi-VN"</span>, <span class="attr">"DisplayName"</span>: <span class="string">"Vietnamese - Vietnam"</span>&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>單位<ul>
-<li>貨幣</li>
-<li>尺吋/重量/公制/英制</li>
-<li>format<ul>
-<li><a href="https://docs.microsoft.com/zh-tw/dotnet/api/system.globalization.numberformatinfo?view=netframework-4.7.2" target="_blank" rel="noopener">C#</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat" target="_blank" rel="noopener">javascript</a> </li>
-</ul>
-</li>
-</ul>
-</li>
-<li>時區<ul>
-<li>跨時區</li>
-<li>日光節約時間    <ul>
-<li>其它</li>
-</ul>
-</li>
-<li>地址</li>
-<li>姓名</li>
-<li>電話號碼</li>
-</ul>
-</li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/09/07/2018/l10n_i18n/" data-id="ck98nwutw005mh1wfc3v1g6mq" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/09/07/2018/l10n_i18n/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2018/cache_files_and_redis" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/03/2018/cache_files_and_redis/" class="article-date">
-  <time datetime="2018-09-03T07:45:42.000Z" itemprop="datePublished">2018-09-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/03/2018/cache_files_and_redis/">[內部分享]Cache 使用 Files 與 Redis</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Why-Cache"><a href="#Why-Cache" class="headerlink" title="Why Cache ?"></a>Why Cache ?</h2><ol>
-<li>保護稀缺資源(database/disk io/server)</li>
-<li>提高反應速度,減少延遲(Latency)</li>
+<h3 id="設定-Cmder"><a href="#設定-Cmder" class="headerlink" title="設定 Cmder"></a>設定 Cmder</h3><ol>
+<li>Win + Alt + P 開啟設定畫面</li>
+<li>Cmder &gt; Settings &gt; General &gt; Fonts  &gt; 下拉選單選 Anonymice PowerlineCmder<br><img src="/images/2018/colorfull_cmder/settings.jpg" alt=""></li>
 </ol>
-<h2 id="Cache-Point"><a href="#Cache-Point" class="headerlink" title="Cache Point"></a>Cache Point</h2><ol start="4">
-<li>資料即時性/如何除錯/如何更新</li>
-<li>Hit Rate</li>
-<li>High Availability(HA)</li>
-<li>單位時間承載量</li>
+<h3 id="使用-lua-Config"><a href="#使用-lua-Config" class="headerlink" title="使用 lua Config"></a>使用 lua Config</h3><ol>
+<li>下載<a href="https://github.com/AmrEldib/cmder-powerline-prompt" target="_blank" rel="noopener">cmder-powerline-prompt</a>，選擇 Clone or download &gt; Download ZIP</li>
+<li>開啟 Cmder 安裝檔所在位置，找到 <code>Config</code> 資料夾  </li>
+<li>將下載的所有 *.lua 檔放入 <code>Config</code> 資料夾  </li>
 </ol>
-<h2 id="Our-Cache"><a href="#Our-Cache" class="headerlink" title="Our Cache"></a>Our Cache</h2><ol>
-<li>CDN(Cloudfront)</li>
-<li>OutputCache</li>
-<li>Memory Cache</li>
-<li>Redis Cache</li>
-<li>File Cache</li>
-</ol>
-<h2 id="More-Cache-not-in-above"><a href="#More-Cache-not-in-above" class="headerlink" title="More Cache not in above"></a>More Cache not in above</h2><ol>
-<li>Browser Cache</li>
-<li>Database Execution Plan Cache (執行計劃快取)</li>
-<li>Elastic Search</li>
-</ol>
-<h3 id="File-Cache"><a href="#File-Cache" class="headerlink" title="File Cache"></a>File Cache</h3><ul>
-<li>pro<ul>
-<li>簡單易用</li>
+<p>最後重啟 Cmder 就可以有一個美美的命令提示視窗了。<br><a href="https://www.lua.org/" target="_blank" rel="noopener">lua</a> 也是一個程式語言，你大可開啟文字編輯器，看一下裡面作了什麼。  </p>
+<h2 id="2018-12-02-補充"><a href="#2018-12-02-補充" class="headerlink" title="2018/12/02 補充"></a>2018/12/02 補充</h2><p>追加讓 PowerShell 在 cmder 裡面也美美的方法</p>
+<h3 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h3><ol>
+<li>下載<a href="https://github.com/AmrEldib/cmder-powershell-powerline-prompt" target="_blank" rel="noopener">cmder-powershell-powerlin-prompt</a>，選擇 Clone or download &gt; Download ZIP</li>
+<li>解壓縮 ZIP 檔</li>
+<li>開啟 Cmder 所在的資料夾，如下圖 &gt; 開啟 config 資料夾<br><img src="/images/2018/colorfull_cmder/cmder_folder.jpg" alt=""></li>
+<li>將壓縮檔內的 <code>user_profile.ps1</code>，取代 config 內的 <code>user_profile.ps1</code></li>
+<li>將壓縮檔內的 <code>profile.d</code> 資料內的所有檔案，全數貼到 config 內的 <code>profile.d</code> 資料夾內，如果不存在就建立一個。</li>
+<li>開啟 config\profile.d 資料夾，重新命名 goToFolder.config.example 為 goToFolder.config <ul>
+<li>這個檔案內會設定一些目錄與 alias 。</li>
+<li>使用方法，在使用 cmder 開啟 powershell 的情況下，輸入 g + <code>alias</code> </li>
+<li>比如說在 goToFolder.config 中，設定一組 <code>m, C:\User\Marsen</code></li>
+<li>在 cmder 輸入 <code>g m</code> 就會自動切到 <code>C:\User\Marsen</code> 的路徑底下</li>
 </ul>
 </li>
-<li>con<ul>
-<li>咬檔</li>
-<li>不會自動過期</li>
-<li>自已要處理lock機制</li>
-</ul>
-</li>
-</ul>
-<h3 id="Redis-Cache"><a href="#Redis-Cache" class="headerlink" title="Redis Cache"></a>Redis Cache</h3><ul>
-<li>pro<ul>
-<li>會自動過期</li>
-<li>有提供Queue的功能</li>
-<li>高速(in memory)</li>
-</ul>
-</li>
-<li>con<ul>
-<li>單緖(Single Thread)</li>
-<li>HA的機制費用高</li>
-<li>Redis 承載量受限於記憶體大小</li>
-<li>存儲的東西過大,會導致存取速度下降</li>
-</ul>
-</li>
-</ul>
-<h3 id="實踐問題-在大流量的站台，Cache-過期時如何避免大量-Request-同時更新同一份-Cache"><a href="#實踐問題-在大流量的站台，Cache-過期時如何避免大量-Request-同時更新同一份-Cache" class="headerlink" title="實踐問題:在大流量的站台，Cache 過期時如何避免大量 Request 同時更新同一份 Cache ?"></a>實踐問題:在大流量的站台，Cache 過期時如何避免大量 Request 同時更新同一份 Cache ?</h3><p>Ans: 使用 Lock ，<br>不要使用.NET的<code>lock</code> ;.NET Lock 的機制問題在於，Lock 會導致其它 Thread 排隊<br>當系統處於高流量的情境底下，會發生間歇性Latency提高，<br>而且難以追查問題，也難以重現(一般的壓測無法達到如此高量)。</p>
-<p>使用共用的 Lock Key 作判斷標準:</p>
-<ol>
-<li>Lock Key 存在,回傳 Cache Data</li>
-<li>Lock Key 不存在,建立 Lock Key(包含 Server Id)</li>
-<li>重新取得 Lock Key 如果 <ul>
-<li>Server Id 與 Request 相同，更新 Cache Data 並回傳</li>
-<li>Server Id 與 Request 不相同，直接回傳 Cache Data</li>
-</ul>
-</li>
-</ol>
-<h4 id="Cache-Double-check-Lock-Patter-https-docs-microsoft-com-en-us-previous-versions-office-developer-sharepoint-2010-ee558270-v-3Doffice-14"><a href="#Cache-Double-check-Lock-Patter-https-docs-microsoft-com-en-us-previous-versions-office-developer-sharepoint-2010-ee558270-v-3Doffice-14" class="headerlink" title="[Cache Double check Lock Patter(https://docs.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee558270(v%3Doffice.14)"></a>[Cache Double check Lock Patter(<a href="https://docs.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee558270(v%3Doffice.14)" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee558270(v%3Doffice.14)</a></h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">object</span> _lock =  <span class="keyword">new</span> <span class="keyword">object</span>();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CacheData</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   SPListItemCollection oListItems;</span><br><span class="line">       oListItems = (SPListItemCollection)Cache[<span class="string">"ListItemCacheName"</span>];</span><br><span class="line">      <span class="keyword">if</span>(oListItems == <span class="literal">null</span>)</span><br><span class="line">      &#123;</span><br><span class="line">         <span class="keyword">lock</span> (_lock) </span><br><span class="line">         &#123;</span><br><span class="line">              <span class="comment">// Ensure that the data was not loaded by a concurrent thread </span></span><br><span class="line">              <span class="comment">// while waiting for lock.</span></span><br><span class="line">              oListItems = (SPListItemCollection)Cache[<span class="string">"ListItemCacheName"</span>];</span><br><span class="line">              <span class="keyword">if</span> (oListItems == <span class="literal">null</span>)</span><br><span class="line">              &#123;</span><br><span class="line">                   oListItems = DoQueryToReturnItems();</span><br><span class="line">                   Cache.Add(<span class="string">"ListItemCacheName"</span>, oListItems, ..);</span><br><span class="line">              &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h2><ol>
-<li>使用多執行緖時要小心處理Exception,不然會導致主程序被中斷<br>(File Cache 寫入真實案例,多緖的錯誤不佳會使得IIS無法處理錯誤,進而中斷程序(w3wp.exe))</li>
-<li>AWS S3 是走 Https Protocal</li>
-<li>Redis Delete/Backup 會 Lock Thread</li>
-<li>Redis Command Timeout 極短，所以要注意單一　Cache　資料量大小 (建議資料要小於1k?)</li>
+<li>還有很多 Alias 請自行研究。</li>
+<li>重啟 cmder 後就會載入新的設定，變成美美的 powershell 了</li>
 </ol>
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a href="https://redis.io/" target="_blank" rel="noopener">Redis</a></li>
-<li><a href="https://memcached.org/" target="_blank" rel="noopener">memcached</a></li>
-<li><a href="https://docs.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee558270(v%3Doffice.14)#caching-data-and-objects" target="_blank" rel="noopener">Caching Data And Objects</a></li>
+<li>整篇都是參考<a href="https://github.com/AmrEldib/cmder-powerline-prompt" target="_blank" rel="noopener">cmder-powerline-prompt</a>的作法，原始 Repo 可能隨時會更新異動，不保証有效</li>
+<li><a href="https://github.com/AmrEldib/cmder-powershell-powerline-prompt" target="_blank" rel="noopener">cmder-powershell-powerlin-prompt</a></li>
 </ul>
 <p>(fin)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/09/03/2018/cache_files_and_redis/" data-id="ck98nwutq0054h1wf1np10tkf" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/11/25/2018/colorfull_cmder/" data-id="ck98nwutq0055h1wfgbhahn69" class="article-share-link">Share</a>
       
-        <a href="https://blog.marsen.me/2018/09/03/2018/cache_files_and_redis/#disqus_thread" class="article-comment-link">留言</a>
+        <a href="https://blog.marsen.me/2018/11/25/2018/colorfull_cmder/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cache/" rel="tag">Cache</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
-
     </footer>
   </div>
   
@@ -651,10 +334,10 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2018/defect_release_cors_and_cdn" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2018/powershell_found_subfolde_by_files_in_folder" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/28/2018/defect_release_cors_and_cdn/" class="article-date">
-  <time datetime="2018-08-28T06:27:21.000Z" itemprop="datePublished">2018-08-28</time>
+    <a href="/2018/11/23/2018/powershell_found_subfolde_by_files_in_folder/" class="article-date">
+  <time datetime="2018-11-23T05:43:00.000Z" itemprop="datePublished">2018-11-23</time>
 </a>
     
   </div>
@@ -665,7 +348,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/2018/defect_release_cors_and_cdn/">[異常記錄]多語系架構上線</a>
+      <a class="article-title" href="/2018/11/23/2018/powershell_found_subfolde_by_files_in_folder/">[實作筆記]用 Command Line 取得資料夾內包含特定檔案的子資料夾</a>
     </h1>
   
 
@@ -673,169 +356,555 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>很久很久很久以前，<br>【跨國語系基礎架構】上線了.<br>又過了很久很久 <strong>我們評估這多語系API需要上 CDN</strong><br><img src="https://i.imgur.com/0g5HL2z.jpg" alt=""></p>
-<h3 id="Release項目與工作內容"><a href="#Release項目與工作內容" class="headerlink" title="Release項目與工作內容"></a>Release項目與工作內容</h3><ul>
-<li>8/16 要 release 什麼?<br>  我們要將多語系開始開發的項目一次回台灣正式環境。</li>
-<li>我們作了什麼  <ul>
-<li>sp23/sp24/sp25/sp26/sp27</li>
-<li>前端多語系底層架構的調整(含CDN)</li>
-<li>國別設定</li>
-<li>還有一大堆 Merge 解衝突的項目…</li>
+        <h2 id="情境"><a href="#情境" class="headerlink" title="情境"></a>情境</h2><ul>
+<li>OS : Windows 10</li>
+</ul>
+<p>在一個巨型的 Git Repo 當中，底下依專案分了許多專案資料夾，<br>參考下圖。<br><img src="https://i.imgur.com/IabNBFa.jpg" alt="擁有多個專案的Repo"></p>
+<p>而今天發生了一件事情，我需要更新某幾個子專案的 POCO 的 .tt 檔，<br>這裡不說明 POCO 是什麼；簡單的說，有的專案會有 .tt 檔，<br>有的專案會沒有，而每個專案的資料夾結構又不一定相同，<br>所以要找出這些 .tt 是有點麻煩的，另外我的目標並不是 .tt 檔，<br>而是所在的專案，再用 IDE 開啟進行修改，<br>為此我需要列出<strong>專案資料夾</strong>  </p>
+<h2 id="目標"><a href="#目標" class="headerlink" title="目標"></a>目標</h2><p>用 Command Line 取得Repo資料夾內包含.tt檔案的專案資料夾名稱  </p>
+<h2 id="作法"><a href="#作法" class="headerlink" title="作法"></a>作法</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">D:\Repo\Taiwan\******.******.Repofolder</span><br><span class="line">λ Get-ChildItem -Path .\ -Filter *.tt -Recurse -File -Name | ForEach-Object &#123; $_.Split('\')[0] &#125; | Group &#123;$_&#125; | select name</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Name  </span><br><span class="line">----  </span><br><span class="line">FacebookShop  </span><br><span class="line">LineOrderFinish  </span><br><span class="line">LineOrderNotify  </span><br><span class="line">Mail  </span><br><span class="line">NMQMonitor  </span><br><span class="line">OrderMonitor  </span><br><span class="line">SyncImageToOthers</span><br></pre></td></tr></table></figure>
+
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>總覺得寫得有點又臭又長，希望有更好的作法可以提供給我，<br>不限於 <code>powershell</code> 就算是 Linux 的語法也可以讓我參考一下。</p>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/11/23/2018/powershell_found_subfolde_by_files_in_folder/" data-id="ck98nwuu10065h1wf6kw24m83" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/11/23/2018/powershell_found_subfolde_by_files_in_folder/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018/bdd_stopAfterfaliues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/19/2018/bdd_stopAfterfaliues/" class="article-date">
+  <time datetime="2018-11-19T03:40:45.000Z" itemprop="datePublished">2018-11-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/19/2018/bdd_stopAfterfaliues/">[踩雷筆記] BDD 跑3個失敗就停止</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="原文描述"><a href="#原文描述" class="headerlink" title="原文描述"></a>原文描述</h2><blockquote>
+<p>Visual Studio 的 Test Explorer 在跑測試，<br>如果遇到失敗，會直接中斷，<br>比如說有 2000 個測試案例 跑到第 1300 個時測試失敗就會中斷<br>剩下的 700 個案例會不執行直接略過。</p>
+</blockquote>
+<h2 id="情境"><a href="#情境" class="headerlink" title="情境"></a>情境</h2><h3 id="實際狀況"><a href="#實際狀況" class="headerlink" title="實際狀況"></a>實際狀況</h3><p>並不是一跑到錯誤就會中斷測試，而是跑了 3 個失敗後中斷測試，<br>另外執行的測試專案，是使用 SpecRun.Runner 撰寫 Cucumber 語法跑 BDD 測試。</p>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>當使用測試專案使用 SpecRun.Runner，預設 stopAfterFailures 是 3，<br>所以3個失敗就會略過。</p>
+<h3 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h3><p>正常的測試都是會全跑完的。因為 Test Framework 標示 Test Method 的部份，<br>都是幫你內建 Try/Catch 攔下所有 Exception 的。</p>
+<p>MsTest 的 [TestMethod] 或是 NUnit 的[Test](XUnit 是 [Fact])，其實就是層 Wrapper<br>你在方法裡面寫的內容，只要有引發 Exception 的例外，<br>都會被這層 Wrapper 攔下來，轉成測試結果的內容。</p>
+<h2 id="解決方案"><a href="#解決方案" class="headerlink" title="解決方案"></a>解決方案</h2><p>測試專案根目錄應該有一份 <code>Default.srprofile</code> 檔，如下<br>將 <code>stopAfterFailures</code> 調整至適當的值(ex:500)，將會顯示所有失敗測試。<br>本案例開啟後，實際失敗的測試有 37 個</p>
+<pre><code class="xml"><span class="tag">&lt;<span class="name">Execution</span> <span class="attr">stopAfterFailures</span>=<span class="string">"3"</span> <span class="attr">testThreadCount</span>=<span class="string">"1"</span> <span class="attr">testSchedulingMode</span>=<span class="string">"Sequential"</span> /&gt;</span></code></pre>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://groups.google.com/forum/#!topic/specrun/yR6VVH8bDKg" target="_blank" rel="noopener">SpecRun skipping testing rather than running them when executing more than 16</a></li>
+<li><a href="https://specflow.org/plus/documentation/SpecFlowPlus-Runner-Profiles/" target="_blank" rel="noopener">SpecFlow+ Runner Profiles</a></li>
+</ul>
+<p>特別感謝 91、Green、余小章的協助</p>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/11/19/2018/bdd_stopAfterfaliues/" data-id="ck98nwuto0050h1wf71n2h1n1" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/11/19/2018/bdd_stopAfterfaliues/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Testing/" rel="tag">Testing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018/csm/91app_scrum_masters_growth_camp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/18/2018/csm/91app_scrum_masters_growth_camp/" class="article-date">
+  <time datetime="2018-11-18T03:42:21.000Z" itemprop="datePublished">2018-11-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/18/2018/csm/91app_scrum_masters_growth_camp/">[N社筆記]敏捷路上跌倒站起來 2018/11/18</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="工程人員一定要分析後才能投點嗎-有關-Planning-會議很長"><a href="#工程人員一定要分析後才能投點嗎-有關-Planning-會議很長" class="headerlink" title="工程人員一定要分析後才能投點嗎 ?(有關 Planning 會議很長)"></a>工程人員一定要分析後才能投點嗎 ?(有關 Planning 會議很長)</h4><blockquote>
+<p>記得設定 Timebox。<br>Scurm 是經驗法則，可以拿已經作過投點的 Item 作為比較基準。<br>如果有未知與風險，當下不要過度鑽入細節。<br>你可以</p>
+</blockquote>
+<ul>
+<li>開一個小的 Task 用來作調研與評估</li>
+<li>開一個很大 Task 之後再用來 BreakDown</li>
+<li>如果它是高價值又高風險，就優先作它吧</li>
+</ul>
+<h4 id="如何加速會議進行"><a href="#如何加速會議進行" class="headerlink" title="如何加速會議進行?"></a>如何加速會議進行?</h4><blockquote>
+<p>決議與會議之外。先讓人看見問題與目標，與可能的方向。<br>SM 應該更關注決定的過程，而非決定的本身。</p>
+</blockquote>
+<h4 id="焦點討論法-如何問問題"><a href="#焦點討論法-如何問問題" class="headerlink" title="焦點討論法(如何問問題)"></a>焦點討論法(如何問問題)</h4><p>O↓ 事實(每個人看到的都不一樣)<br>↑R 感受(相同的事實不同的人不同的感受) → 往複 OR ，取得共識(有共識才透明)<br>Interpretive 意義與價值觀<br>Decisional 決定</p>
+<h4 id="Bussiness-DevOps"><a href="#Bussiness-DevOps" class="headerlink" title="Bussiness DevOps"></a>Bussiness DevOps</h4><p><img src="https://imgur.com/x0imNlo.jpg" alt=""><br><img src="https://i.imgur.com/A04B5uG.jpg" alt=""></p>
+<h4 id="迭代與增量真的有幫助嗎-Agile-之前我們怎麼工作的-Scrum-真的好嗎"><a href="#迭代與增量真的有幫助嗎-Agile-之前我們怎麼工作的-Scrum-真的好嗎" class="headerlink" title="迭代與增量真的有幫助嗎 ? (Agile 之前我們怎麼工作的?/Scrum 真的好嗎 ?)"></a>迭代與增量真的有幫助嗎 ? (Agile 之前我們怎麼工作的?/Scrum 真的好嗎 ?)</h4><p>看情境</p>
+<blockquote>
+<p>Agile 適合應付變化，而目前的世界變化很大。<br>不要為了 Scurm 而 Scurm 。<br>那樣會變成盲從，看見你的需要，務實的變革。</p>
+</blockquote>
+<h4 id="用一個問題打敗一個問題-Ruddy老師引導法"><a href="#用一個問題打敗一個問題-Ruddy老師引導法" class="headerlink" title="用一個問題打敗一個問題(Ruddy老師引導法)"></a>用一個問題打敗一個問題(Ruddy老師引導法)</h4><p>找到核心的問題，然後問 「怎麼作 ?」<br>學員回答後，老師常常會說「這是一個方法」，然後給予回饋。</p>
+<blockquote>
+<p>這句話的潛台詞是「還有其它的方法」。</p>
+</blockquote>
+<h4 id="團隊成員恐懼端到端的開發-新手SM與新手團隊"><a href="#團隊成員恐懼端到端的開發-新手SM與新手團隊" class="headerlink" title="團隊成員恐懼端到端的開發(新手SM與新手團隊)"></a>團隊成員恐懼端到端的開發(新手SM與新手團隊)</h4><ul>
+<li>讓 1 個 Sprint 先完成 1個最高優先級的Item (初期導入 Scurm 怎麼作?)</li>
+</ul>
+<blockquote>
+<p>Scurm 對團隊的要求其實蠻高的，<br>但是我們不需要端到端的工程師，而是團隊。<br>巴士因子可以是個判斷指標。<br>另外限制理論[求補充]告訴我們瓶頸會跑來跑去，所以要持續觀注與改善。</p>
+</blockquote>
+<h4 id="團隊估點從-100-→-200-Data-Team-從沒有信心-Commit-到-…"><a href="#團隊估點從-100-→-200-Data-Team-從沒有信心-Commit-到-…" class="headerlink" title="團隊估點從 100 → 200 (Data Team 從沒有信心 Commit 到 $#@…)"></a>團隊估點從 100 → 200 (Data Team 從沒有信心 Commit 到 $#@…)</h4><blockquote>
+<p>這個點數的增長不合理，而且還是以時數點數，<br>沒有任何東西可以讓一天變成 48 小時(喔…有人說，加班可以讓8小時變16小時)<br>持續觀注，如果失敗了就讓它失敗吧…<br>但是要失敗的有意義。</p>
+</blockquote>
+<h5 id="後續"><a href="#後續" class="headerlink" title="後續"></a>後續</h5><p>11/23 團隊作的工作量實際上達到 254/3xx (Commit 3xx，完成254。)，<br>sprint 是成功的，但是 Velocity 是失準的。</p>
+<blockquote>
+<p>小心得: </p>
+<ol>
+<li>所謂的 Commit 如果不是對自已 Commit 起不了激勵作用，<br>如果 Team 與 PO 不認為「我們是一個Team」，而還是分 PMO 與 R&amp;D<br>那麼 Commit 就會變成畫押背鍋的儀式。</li>
+<li>氣象報告失準怎麼辦，颱風沒來大家都開心嗎？(從 100→254，是效率大爆發，還是浮報點數了？)</li>
+</ol>
+</blockquote>
+<h4 id="Scrum-的神奇魔力"><a href="#Scrum-的神奇魔力" class="headerlink" title="Scrum 的神奇魔力"></a>Scrum 的神奇魔力</h4><p><img src="https://i.imgur.com/T3BV4F3.png" alt=""></p>
+<h4 id="當老闆就是-PO-PO-與-Scrum-Master-出現了階級關係"><a href="#當老闆就是-PO-PO-與-Scrum-Master-出現了階級關係" class="headerlink" title="當老闆就是 PO (PO 與 Scrum Master 出現了階級關係)"></a>當老闆就是 PO (PO 與 Scrum Master 出現了階級關係)</h4><ul>
+<li>找一個小 PO (作 PO 真正該作的事)</li>
+</ul>
+<blockquote>
+<p>正視真正的問題是「你沒有 PO」</p>
+</blockquote>
+<h4 id="當-Team-在兩個作法兩難的時候"><a href="#當-Team-在兩個作法兩難的時候" class="headerlink" title="當 Team 在兩個作法兩難的時候"></a>當 Team 在兩個作法兩難的時候</h4><ul>
+<li>作一個 Check Point，保留可以回來重新審視的機會</li>
+</ul>
+<blockquote>
+<p>現實中有遇到類似的狀況，<br>執行的當下會列出所有的優缺點，再作選擇。<br>作完之後問自已，再作一次你會怎麼選擇 ?</p>
+</blockquote>
+<h4 id="成員本來會多作優化，跑-Scurm-之後沒在-Task-之上的事不作了。ex-重構、優化…"><a href="#成員本來會多作優化，跑-Scurm-之後沒在-Task-之上的事不作了。ex-重構、優化…" class="headerlink" title="成員本來會多作優化，跑 Scurm 之後沒在 Task 之上的事不作了。ex:重構、優化…)"></a>成員本來會多作優化，跑 Scurm 之後沒在 Task 之上的事不作了。ex:重構、優化…)</h4><blockquote>
+<p>在 DoD 應該可以解決這個問題，如果現況不會有問題，為什麼要作?<br>先作 Task 有列出來東西我覺得基本上是對的。<br>SM 的問題是「認為該作，但是沒有技術 Know How 所以不知道該列什麼?」<br>那還沒有跑 Scrum 前如何評量這個項目的效果呢?<br>至少在 Scrum 中我認為可以透過 Velocity 作為指標。<br>也可以透過 DoD 決定品質的程度(ex:)。<br>另外，重構不是重作，<br>重構應該是時時發生的，寫測試可以讓這件事被量化，<br>難以測試的代碼本身就有一定的壞味道(工程實踐與遇到的困難就以後再寫了…)。</p>
+</blockquote>
+<h4 id="Team-不該-Challenge-Item-Value-嗎-這樣跟以前需求來就作有什麼不同"><a href="#Team-不該-Challenge-Item-Value-嗎-這樣跟以前需求來就作有什麼不同" class="headerlink" title="Team 不該 Challenge Item Value 嗎 ?(這樣跟以前需求來就作有什麼不同?)"></a>Team 不該 Challenge Item Value 嗎 ?(這樣跟以前需求來就作有什麼不同?)</h4><blockquote>
+<p>在 Scrum 中,<br>PO 觀注 Why ,觀注產品價值 ,觀注市場與策略<br>Team 可以決定怎麼作，與 PO 討論理解為什麼要這麼作，<br>並不是所謂的「需求來就作」，而把 PMO 的角色拿掉，<br>是為了減少隔閤，讓團隊更接近商務端。<br>聽起來這個情境，Team 與 PO 仍有抗拒心理…</p>
+</blockquote>
+<h4 id="身兼開發的-Scrum-Master"><a href="#身兼開發的-Scrum-Master" class="headerlink" title="身兼開發的 Scrum Master"></a>身兼開發的 Scrum Master</h4><p>Team(1+1+1+1…) x SM (0.9 or 1.1) = 生產力<br>讓 SM 成為乘數，而不要成為加數</p>
+<blockquote>
+<p>小地雷:如果乘數小於1(如何評量SM指數?)</p>
+</blockquote>
+<h4 id="業務單位的務實"><a href="#業務單位的務實" class="headerlink" title="業務單位的務實"></a>業務單位的務實</h4><blockquote>
+<p>業務/老闆會說，我才不管什麼開發方法，<br>作出來就好了(黑貓白貓能抓老鼠就是好貓…)<br>很務實，但是很傷害團隊…，不要有機會讓團隊聽到這種話</p>
+</blockquote>
+<h4 id="結束就結束了。"><a href="#結束就結束了。" class="headerlink" title="結束就結束了。"></a>結束就結束了。</h4><h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="https://medium.com/terryisbloggingonagile/%E5%BF%83%E5%BE%97-scrummaster%E8%87%AA%E6%88%91%E7%AA%81%E7%A0%B4%E8%A8%93%E7%B7%B4%E7%87%9F-3ce6f7c8c6" target="_blank" rel="noopener">[心得] ScrumMaster自我突破訓練營</a></li>
+<li><a href="https://medium.com/@imfufu/scrummaster-%E8%87%AA%E6%88%91%E7%AA%81%E7%A0%B4%E8%A8%93%E7%B7%B4%E7%87%9F-in-91app-scrummaster%E7%9A%84%E7%94%9F%E5%AD%98%E4%B9%8B%E9%81%93-678f0774d967" target="_blank" rel="noopener">ScrumMaster 自我突破訓練營 in 91APP ：ScrumMaster的生存之道</a></li>
+<li><a href="https://drive.google.com/file/d/1CmJJGP7dpnSUzUP3ZrA8nNO1a6aKxM0Z/view?usp=sharing" target="_blank" rel="noopener">ORID簡報- By 茶米</a></li>
+<li><a href="https://medium.com/@linchi/scrum-master%E8%87%AA%E6%88%91%E7%AA%81%E7%A0%B4%E8%A8%93%E7%B7%B4%E7%87%9F-%E5%BF%83%E5%BE%97%E5%88%86%E4%BA%AB-9846fa255a27" target="_blank" rel="noopener">Scrum Master自我突破訓練營 — 心得分享</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/11/18/2018/csm/91app_scrum_masters_growth_camp/" data-id="ck98nwuvi00b5h1wfene3f7qg" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/11/18/2018/csm/91app_scrum_masters_growth_camp/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/" rel="tag">Agile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018/csm/n_company_log_201810" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/17/2018/csm/n_company_log_201810/" class="article-date">
+  <time datetime="2018-11-17T06:05:08.000Z" itemprop="datePublished">2018-11-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/17/2018/csm/n_company_log_201810/">[N社筆記]敏捷路上跌倒站起來 2018/10 月到 11 月</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="2018-11-16"><a href="#2018-11-16" class="headerlink" title="2018/11/16"></a>2018/11/16</h2><h3 id="Bussiness-Feedback"><a href="#Bussiness-Feedback" class="headerlink" title="Bussiness Feedback"></a>Bussiness Feedback</h3><ul>
+<li>T國全○國，農曆年前啟動</li>
+<li>M國的， Mxxxx 有 SKA 等級</li>
+<li>H市場，百家等待中<br>原訂 </li>
+<li>KA MIRGRATION</li>
+<li>KA 12月上線<br>順序可能會再調整…，<br>市場有反應是好的，<br>只是我們還沒有產品準備好（或是跨一國要準備好久好久…）</li>
+</ul>
+<h3 id="團隊"><a href="#團隊" class="headerlink" title="團隊"></a>團隊</h3><ul>
+<li>抽一個 Scrum Team 的 Members 組成新的 Team ？</li>
+<li>又變成 Project Team ，呂毅:「如果只有兩個月你還會關心團隊的成長嗎 ？」</li>
+</ul>
+<h2 id="2018-11-12"><a href="#2018-11-12" class="headerlink" title="2018/11/12"></a>2018/11/12</h2><ul>
+<li>線上緊急狀況，周會取消、例會取消，如果一個會議可以隨時被取消，是否有必要開？</li>
+<li>真實狀況是每個人都找到一個位置，讓事情發生;務實比「跑敏捷」重要</li>
+<li>不儀式化，人性會躲避 ; 儀式化卻會導致效率低下(習慣成自然 or 麻痺)</li>
+</ul>
+<h2 id="2018-11-10"><a href="#2018-11-10" class="headerlink" title="2018/11/10"></a>2018/11/10</h2><blockquote>
+<p>情境<br>團隊反應沒有時間 Code Review / 寫 Unit Test，<br>Pair Programming 隨你便，上級的反應說「有，最好」結果，「都沒有」　　</p>
+</blockquote>
+<ul>
+<li>要求很強的個體，卻沒有任何練習;這樣的團隊會強嗎 ？</li>
+<li>擁有很強的個體，卻沒有任何協作;這樣的團隊會強嗎 ？</li>
+</ul>
+<h2 id="2018-11-09"><a href="#2018-11-09" class="headerlink" title="2018/11/09"></a>2018/11/09</h2><h3 id="陶侃跟西西弗斯，兩個類似的故事"><a href="#陶侃跟西西弗斯，兩個類似的故事" class="headerlink" title="陶侃跟西西弗斯，兩個類似的故事"></a>陶侃跟西西弗斯，兩個類似的故事</h3><p>心態致勝? 還是自以為勝 ？</p>
+<h2 id="2018-11-06"><a href="#2018-11-06" class="headerlink" title="2018/11/06"></a>2018/11/06</h2><h3 id="沒有創業精神錯了嗎"><a href="#沒有創業精神錯了嗎" class="headerlink" title="沒有創業精神錯了嗎 ?"></a>沒有創業精神錯了嗎 ?</h3><ul>
+<li><p>成就感從何而來 ?</p>
+<ul>
+<li>把事情完成</li>
+<li>把品質作好</li>
+<li>作得快</li>
 </ul>
 </li>
-<li>為什麼要等這麼久才上線 ?<br>  風險考量，我們先上了基礎架構，<br>  在G3環境上觀察了一段時間確定沒有問題才上線。</li>
-<li>講到風險，我們有多少保險 ?  <ul>
-<li>只上基礎架構 (讓異動最小)</li>
-<li>只上G3環境 (讓impact最小)</li>
-<li>藍綠部署 (標配，讓壞掉的時間儘可能縮短)</li>
-<li>Merge Before Build (讓原始碼不受影響，rollback時不會拔掉其它團隊的功能)</li>
+<li><p>受雇階極一定要被激勵才能作好事嗎 ?</p>
+</li>
+<li><p>雇主與雇員的本質上的不同</p>
+<ul>
+<li>風險</li>
+<li>獲利</li>
 </ul>
 </li>
 </ul>
-<p><strong>講那麼多，還不是壞掉了。</strong></p>
-<h2 id="錯誤原因"><a href="#錯誤原因" class="headerlink" title="錯誤原因"></a>錯誤原因</h2><h3 id="錯誤畫面"><a href="#錯誤畫面" class="headerlink" title="錯誤畫面"></a>錯誤畫面</h3><p><img src="https://i.imgur.com/Etwq8nY.jpg" alt=""></p>
-<h3 id="錯誤原因-1"><a href="#錯誤原因-1" class="headerlink" title="錯誤原因"></a>錯誤原因</h3><p><img src="https://i.imgur.com/Ujy0Z4v.jpg" alt=""></p>
-<p>多語系 CDN 的 Response Header Access-Control-Allow-Origin Protocol 與主頁面不符;</p>
-<h3 id="流程面"><a href="#流程面" class="headerlink" title="流程面"></a>流程面</h3><table>
+<h2 id="2018-11-02"><a href="#2018-11-02" class="headerlink" title="2018/11/02"></a>2018/11/02</h2><h3 id="時間"><a href="#時間" class="headerlink" title="時間"></a>時間</h3><ul>
+<li>早上生病 約10:30到</li>
+<li>站立 到 10:50</li>
+<li>1-1  到  12:00</li>
+<li>午休 到 13:00</li>
+<li>.Net Core 到 15:30</li>
+<li>看 PR 到 16:12</li>
+<li>開發 到 17:26</li>
+<li>HOTFIX 討論 17:45</li>
+<li>開發 到 19:50</li>
+</ul>
+<p>當會議吃掉了所有的時間…</p>
+<h3 id="重要性"><a href="#重要性" class="headerlink" title="重要性"></a>重要性</h3><p>你很重要，Why ？ What ？ How ？　或只是暗示你 TTL(Time to leave)</p>
+<h2 id="2018-11-01"><a href="#2018-11-01" class="headerlink" title="2018/11/01"></a>2018/11/01</h2><p>planning for <del>all day</del> half day</p>
+<h3 id="不透明"><a href="#不透明" class="headerlink" title="不透明"></a>不透明</h3><ul>
+<li>Item 拆成 Task 的過程中釐清，可能會因細節不清、沒有權限、左右兩難、等待資源、等待許可等…導致進度緩慢耗時</li>
+<li>為了對焦開了會前會，但不包含 A Team PO，結果 Planning 後半 A Team 又增加許多項目反而失焦</li>
+<li>很簡單的事，因為複雜的系統變得沒有勇氣(信心)去執行</li>
+</ul>
+<h3 id="如何測量"><a href="#如何測量" class="headerlink" title="如何測量"></a>如何測量</h3><h3 id="本日佳句"><a href="#本日佳句" class="headerlink" title="本日佳句"></a>本日佳句</h3><ul>
+<li>這個不能作，不然會被罵喔</li>
+</ul>
+<h3 id="Action-Item"><a href="#Action-Item" class="headerlink" title="Action Item"></a>Action Item</h3><ul>
+<li>開發祝武：<a href="http://www.inpad.com.tw/goods.php?act=view&no=10441" target="_blank" rel="noopener">Filco Majestouch MINILA Air 67鍵無線藍芽機械式鍵盤|紅軸英文</a></li>
+</ul>
+<p>CSM 心得第二篇寫到 Sprint Backlog , 越寫看到越多實踐「怪怪的」地方…</p>
+<h2 id="2018-10-31"><a href="#2018-10-31" class="headerlink" title="2018/10/31"></a>2018/10/31</h2><h3 id="Blue-Demo-Day"><a href="#Blue-Demo-Day" class="headerlink" title="Blue Demo Day"></a>Blue Demo Day</h3><ul>
+<li>Demo 失敗</li>
+<li>檢討</li>
+</ul>
+<h3 id="不透明-1"><a href="#不透明-1" class="headerlink" title="不透明"></a>不透明</h3><ul>
+<li>分了 A Team / B Team ，Items 有 Dependcy ，導致工作互卡。</li>
+<li>跨國團隊很多項目需要台灣 Tech Leader 決策</li>
+</ul>
+<p>Team sol:</p>
+<ul>
+<li>中間插入一個 Sync<ul>
+<li>實務上跑起來不 Work ？</li>
+</ul>
+</li>
+<li>大家一起站立<ul>
+<li>→ 很花時間 </li>
+</ul>
+</li>
+<li>由某一個 Team 全部領走整群的 Item<ul>
+<li>→ 主流程難以被切分</li>
+</ul>
+</li>
+<li>除了站立之外，團隊也要時時 Sync<ul>
+<li>→ 當 member focus on Item 時，對其它人尋求協助的反應可能會變慢。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Action-Item-1"><a href="#Action-Item-1" class="headerlink" title="Action Item"></a>Action Item</h3><ul>
+<li><a href="https://blog.github.com/2018-05-01-github-pages-custom-domains-https/" target="_blank" rel="noopener">Custom domains on GitHub Pages gain support for HTTPS</a></li>
+</ul>
+<h2 id="2018-10-30"><a href="#2018-10-30" class="headerlink" title="2018/10/30"></a>2018/10/30</h2><blockquote>
+<p>為什麼無法跟團隊成員說明自已的想法，原因還是出自於不信任？<br>每個人（含主管）在面對什麼？　或許知道了也幫不上…<br>還有「主管」這種思維，不是一種文化不敏捷的味道；<br>表示著你還需要被管理，才知道該作什麼。</p>
+</blockquote>
+<h3 id="使命與遠景"><a href="#使命與遠景" class="headerlink" title="使命與遠景"></a>使命與遠景</h3><ul>
+<li><del>8 億</del> : 開發者會覺得與我何干。所以我們調整成…○○？  </li>
+<li>○○ : 開發者會覺得?  <ul>
+<li>A. 太棒了，激勵人心  </li>
+<li>B. 干我屁事  </li>
+<li>C. 聽起來很棒，可是…  </li>
+<li>D. 蛤？那是什麼，可以吃嗎？</li>
+</ul>
+</li>
+</ul>
+<h4 id="抽樣調查"><a href="#抽樣調查" class="headerlink" title="抽樣調查"></a>抽樣調查</h4><p>L●●:整合線上線下讓客戶更容易銷售產品，消費者有更好體驗<br>A●●等3人:賺錢 x3<br>T●●:作出讓客戶達到業績的產品<br>A●●:改善現有線上電商的使用環境與體驗<br>R●●:開發良好的軟體改善客戶與使用者的體驗  </p>
+<blockquote>
+<p>小結:第一時間大部份是賺錢，或是不知道。少數第一時間說出來的，<br>又各不相同，每個人的目標不同，真的能有「使命感」？真的會有「成就感」？<br>沒有共識，何來透明？</p>
+</blockquote>
+<h3 id="OKR-與-DoD"><a href="#OKR-與-DoD" class="headerlink" title="OKR 與 DoD"></a>OKR 與 DoD</h3><ul>
+<li>OKR 適合用在 Sprint 嗎 ？ </li>
+<li>每個 Sprint 為了討論 KR 而放棄投點值得嗎 ？</li>
+<li>KR 與 DoD 是否能結合 ？</li>
+</ul>
+<p>（fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/11/17/2018/csm/n_company_log_201810/" data-id="ck98nwuvn00bmh1wf5tqj416v" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/11/17/2018/csm/n_company_log_201810/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/" rel="tag">Agile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018/csm/day_2_2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/04/2018/csm/day_2_2/" class="article-date">
+  <time datetime="2018-11-03T16:08:47.000Z" itemprop="datePublished">2018-11-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/04/2018/csm/day_2_2/">CSM Day2-2 Daily Scrum 與 Sprint Review 與 Retrospective</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="課程簡介"><a href="#課程簡介" class="headerlink" title="課程簡介"></a>課程簡介</h4><ul>
+<li>Scrum Master 認証課程</li>
+<li>講師 ： <a href="https://blog.odd-e.com/yilv/" target="_blank" rel="noopener">呂毅(Lv Yi)</a></li>
+<li>課前請看過 <a href="https://scrumguides.org/docs/scrumguide/v2017/2017-Scrum-Guide-Chinese-Simplified.pdf" target="_blank" rel="noopener">Scurm Guide</a> 與 <a href="http://scrumprimer.org/scrum_primer_cn.pdf" target="_blank" rel="noopener">Scurm Primer</a></li>
+</ul>
+<h3 id="Daily-Scrum"><a href="#Daily-Scrum" class="headerlink" title="Daily Scrum"></a>Daily Scrum</h3><ul>
+<li>建議 Time Box 15 mins，每日同時同地進行，注意避免超時。</li>
+<li>目的是 Adapt，觀注 Item 而非 Task。</li>
+<li>Scrum Master 不是會議的中心；避免讓團隊成員變成對 Scrum Master 或 PO 報告。</li>
+<li>Scrum Master 應減少(避免成為中心)<ul>
+<li>發言</li>
+<li>眼神接觸</li>
+</ul>
+</li>
+<li>PO不一定需要每天參與Daily Scrum，但參與有助於問題的釐清</li>
+<li>不討論細節，只確認現況(Reality Check)與目標(Goal)的差距，細節可會後釐清</li>
+</ul>
+<p>補充: </p>
+<ul>
+<li><a href="https://wiki.mbalib.com/zh-tw/GROW%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">GROW</a></li>
+<li>有的人就是很話澇，曾有團隊給每個成員紅/黃牌，當有人說得太久就給牌警告 XDDD</li>
+<li>Scrum Master 可以作的事<ul>
+<li>Does the team find the daily scrum useful ？ 成員有沒有發現站立的好處 ？</li>
+<li>Do they manage themselves ？ 團隊是否自組織了？</li>
+<li>Do they share their work ？ 他們的工作是共享的嗎 ？</li>
+<li>Do they come prepared ？ 他們(這個Sprint/Item/Task)準備好了嗎 ？</li>
+<li>Do they report unclear ？他們的說明是否易懂？</li>
+<li>Does it take too long ？是不是太耗時了？</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>我在 C 社是下午 5:30 執行 Daily Scrum，在 N 社是早上 10:30。<br>個人比較喜歡 C 社的作法，但有可能是被制約了，因為那是我第一個跑 Scrum 的團隊。</p>
+</blockquote>
+<p>主觀的比較一下優缺點</p>
+<table>
 <thead>
 <tr>
-<th>測試環境</th>
-<th>測試結果</th>
+<th></th>
+<th>優點</th>
+<th>缺點</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>QA8</td>
-<td>OK</td>
+<td>下午執行的</td>
+<td>站立完就可以下班了。</td>
+<td>站立講不清楚就會拖到下班，人性會選擇甘脆不講。</td>
 </tr>
 <tr>
-<td>QA</td>
-<td>OK</td>
+<td></td>
+<td>一早來就可以根據昨天的站立進行開發。</td>
+<td>第二天一來忘了昨天說什麼了啦</td>
 </tr>
 <tr>
-<td>PP</td>
-<td>OK</td>
+<td>上午執行的</td>
+<td>站完就可以開始一天的工作。</td>
+<td>10:30 站立就會有人10:30才進公司，提早來反而沒人問(但是安靜)</td>
 </tr>
 <tr>
-<td>鎖Host測試</td>
-<td>OK</td>
-</tr>
-<tr>
-<td>半數機器上線</td>
-<td>OK</td>
-</tr>
-<tr>
-<td>全數機器上線</td>
-<td>OK，好</td>
+<td></td>
+<td>剛站完比較不會忘</td>
+<td>如果有會後討論，一不小心就中午了呢(一ω一)</td>
 </tr>
 </tbody></table>
-<p>為什麼全數機器上線才發生異常。</p>
+<h3 id="Sprint-Review-amp-Retrospective"><a href="#Sprint-Review-amp-Retrospective" class="headerlink" title="Sprint Review &amp; Retrospective"></a>Sprint Review &amp; Retrospective</h3><h4 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h4><ul>
+<li>展示我們完成了「什麼(What)」(面對 Stakeholder 練習別說技術語言)</li>
+<li>建立 Product Owner 與 Stakeholder 的信任</li>
+<li>取得來自 Product Owner 與 Stakeholder 的 Feedback </li>
+<li>圍繞著 Product 進行 Inspect 與 Adapt</li>
+<li>Team Member 完成某些 Task 或 Item 之時，就可以找 PO 進行 View (Just In Time Review)</li>
+</ul>
+<p><img src="/images/2018/csm/day_2/done&accept.jpg" alt="-"></p>
+<h4 id="Retrospective"><a href="#Retrospective" class="headerlink" title="Retrospective"></a>Retrospective</h4><ul>
+<li>觀注我們是「怎麼(How)」作的</li>
+<li>圍繞著 Process 進行 Inspect 與 Adapt</li>
+<li>從經驗中學習，增進溝通</li>
+<li>幫助團隊關注改善 Process</li>
+<li>關注重複發生的問題<ul>
+<li>有時是組織性的問題</li>
+<li>有時是團隊的問題</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>「每個人的觀點都是對的；但不完全是對的。」</strong><br>上面這句話，要兩句同時看才完整。</p>
+</blockquote>
+<h4 id="回饋"><a href="#回饋" class="headerlink" title="回饋"></a>回饋</h4><blockquote>
+<p>盲人摸象的啟示，沒有人錯；但組合起來就不是大象。<br>不論那隻大象是你的團隊、組織、公司或是這個社會。<br><a href="https://ruddyblog.wordpress.com/2017/10/27/%E7%9C%8B%E8%A6%8B%E5%85%A8%E8%B2%8C/" target="_blank" rel="noopener">專案開始之初，首重看見全貌</a>。<a href="https://ruddyblog.wordpress.com/2018/05/" target="_blank" rel="noopener">看見全貌之後，確認自己在哪裡!</a> — Ruddy Lee(李智樺)  N 社敏捷教練<br>幸福的秘密,就是去欣賞世界上所有的奇特景觀,但不要忘記了湯匙裡的油。　— 牧羊少年奇幻之旅</p>
+</blockquote>
+<h3 id="Product-Owner-amp-Product-Blog-amp-Refinement"><a href="#Product-Owner-amp-Product-Blog-amp-Refinement" class="headerlink" title="Product Owner &amp; Product Blog &amp; Refinement"></a>Product Owner &amp; Product Blog &amp; Refinement</h3><h4 id="Product-Owner"><a href="#Product-Owner" class="headerlink" title="Product Owner"></a>Product Owner</h4><ul>
+<li>對產品有遠景</li>
+<li>定義產品的功能，決定發佈的日期與內容</li>
+<li>對功能作排序(價值、成本、風險…etc)</li>
+<li>對產品獲利能力負責</li>
+</ul>
+<blockquote>
+<p>為什麼 Scrum 的設計上只有一個 PO ，這讓下決定變得簡單；但實務上這件事不容易。<br>在 C 社期間與 Boss 的距離較短(公司規模小)， 但是 Boss 也是喜歡透過一個 PM 來作代理人，在 N 社公司規模更大，PMO 基本上是個巨型團隊，即使是 PO 仍需要與其它部門確認、核可、討論才能決定。不論大小，在工作實務上仍然像個 PM 或是窗口與代理人。</p>
+</blockquote>
+<h4 id="Product-Backlog"><a href="#Product-Backlog" class="headerlink" title="Product Backlog"></a>Product Backlog</h4><ul>
+<li>要包含功能性與技術性的需求 Items</li>
+<li>Items 將被拆解為工作項目(Tasks)</li>
+<li>只對高優先的項目作細部分解。<ul>
+<li>價值、緊急程度需要可測量</li>
+</ul>
+</li>
+<li>多個團隊應該共用一份 Product Backlog</li>
+<li>由商業計劃驅動，有時候你需要客戶的協助</li>
+</ul>
+<p><strong>好的 Product Backlog</strong> ，可以協助團隊 Refinement</p>
 <ul>
-<li>QA8 沒有 CDN</li>
-<li>鎖Host/半數機器上線未開 CDN</li>
-<li>QA / PP CND 設定與正式環境不一致<ul>
-<li>RD 並未 Check 設定的一致性</li>
-<li>RD 沒有權限</li>
+<li>Ordered</li>
+<li>Detailed Appropriately</li>
+<li>Dynamic</li>
+<li>Estimated</li>
 </ul>
-</li>
+<h4 id="Refinement"><a href="#Refinement" class="headerlink" title="Refinement"></a>Refinement</h4><ul>
+<li>最高優先的 Item 可以提前 2-3 個 Sprint 執行 Refinement</li>
+<li>PO 與 Team 一起進行</li>
+<li>你可以在 Sprint 中期進行一次</li>
+<li>可以透過 User Story Mapping 進行討論</li>
 </ul>
-<h3 id="技術細節"><a href="#技術細節" class="headerlink" title="技術細節"></a>技術細節</h3><ol>
-<li>使用 Partial View 與 OutputCache</li>
-<li>小心 Borwser Cache </li>
-<li>站台上會有跨Domain的存取行為<ul>
-<li>Service to Official </li>
-<li>Service to CDN</li>
-<li>Official to Service</li>
-</ul>
-</li>
-<li>CDN &amp; Access-Control-Allow-Origin </li>
-<li>稍微提一下 CORSModule</li>
+<blockquote>
+<p>User Story 的目的是用來達溝通的，<br>溝通最大的目的在於分享觀點與學習，不要僅僅流於形式。</p>
+</blockquote>
+<blockquote>
+<p>實務上 Refinement 隨時會發生，關鍵的成員討論並決策。<br>而且不難實現，隨時 Refinement 是第一線的開發人員很自然的思維與生態。<br>PO 在場的話更好，但是不是必要的。特別要記得設定 Time Box，避免討論多與實踐。</p>
+</blockquote>
+<h4 id="Walking-Skeleton"><a href="#Walking-Skeleton" class="headerlink" title="Walking Skeleton"></a>Walking Skeleton</h4><p>這裡有關一些 User Story Mapping 的東西，我不清楚故不作說明，未來再作補充。<br>我們可以把 Y 軸的分群當作一個一個 Feature，很明顯我們不需要把每件事作到 100% ，那樣太慢而且沒有意義。</p>
+<p>我們應該先完成 X 軸最上方一列的 Items ，要儘可能的簡單，完成一個完整可動的骨架。<br>它的圖形會如下；</p>
+<p><img src="/images/2018/csm/day_2/walking_skeleton.jpg" alt="Walking Skeleton"></p>
+<p>它不代表要被交付，它只完成了一個最簡單的閉環，能提供最基本的回饋(不需來自真正的客戶)。<br>當完成了 Walking Skeleton ，在這個基礎上我們可以填加其它的增量，應該在前 1~2 Sprint 就完成它。  </p>
+<p>Scrum Master 應該與 PO 一起找到 Walking Skeleton，在一個 Release 前 1/3 的時間就應該完成 Walking Skeleton。未必要 Release 它，因為它很可能是相當粗糙的，但是儘早完成可以幫助團隊降低風險，而且完成後 Value 的選擇將可視化，同時也完成了基本的 Architecture 。  </p>
+<p>當然所有部份都不完整，但是可以隨著時間逐漸完成。有些項目我們可能永遠不會作，因為不符成本。另外如果一個完整的 Walking Skeleton 無法在一個 Sprint 裡完成，請選擇 Risk 高的優先作。</p>
+<h4 id="估時"><a href="#估時" class="headerlink" title="估時"></a>估時</h4><p>對每個 Item 估點數，請參考 Planning 的部份；但是點數對客戶與老闆其實沒有辦法理解，最重要轉換成時間。關鍵還是 Velocity ，這是團隊的戰鬥力，假設總共的點數估計為 50 點，團隊每個 Sprint 可以完成 10 點，團隊就需要 5 個 Sprint，以一個 Sprint 2周來算，這樣就可以向客戶或老闆承諾 10周的時間。</p>
+<blockquote>
+<p>這裡的例子有點不懂，正常的 Scrum 估時只會專注在一個 Sprint，而 Product Back Log 如果沒有被估點的話，如何換算成點數？更如何向客戶或老闆提供這樣的數據？</p>
+</blockquote>
+<p>估時很適用 Fibonacci 數列，F: 1、2、3、5 、8、13、21、…，很多的工具都有提供，主要以相對大小來比較對一件事情的看法。此外，不要因此被工具限制住了，比如說團隊無法在 8 跟 13 之間，就選擇個中間值吧，「?」也是一張重要的牌，這代表未知、混沌與風險。可以在所有的 Item 中挑選一個的當作基礎，每比較完一個項目，也再次作為比較基礎。「40」、「100」這樣的大牌也有其意義，這意味著 Item 過大，可以再作分解。  </p>
+<p>較成熟的團隊，也可以拿過去曾經估計過的 Items 作為一組「Reference Pool」，通常不需要估到很精準。</p>
+<blockquote>
+<p>這樣的估計方法，需求的 Items 類型是不是需要很穩定 ？舉例來說，我們的產品如果包含 App、Web 與 Desktop ，團隊成員的 Skill Set 又很小，某些類型的工作只能由少數人開發，隨著 Sprint 有時候需要作 App、有時候需要作 Web；有時候兩者都需要作，這樣的估時算穩定嗎 ？<br>這是不是表示說 Scrum Team 所需要的團隊組成其實很高？又或是我需要將產品拆成 App、Web 不過這樣不就又回到 Component Team 了 ？那在導入 Scrum 的初期，人員的挑選要找通材，或是學習能力極強的人？</p>
+</blockquote>
+<h4 id="Splitting"><a href="#Splitting" class="headerlink" title="Splitting"></a>Splitting</h4><p><code>The perfect is the enemy of the good</code></p>
+<p>Task 也可以應用 Walking Skeleton 的方式切割，儘早讓整合測試發生，不用一步到位。如果有外部相依，可以考慮先用 Stubbing 的方式隔開，這可能會讓「整合測試」不完整 。</p>
+<p><img src="/images/2018/csm/day_2/splitting.jpg" alt="Splitting Ways"></p>
+<blockquote>
+<p>用 Walking Skeleton 的方式開發，QA 會反映沒有什麼好測試的，Sprint 的初期 QA 都在寫測項，等待 RD 完成開發，最後幾天拼命測試。如果先開發 Walking Skeleton QA 會反應這樣的測試並不完整？而 PO會反應這樣的東西沒有商業價值。</p>
+</blockquote>
+<h4 id="開始第一個-Sprint"><a href="#開始第一個-Sprint" class="headerlink" title="開始第一個 Sprint"></a>開始第一個 Sprint</h4><ol>
+<li>組成團隊(PO、SM、Team)，這會挑戰目前的組織架構，這是難的地方。</li>
+<li>創建最初的 Product Backlog</li>
+<li>決定 Sprint 長短</li>
+<li>Define Value &amp; DoD</li>
 </ol>
-<h3 id="錯誤原因-2"><a href="#錯誤原因-2" class="headerlink" title="錯誤原因"></a>錯誤原因</h3><p><img src="https://i.imgur.com/GmBULAQ.jpg" alt=""></p>
-<pre><code>TranslationCDN : 用來防止瞬間量對 Server 的 Impact
-FingerprintTag : 一份Cache的時戳， 用以取得新版多語系 Json 檔    
-site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></pre><ol>
-<li>Partial View 會有 OutputCache<br> → 保得了一時，保不了一世</li>
-<li>為了 Borwser Cache ，F2E 在 QueryString 作了加工。</li>
-<li>網站跨Domain的存取行為，歷史共業。</li>
-<li>CDN &amp; Access-Control-Allow-Origin </li>
-<li>CorsModule，有必要區分protocol嗎 ?</li>
-</ol>
-<p><img src="https://i.imgur.com/Dw2yIvG.jpg" alt="">    </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span>/ Step3. 檢查呼叫webapi是否需要https</span></span><br><span class="line"><span class="keyword">if</span> (httpContext.Request.Url.Scheme == Uri.UriSchemeHttps &amp;&amp; (sourceUri == <span class="literal">null</span> || sourceUri.Scheme == Uri.UriSchemeHttps))</span><br><span class="line">&#123;</span><br><span class="line">    allowOrigin = allowOrigin.Replace(<span class="string">"http:"</span>, <span class="string">"https:"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="問題處理經過"><a href="#問題處理經過" class="headerlink" title="問題處理經過"></a>問題處理經過</h3><ol>
-<li><p>第一時間 QA 有看到異常， 但是在 PO 的環境無法重現 ，<br>RD 初步判斷為快取的問題， 並嚐試重現錯誤 。</p>
-</li>
-<li><p>SRG 收到通報有<strong>客戶反應</strong>顯示異常，立即啟動藍綠部署，<strong>耗時 93 分鐘</strong>。  </p>
-</li>
-<li><p>縮小範圍至 CDN 與 Access-Control-Allow-Origin 異常，<br>但是仍然<strong>無法完整重現錯誤</strong>(時好時壞)</p>
-</li>
-<li><p><strong>申請 CDN 權限</strong>,確認各環境的設定值。  </p>
-</li>
-<li><p><strong>申請 QAn 測試用CDN</strong>,在 QA8 環境反覆測試，<br>發現<strong>頁面 OutputCache 會影響測試</strong></p>
-</li>
-</ol>
-<p>關閉QA8 OutputCache<br>測試步驟如下:</p>
-<pre><code>- Case1. http 強制更新後，連線 https 
-    - http://8.qa.demo/index?r=t
-        - ts = 2387
-        - ao = http://8.qa.demo/index
-    - http://8.qa.demo/index
-        - ts = 2387
-        - ao = http://8.qa.demo/index
-    - https://8.qa.demo/index =&gt; **Error**
-        - ts = 2387
-        - ao = http://8.qa.demo/index
-
-
-- Case2. https 強制更新後，連線 http 
-    - https://8.qa.demo/index?r=t
-        - ts = 8458
-        - ao = https://8.qa.demo/index
-    - http://8.qa.demo/index
-        - ts = 8458
-        - ao = https://8.qa.demo/index
-    - https://8.qa.demo/index =&gt; **Error**
-        - ts = 8458
-        - ao = https://8.qa.demo/index         </code></pre><ol start="6">
-<li><p>確認 Prod CDN 的 WhiteList Header 的設定有問題，<br>那為什麼 PP/G3 不會有問題呢 ?<br>=&gt; <strong>在 PP/G3 設定為 Referrer</strong> </p>
-</li>
-<li><p>測試過程發現 x-cache Header 常常<br><code>Miss from cloudfront</code>,<br>表示資料並非來自 CDN .<br>實際測試 Origin 比 Referrer 更適合</p>
-</li>
-</ol>
-<h3 id="回饋與後續"><a href="#回饋與後續" class="headerlink" title="回饋與後續"></a>回饋與後續</h3><pre><code>1. 團隊評估欠缺數據 →
-2. 客戶反應異常。
-3. 藍綠部署異常回覆速度，耗時 93 分鐘 → `已有RD著手改善`
-4. 無法完整重現錯誤
-5. RD 沒有 CDN 權限 → `已申請`
-6. QAn 沒有設定 CDN → `沒有CDN的Issue沒必要特別設定(因為需要對外)`
-7. 頁面 OutputCache 會影響測試。
-8. PP / G3 與 Prod  CDN設定不一致 → `webapi/transalte/* 已調整一致`
-9. Release 三步驟 ， 最後一步才會開啟 CDN</code></pre><p>Q. 下次我們怎麼作 ?</p>
-<h3 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h3><ul>
-<li><p>什麼是 CDN ?<br><img src="https://raw.githubusercontent.com/hungys/azure-blog/master/media/14-using-azure-cdn/cdn-concept.png" alt=""></p>
-<p>  Server跟CDN就像工廠與便利店的關係， 你要買東西不用跑到工廠<br>  只要在離自已最近的便利店買就好了， 過期的商品(資料)會被丟掉<br>  重新跟工廠進貨(拉新資料)。</p>
-</li>
-<li><p>什麼是 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS" target="_blank" rel="noopener">CORS</a> ?</p>
-</li>
-<li><p>什麼是 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin" target="_blank" rel="noopener">Origin</a> </p>
-</li>
-<li><p>什麼是 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer" target="_blank" rel="noopener">Referrer</a></p>
-</li>
-<li><p><a href="https://hackmd.io/p/SyFiZ2wIX#/" target="_blank" rel="noopener">Slide</a></p>
-</li>
+<h4 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h4><ul>
+<li><a href="https://books.google.com.tw/books/about/Agile_Retrospectives.html?id=zA5QDwAAQBAJ&source=kp_cover&redir_esc=y" target="_blank" rel="noopener">Agile Retrospectives: Making Good Teams Great</a></li>
+<li><a href="https://www.amazon.com/Project-Retrospectives-Handbook-Team-Reviews/dp/0932633447" target="_blank" rel="noopener">Project Retrospectives: A Handbook for Team Reviews</a></li>
+<li><a href="https://www.tenlong.com.tw/products/9789863479468" target="_blank" rel="noopener">User Story Mapping: Discover the Whole Story, Build the Right Product</a></li>
+<li><a href="https://devopshub.cn/2016/01/10/user-story-mapping-for-the-first-time/" target="_blank" rel="noopener">用户故事地图(User Story Mapping)之初体验</a></li>
 </ul>
 <p>(fin)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/08/28/2018/defect_release_cors_and_cdn/" data-id="ck98nwutt005ch1wfaqvu8u6w" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/11/04/2018/csm/day_2_2/" data-id="ck98nwuvj00b7h1wf6efyd1t9" class="article-share-link">Share</a>
       
-        <a href="https://blog.marsen.me/2018/08/28/2018/defect_release_cors_and_cdn/#disqus_thread" class="article-comment-link">留言</a>
+        <a href="https://blog.marsen.me/2018/11/04/2018/csm/day_2_2/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDN/" rel="tag">CDN</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/" rel="tag">Agile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a></li></ul>
 
     </footer>
   </div>
@@ -844,10 +913,10 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
 
 
   
-    <article id="post-2018/where_is_specrun" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2018/csm/day_2_1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/27/2018/where_is_specrun/" class="article-date">
-  <time datetime="2018-08-27T10:42:16.000Z" itemprop="datePublished">2018-08-27</time>
+    <a href="/2018/11/03/2018/csm/day_2_1/" class="article-date">
+  <time datetime="2018-11-03T15:47:10.000Z" itemprop="datePublished">2018-11-03</time>
 </a>
     
   </div>
@@ -858,7 +927,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/27/2018/where_is_specrun/">[踩雷筆記] .Net專案升級 SpecRun.Runner 與調整 CI </a>
+      <a class="article-title" href="/2018/11/03/2018/csm/day_2_1/">CSM Day2-1 Planning</a>
     </h1>
   
 
@@ -866,56 +935,342 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><ul>
-<li>專案使用 Specflow 寫 BDD</li>
-<li>Visual Stuio 找不到測試所以才升級 SpecRun 與 Specflow</li>
-<li>Visual Studio 2017 升級到 15.8.1 後突然無法正常搜尋到測試</li>
-<li>SpecRun.Runner 升級(1.2 → 1.8.2)</li>
-</ul>
-<p>去年12月跟 Visual Studio 折騰了許久，才讓專案的<a href="https://blog.marsen.me/2017/12/11/test_learn/vs2017_mstest_with_nuget/">測試項目重見光明</a>，<br>在今年與其它專案合併後，測試又從我們團隊的眼前消失了。</p>
-<h2 id="調整項目"><a href="#調整項目" class="headerlink" title="調整項目"></a>調整項目</h2><p>升級 Specflow 與 SpecRun 相關套件<br><img src="https://i.imgur.com/nwl6xFp.jpg" alt="升級 Specflow 與 SpecRun 相關套件"></p>
-<p>取得 SpecRun 位於專案的 <code>packages</code> 資料夾中。<br><img src="https://i.imgur.com/EyaFEFI.jpg" alt="取得 SpecRun 位於專案的 `packages` 資料夾中。"></p>
-<h2 id="設定-CI"><a href="#設定-CI" class="headerlink" title="設定 CI"></a>設定 CI</h2><p>由於 SpecRun 版本不符會導致 CI Job Error , 需要設定以新的 SpecRun 執行 CI</p>
-<blockquote>
-<p>D:\SpecRun.Runner.1.8.2\tools\SpecRun.exe run D:\Project\Core.Test\bin\Debug\Core.Test.dll /baseFolder:Core.Test\bin\Prod /toolIntegration:vs201 0 /reportFile:Core.Test.TestResult.html</p>
+        <blockquote>
+<p>** 雖然實施部分的 Scrum 是可能的，但結果並不是 Scrum。Scrum，<br>  只有在完整的時候才會存在，也才能有效的成為其他技巧、方法論、和實務發揮的運作舞臺。<br>  — Scrum Guide 結語**</p>
 </blockquote>
-<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><p>VS2017的測試總管找不到測試項目，或僅有部分資料<br>說明：Something changed in the NUnit and XUnit Test Adapter.<br>But I am not sure, if it really worked before the Visual Studio update.<br>I think I saw this behavior already in earlier versions of Visual Studio and NUnit3/XUnit2. (此原因尚未被實證)</p>
+<h2 id="Planning-with-2-4-hours-timebox"><a href="#Planning-with-2-4-hours-timebox" class="headerlink" title="Planning (with 2~4 hours timebox)"></a>Planning (with 2~4 hours timebox)</h2><h3 id="Planning-第一階段"><a href="#Planning-第一階段" class="headerlink" title="Planning 第一階段"></a>Planning 第一階段</h3><ul>
+<li>說明要作什麼(What)。</li>
+<li>對Item估點。<ul>
+<li>基於 Velocity</li>
+<li>基於 Commitment</li>
+</ul>
+</li>
+</ul>
+<h4 id="估計的方法"><a href="#估計的方法" class="headerlink" title="估計的方法"></a>估計的方法</h4><p>有 Size (大、中、小) 或點數(Story Point、Planning Poker)等方法，<br>實務上都使用點數較多，原因是多個項目的加總，在比較時點數較有感覺。  </p>
+<p>參考下例：<br>Sprint 1 有 4 個 Item，Size 是分別是大、大、中、小。點數分別是 13、13、5、2。<br>Sprint 2 有 5 個 Item，Size 是分別是大、中、中、中、小。點數分別是 13、8、8、5、1。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Sprint</th>
+<th align="left">Size</th>
+<th align="left">點數</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Sprint 1</td>
+<td align="left">2大、1中、1小</td>
+<td align="left">13+13+5+2 = 33</td>
+</tr>
+<tr>
+<td align="left">Sprint 2</td>
+<td align="left">1大、3中、1小</td>
+<td align="left">13+8+8+5+1 = 35</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Velocity-Driven 或 Commitment-Driven 哪個比較好呢？<br>大多數的 Scrum Master 恐怕會跟你說團隊決定。<br>兩者的差異點在哪裡呢 ？ <strong>Scrum 是立基於經驗導向的流程控制理論</strong><br>Velocity 有數據佐証，較為客觀；但是 Team members 與 Backlog Item 其實都是會變動的(理想上當然是穩定更好)，<br>如果 PO 與 Team 的互信足夠，  Commitment 其實也可以符合經驗導向，比如說：「 我的Develop Team 平均每個 Sprint裡面可以交付 90% 的 Item。」<br>換句話說還是團隊決定，但是彈性是很大的，或許 Develop Team 有信心時使用 Commitment ，而團隊缺乏信心時或許可以用過往的 Velocity 作為標準。  </p>
+</blockquote>
+<h3 id="Planning-第二階段"><a href="#Planning-第二階段" class="headerlink" title="Planning 第二階段"></a>Planning 第二階段</h3><ul>
+<li>組織 Task 以達到溝通與完成 Items 的目的</li>
+<li>接受來自第一階段的 Backlog Items<ul>
+<li>要相信「Velocity」</li>
+<li>不要馬上分派 Task<ul>
+<li>會形成 Silo ，被分派者會提早將專注力從 Item 移到 Task 上</li>
+<li>保持專注在 Item 上</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>對Task估時。<ul>
+<li>估時請包含假勤/會議/教育訓練…etc</li>
+<li>別忘了 Backlog Refactoring 的時間</li>
+<li>在 Time box 裡估完成估計的 Task</li>
+<li>Maintain → 用經驗法則抓一點 Buffer 吧</li>
+<li>用小時去估時 ex:1~8，如果超過 8 小時稍後再作進一步的工作拆解</li>
+<li>Task 如果仍有模糊不清的部份，可以先估一個較大的時數，再進一步拆解</li>
+<li>隨著 Sprint 進行，隨時調整 Task (增/刪/修)</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/2018/csm/day_2/Sprint_Backlog_Burndown.jpg" alt="Sprint Backlog&#x5E38;&#x5E38;&#x6703;&#x9577;&#x9019;&#x6A23;"></p>
 <ul>
-<li>解法1(暫解)：<pre><code>工具&gt;擴充功能和更新&gt;停用&quot;Dotnet Extensions for Test Explorer&quot;</code></pre></li>
-<li>解法2(暫解):<pre><code>改用VS2015</code></pre></li>
-<li>參考:<ul>
-<li><a href="https://developercommunity.visualstudio.com/content/problem/158160/unable-to-fetch-source-information-for-test-method.html" target="_blank" rel="noopener">Unable to fetch source Information for test method</a>  </li>
-<li><a href="https://github.com/techtalk/SpecFlow/issues/990" target="_blank" rel="noopener">Open SpecFlow test from Text Explorer goes to the feature class file not the feature file #990</a></li>
-</ul>
+<li><p>這是用來估計而非報告，不要混為一談；Scrum 在乎的是結果，而非時間。</p>
 </li>
-</ul>
-</li>
-<li><p>We could not find a data exchange file at the path System.ArgumentNullException</p>
+<li><p>只管相對大小，ex: Task A 與 Task B，由 Alice 與 Bob 領走可能會如下呈現</p>
 <ul>
-<li>說明: 聽說SpecFlow 2.2 fixed</li>
-<li>解法(暫解): Tools &gt; Options &gt; SpecFlow &gt;Data Exchange Path，隨便設定一個路徑去 overwrite the default value</li>
-<li>參考:<ul>
-<li><a href="https://github.com/techtalk/SpecFlow/issues/1234" target="_blank" rel="noopener">Build fails: We could not find a data exchange file</a></li>
-<li><a href="https://github.com/techtalk/SpecFlow/issues/857" target="_blank" rel="noopener">Visual Studio 2017 Generation error: Could not load file or assembly ‘Microsoft.Build.Framework, Version=15.1.0.0</a></li>
-<li><a href="https://github.com/techtalk/SpecFlow/issues/896" target="_blank" rel="noopener">Visual Studio Plugin for VS2017 does not always use Specflow Generator 2.2.0.0</a></li>
-<li><a href="https://github.com/techtalk/SpecFlow/issues/639" target="_blank" rel="noopener">SpecFlow with SpecRun and NUnit fails with ArgumentNullException #639</a></li>
+<li>Task A Alice 領走估時 8 hours，Task B Bob 領走估時 4 hours</li>
+<li>Task A Bob 領走估時 2 hours，Task B Alice 領走估時 4 hours</li>
+<li>其實不用追究原因，或是是否相同，這因人而異，不求準確<ul>
+<li>我自已的理解是<ul>
+<li>而是某人估了高時數時，能不能有人來支援他？</li>
+<li>能不能透估時發現 Team Member 的能力差異，並引入其它方法提升 Member 能力 (ex: Pair Programming、Sharing、讀書會…)</li>
+<li>承上一點，注意佔用 Sprint 的時間，並回頭檢核是否有效；<strong>沒有比較的改善，只是自我滿足。</strong></li>
 </ul>
 </li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Sprint Backlog</strong><br>Tasks to turn product backlog into working product functionality.<br>Tasks are estimated in hours , usually 1-8 .<br>Team with more than 8 hours are broken down later .<br>Team members sign up for tasks , they aren’t assigned .<br>Estimated work remaining is updated daily .<br>Any team member can add, delete or change the Sprint Backlog work for the Sprint emerges<br>If work unclear, define a Sprint Backlog with a larger amount of time break it down later .<br>Update work remaining as more is known, as items are worked</p>
+</blockquote>
+<h2 id="Scrum-Master-的-Check-List"><a href="#Scrum-Master-的-Check-List" class="headerlink" title="Scrum Master 的 Check List"></a>Scrum Master 的 Check List</h2><ul>
+<li>Product Backlog Item 排序<ul>
+<li>上一個 Sprint 未完成的 Item </li>
+<li>Review Meeting 的反饋所產生的 Action Item</li>
+<li>Acceptance Criteria 是否已經定義清楚了？<ul>
+<li>需視 Scrum Team的流程定義</li>
+<li>User Story 的 Descriptions &amp; Acceptance criteria希望是PO與團隊一起共同完成。<ul>
+<li>實務上蠻花時間的，寫出來的效果也不見得很好。(*也許是我們的操作方法不對)</li>
+</ul>
+</li>
+<li>User story是用來溝通的，不是用來寫的！</li>
+</ul>
+</li>
+<li>是否有人請假？ <ul>
+<li>可以提前確認</li>
+<li>有人請假要評估是否吃得下？</li>
+<li>吃不吃得下由團隊評估</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>PO 在 Sprint 中一直塞東西是不是一種不信任團隊的壞味道？<br>Team 毫無反應，就只是個接 Task 的 Team 是不是也是一種不信任？</p>
+</blockquote>
+<p><img src="/images/2018/csm/day_2/OKR_in_Scrum.jpg" alt="OKR in Scrum"></p>
+<blockquote>
+<p>我對 OKR 與 Sprint Goal 的認知。<br>不難理解為什麼 RD 會覺得干我屁事，<del>又沒加薪也沒獎金，<br>看了兩本書、用口說說就能讓人激勵人心太不且實際了</del>。<br>比如說：<a href="https://www.ettoday.net/news/20171125/1059745.htm" target="_blank" rel="noopener">作功德</a>，最後反而會讓第一線人當成幹話，幹話聽多了失去信任就更糟糕了。</p>
+</blockquote>
+<h2 id="Team"><a href="#Team" class="headerlink" title="Team"></a>Team</h2><p>適當的領取 Item，過多的 Item 進去，只會在 Sprint 結束時，有一堆半成品。<br>而半成品在面對(市場)變化，失去產品的彈性。</p>
+<blockquote>
+<p>軟體(代碼)的優化與重構只作一半，算不算是半成品？<br>軟體隨著架構或相依的套件升級或補丁，在 Sprint 期間通常會有必要升級或是改變寫法。<br>最後就變成下圖，擁有各種版本的 Code Base。</p>
+</blockquote>
+<p><img src="/images/2018/csm/day_2/V1_V2_V3_V4_VVV.jpg" alt=""></p>
+<blockquote>
+<p>這會拖慢開發速度，讓新進成員難以理解，也難以用 Code Review 或自動化 Tool 解決，<br>目前比較理想的解法是 Pair-Programming 與時時重構。</p>
+<p><strong>可是，PO願意花費這個時間去調整嗎？</strong><br>可以用 Veloctiy 變低當作參考嗎？Veloctiy 變低的原因有很多種。<br>又或者由 Team 自行決定？<br>Team 要能自組織要多久時間呢 ？<strong>「不是拿掉主管，團隊就能自組織」</strong>;<br>如果是跨 Team 共同開發的產品又該如何？<br>Arch 的調整需要更其它或上層的團隊允可(這也會占用不少時間)<br>把產品拆掉變成多個服務？讓團隊成為服務 Ower ？<br>拆成服務又需要多久時間呢？<br>組織架構調整？</p>
+<p><strong>當對 PO 來說，這是沒有商業價值的事。</strong>，實務上該怎麼作？或該怎麼量化呢？<br>註記：或許這只是個過度理想化的偽議題，畢竟「凡存在，必合理」。</p>
+</blockquote>
+<p><img src="/images/2018/csm/day_2/thinking.jpg" alt="&#x597D;&#x50CF;&#x6709;&#x9EDE;&#x61C2;&#x4E86;&#xFF0C;&#x53C8;&#x6709;&#x9EDE;&#x4E0D;&#x61C2;&#x2026;"></p>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/11/03/2018/csm/day_2_1/" data-id="ck98nwuvl00bfh1wf5jo734xe" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/11/03/2018/csm/day_2_1/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/" rel="tag">Agile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018/csm/day_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/27/2018/csm/day_1/" class="article-date">
+  <time datetime="2018-10-27T13:10:01.000Z" itemprop="datePublished">2018-10-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/27/2018/csm/day_1/">CSM Day1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="課程簡介"><a href="#課程簡介" class="headerlink" title="課程簡介"></a>課程簡介</h4><ul>
+<li>Scrum Master 認証課程</li>
+<li>講師 ： <a href="https://blog.odd-e.com/yilv/" target="_blank" rel="noopener">呂毅(Lv Yi)</a></li>
+<li>課前請看過 <a href="https://scrumguides.org/docs/scrumguide/v2017/2017-Scrum-Guide-Chinese-Simplified.pdf" target="_blank" rel="noopener">Scurm Guide</a> 與 <a href="http://scrumprimer.org/scrum_primer_cn.pdf" target="_blank" rel="noopener">Scurm Primer</a></li>
+</ul>
+<h4 id="燃盡圖的壞味道"><a href="#燃盡圖的壞味道" class="headerlink" title="燃盡圖的壞味道"></a>燃盡圖的壞味道</h4><p>如下，請忽略文字<br>上圖使用 Item 作為 y 軸單位 ，下圖使用 Task 作為 y 軸單位，<br>上圖直到最後一天，才瞬間完成所有 Item ，我稱之為跳崖式<br>下圖是在 Sprint 的過程中，Task 增加了，有可能是亂入也有可能是建立 Task 時不準確，我稱之為登山式。</p>
+<p><img src="/images/2018/csm/day_1/6B161347-8331-4BA7-89D2-61DA1DAD61B1.jpg" alt="&#x71C3;&#x76E1;&#x5716;&#x7684;&#x58DE;&#x5473;&#x9053;"></p>
+<p>上圖的例子還算是樂觀的，畢竟最後 Sprint 都完成了，實務上更多是 Sprint Failed 。</p>
+<blockquote>
+<p>我在 C 公司時是使用 Task ， N 公司是使用 Item ，在 N 公司與 Scrum Master 討論都建議使用 Item 繪製，<br>最主要立論都在於 Item 才有價值，而 Task 只細部的工作項而已。但對於我的角色而言(Team Member)，<br>能看見 Task 起伏很重要，往上爬待表 Task 變多了，可能的原因有插件、未預期的項目等…，可以作。  </p>
+<p>一個大原則， PO 看 Item，Team 看 Task。  </p>
+<p>Product Backlog 使用 Item 沒有問題，因為是 PO 在看的。<br>Sprint Backlog 可以兩種都用，Task 燃盡圖可以看見 Task 的增加，或許使用 Kanban 就足夠了。  </p>
+<p><strong>重點是，看見後要作什麼 ？</strong></p>
+</blockquote>
+<h4 id="觀注點的不同"><a href="#觀注點的不同" class="headerlink" title="觀注點的不同"></a>觀注點的不同</h4><p><img src="/images/2018/csm/day_1/00795F54-2654-4581-94BE-27068D4486DD.jpg" alt="PO &#x89C0;&#x6CE8; WHY &amp; WHAT &#xFF1B;Team &#x89C0;&#x6CE8; WHAT &amp; HOW"></p>
+<p>如上圖右下，在 Scrum 的角色中，PO 觀注 WHY &amp; WHAT ； Team 觀注 WHAT &amp; HOW ； 而 Scrum Master 觀注的點</p>
+<blockquote>
+<p>上圖中間的部份，則是我個人猜想，世界上大部份事情都可以被拆成 3+1；<br>恰巧這個 Context 符合我的猜想，就是市場、產品、錢，那個 1 我沒想到就順手先畫了下來。<br>PO 觀注產品，目的要儘快的丟到市場去作測試，而達到盈利(錢)的目標。所以他要思考市場反應背後的原因(WHY)，<br>設想策略，提供產品(WHAT)，最後才會 Break Down 成一個個 Product Log 再進到 Scrum 的循環之中，<br>當團隊成功的交付了可發佈的產品，PO 才有了武器去市場作戰，才有機會取得回饋。</p>
+</blockquote>
+<ul>
+<li>Time<ul>
+<li>PO 觀注 Sprint</li>
+<li>Team 觀注 Daily</li>
+</ul>
+</li>
+<li>Scope<ul>
+<li>PO 觀注 Item</li>
+<li>Team 觀注 Task</li>
+</ul>
+</li>
+<li>Cost<ul>
+<li>PO 觀注 Teams</li>
+<li>Team 觀注 members</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/2018/csm/day_1/7D811AFE-A4C8-4FB4-BD90-B65FDFE0B6BE.jpg" alt="&#x5C08;&#x6848;&#x7BA1;&#x7406;&#x7684;&#x4E09;&#x500B;&#x7DAD;&#x5EA6;&#xFF0C;Time&#x3001;Cost &#x8207; Scope"></p>
+<h3 id="Done-、Undone-amp-Debt"><a href="#Done-、Undone-amp-Debt" class="headerlink" title="Done 、Undone &amp; Debt"></a>Done 、Undone &amp; Debt</h3><p>＊建議先看影片(<a href="http://player.youku.com/embed/XMzMyNDIwMjYwOA" target="_blank" rel="noopener">中文字幕支援</a>，<a href="https://www.youtube.com/watch?v=IyNPeTn8fpo" target="_blank" rel="noopener">原始影片</a>)。</p>
+<blockquote>
+<p>如果你有杰出的工程團隊、最好的開發工具、運用正確的工程實踐(TDD、Code Review、Pair Programming etc…)、、<br>對 Business Domain 與 Tech Domain 有深入理解 ,開發時不受干擾，並且擁有足夠的資源</p>
+</blockquote>
+<blockquote><p>太理想了嗎 ？</p>
+<ul>
+<li>在現實的考量中如何堅持開發者的良好實踐？ </li>
+<li>在缺乏實踐的環境如何導入？ </li>
+<li>在缺乏經驗的情況下如何學習 ？ </li>
+<li>在焦油坑中如何實踐 ？ </li>
+<li>你有說「不」的勇氣嗎？</li>
+</ul>
+<footer><strong>style=info</strong></footer></blockquote>
+
+<p>回過頭來，如何定義完成，在 Scrum 的框架中對完成保留了很大的空間，PO 與 Team 的角度可能不儘相同，<br>所以由團隊來定義，模糊的空間很大。  </p>
+<blockquote>
+<p>同樣的定義用來指導開發團隊，讓團隊知道在短衝計劃會議中可以選擇多少產品待辦事項。<br>每一個短衝的目的是交付潛在可發佈的功能增量，而這些功能符合 Scrum 團隊目前對 「完成」之定義。</p>
+</blockquote>
+<blockquote><p>由 PO 主導的 DoD 會由商務與 PO 個人績效導向(如果有的話)，而工程上的重要實踐往往會被犧牲，<br>一方面是團隊成員對專業的堅持度不夠，一方面或許整體公司的開發文化就是如此。  </p>
+<p>這些事項是不是該落入 Task 之中 呢？</p>
+<ul>
+<li>Retro 後產生的 Action Item </li>
+<li>教育訓練 </li>
+</ul>
+<footer><strong>style=info</strong></footer></blockquote>
+
+<p>UnDone 的工作項目有很多，這意味著半成品(浪費)。<br>Undone 的項目可是五花八門包羅萬像的，技術債、文件製作、修復錯誤等…，只要不符合完成的定義，是不是都算 Undone 呢 ？<br>但是有的時候的 Sprint Goal 是需要欠下一些債的，這中間是一個取捨與權衡的，所以記得保持透明；<br>你或許需要一個 Undone Sprint 來消弭這些 Undone Task。</p>
+<p><img src="/images/2018/csm/day_1/undone_work.jpg" alt="&quot;Undone Work&quot;"></p>
+<p>注意 Undone 是會影響開發速率的，在 <strong>Scrum 之中開發速率應該是個關鍵指標</strong>，<br>不論你用 KPI、MBO 或 OKR 都應該觀注這個指標。<br>而速率是由經驗法則測得。當然有時為了快速交付，有些暫解是在所難免，要小心<a href="https://en.wikipedia.org/wiki/Talk%3AList_of_eponymous_laws#Proposal_to_add_LeBlanc' target="_blank" rel="noopener"s_law"> LeBlanc’s Law</a>，<br>這些債務除了團隊反應之外，更可以透過觀察速率指標，評估適當的時機消除與改善。  </p>
+<p>在 Time、Cost 與 Scope 都被鎖死的情況下，結果往往是犧牲了品質。<br><del>舉例說明： 這個東西 11 月底要，不能 Delay ，交由你們作(不準增加開發成本)，功能我全都要。</del>  </p>
+<blockquote>
+<p>品質的犧牲我竟然相對覺得還好…更可怕的是，「管理者」為了滿足那個鐵三角，而作出一些虛妄狡詐之事。<br>不僅僅是犧牲了品質，更給了高層錯誤訊息，甚至形成惡性循環，讓領導者作出錯誤判斷，更進一步的損耗品質。<br>最後成本提高、時間拉長與交付範圍不得不縮小，這不僅僅是鐵三角崩潰，連透明度與互信與也會失去。  </p>
+</blockquote>
+<p><strong>學習債 &amp; Cross Learning</strong>  </p>
+<p>Scrum Team 的成員組成有個前提，團隊具備完成端到端的開發的所有技能。  </p>
+<ul>
+<li>開發團隊 3~9 人</li>
+<li><strong>開發團隊是跨職能的，團隊擁有產出產品增量所需要的所有技能。</strong></li>
+</ul>
+<p>如果產品所需的 Skill Set 很大，<a href="https://zh.wikipedia.org/wiki/巴士因子" target="_blank" rel="noopener">巴士因子</a>就容易過低；<br>比如說一個七人的團隊，要製作一個包含 Web、App(包含 iOS 、 Android )的產品。<br>人力與能力配置假設如下，而且 DoD 的定義為所有載具的交付，那麼這個團隊的風險極高 ； 實際的經驗會變成 Mini Water Fall。<br>這也意味著每當工作移轉到某個職能的負責人身上，當下就形成瓶頸。  </p>
+<table>
+<thead>
+<tr>
+<th align="left">Alice</th>
+<th align="left">Bob</th>
+<th align="left">Carol</th>
+<th align="left">Dave</th>
+<th align="left">Eve</th>
+<th align="left">Frank</th>
+<th align="left">Grace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">UI/UX</td>
+<td align="left">Front-End</td>
+<td align="left">Back-End</td>
+<td align="left">iOS</td>
+<td align="left">Android</td>
+<td align="left">DBA</td>
+<td align="left">Tester</td>
+</tr>
+</tbody></table>
+<p>讓我們換個情境來說明，同樣的七個人，如果每個具備的 Skill Set 彼此能夠互相援助，巴士因子就提高了，而工作分配會更容易些，<br>較不易形成個人瓶頸(當然還是有可能，比如說這個 Sprint 的 Items 都落在 DBA 身上之類 …)，很明顯這樣的團隊組成更能適應變化。  </p>
+<table>
+<thead>
+<tr>
+<th align="left">Alice</th>
+<th align="left">Bob</th>
+<th align="left">Carol</th>
+<th align="left">Dave</th>
+<th align="left">Eve</th>
+<th align="left">Frank</th>
+<th align="left">Grace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">UI/UX</td>
+<td align="left">Front-End</td>
+<td align="left">Back-End</td>
+<td align="left">iOS</td>
+<td align="left">Android</td>
+<td align="left">DBA</td>
+<td align="left">Tester</td>
+</tr>
+<tr>
+<td align="left">Tester</td>
+<td align="left">Back-End</td>
+<td align="left">Front-End</td>
+<td align="left">Android</td>
+<td align="left">iOS</td>
+<td align="left">Front-End</td>
+<td align="left">Back-End</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">UI/UX</td>
+<td align="left">iOS</td>
+<td align="left">Tester</td>
+<td align="left">Back-End</td>
+<td align="left"></td>
+<td align="left">Android</td>
+</tr>
+</tbody></table>
+<p><img src="/images/2018/csm/day_1/cross_learning.jpg" alt="&#x4F60;&#x4E0D;&#x7528;&#x6A23;&#x6A23;&#x7CBE;&#x901A;&#xFF0C;&#x4F46;&#x662F;&#x4F60;&#x6700;&#x597D;&#x662F;&#x7DF4;&#x5C71;&#x578B;&#x3002;"></p>
+<blockquote><p>上面的團隊很理想，在人力市場上卻很難得到你想要的牌，所以才需要訓練，但是要花時間。<br>但在開花結果之前會發生什麼事呢 ？<br>人員可能會離職、團隊會異動、團隊中有成員認為專精勝於通才(強調一下，這沒有對錯，只是價值觀的不同)</p>
+</blockquote>
+
+<p>(以上為 Day 1， 不保証有 Day 2)</p>
+<h3 id="心得小結"><a href="#心得小結" class="headerlink" title="心得小結"></a>心得小結</h3><ul>
+<li>Scurm 跟生產力沒有關係</li>
+<li>PO 與 Team 的觀注點是不同的</li>
+<li>Scrum Master 更觀注過程</li>
+<li>Scrum Master 要有意識的不作為</li>
+<li>專任的 Scrum Master 能有更好的發揮，但在初期你也需要被培訓，並在實作中學習，你不見得會擁有那樣的環境。</li>
+<li>更多時候是文化與組織架構的問題，你需要透過系統思考來審視</li>
+<li>Cross-Learning：Scrum 對團隊的要求更高，但本身的設計也會促使團隊成長。</li>
+<li>維持團隊的穩定，良好的工程實踐，維持交付速率，隨著經驗成長。</li>
+<li>Change Your Company。</li>
+<li>開發人員的陽光、空氣、水；陽光的心態、空間(權限與能力)、薪水。</li>
+</ul>
+<h3 id="同場加映"><a href="#同場加映" class="headerlink" title="同場加映"></a>同場加映</h3><ul>
+<li><del>[A同學筆記]尚欠</del></li>
+<li><a href="https://medium.com/@linchi/cspo-%E5%BF%83%E5%BE%97%E7%AD%86%E8%A8%98-53c1b80f7be7" target="_blank" rel="noopener">C同學筆記-CSPO</a></li>
+<li><a href="https://x790116.github.io/tags/csm/" target="_blank" rel="noopener">D同學筆記-CSM</a></li>
+<li><a href="https://x790116.github.io/tags/cspo/" target="_blank" rel="noopener">D同學筆記-CSPO</a></li>
+<li><a href="https://www.evernote.com/client/snv?noteGuid=22261834-28b5-4056-98fd-7cbde9071622&noteKey=ef7b52d4c68fffe3447051a0f2945c80&sn=https%3A%2F%2Fwww.evernote.com%2Fshard%2Fs246%2Fsh%2F22261834-28b5-4056-98fd-7cbde9071622%2Fef7b52d4c68fffe3447051a0f2945c80&title=CSM%252BCSM%2Bnote" target="_blank" rel="noopener">F同學筆記</a></li>
 </ul>
 <p>(fin)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/08/27/2018/where_is_specrun/" data-id="ck98nwuu3006fh1wf6vf7ho0w" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2018/10/27/2018/csm/day_1/" data-id="ck98nwuvk00bah1wf03fff0iu" class="article-share-link">Share</a>
       
-        <a href="https://blog.marsen.me/2018/08/27/2018/where_is_specrun/#disqus_thread" class="article-comment-link">留言</a>
+        <a href="https://blog.marsen.me/2018/10/27/2018/csm/day_1/#disqus_thread" class="article-comment-link">留言</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/" rel="tag">Agile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a></li></ul>
 
     </footer>
   </div>
@@ -927,7 +1282,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; 上一頁</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/">下一頁 &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; 上一頁</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/">下一頁 &amp;raquo;</a>
   </nav>
 </section>
         
@@ -940,23 +1295,23 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
       <ul>
         
           <li>
-            <a href="/2020/05/06/2020/github_action_with_stryker_mutator/">[實作筆記] Github 結合 Stryker 作變異測試</a>
+            <a href="/2020/08/29/2020/coupon_on_f2e/">[N社筆記] 沒有後端不行嗎？</a>
           </li>
         
           <li>
-            <a href="/2020/04/30/2020/sonarqube_run_with_github_action_coverage/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查 - 測試覆蓋率篇</a>
+            <a href="/2020/08/12/2020/book/talk_DP_bridge_pattern/">[閱讀筆記] 大話設計模式 --- 橋接模式(Bridge Pattern)</a>
           </li>
         
           <li>
-            <a href="/2020/04/27/2020/sonarqube_run_with_github_action/">[實作筆記] Github 結合 SonarCloud 作代碼質量檢查</a>
+            <a href="/2020/07/27/2020/oop_experience/">[閱讀筆記] 物件導向的心得與隨筆 </a>
           </li>
         
           <li>
-            <a href="/2020/04/24/2020/iis_reverse_proxy/">[實作筆記] 使用 IIS 作為 Reverse Proxy Server</a>
+            <a href="/2020/07/21/2020/tennis_kata_to_state_pattern/">[實作筆記] Tennis KATA 與 State Pattern </a>
           </li>
         
           <li>
-            <a href="/2020/04/04/2020/todo_driven_develop_to_test_driven_develop_2/">[實作筆記] 從 TDD 到 TDD ，Todo 到 Test 趨動開發(二)</a>
+            <a href="/2020/07/20/2020/kata_in_dojo/">[A社筆記] KATA 跟本是個屁，練不出什麼鬼東西，不服來戰</a>
           </li>
         
       </ul>
@@ -968,7 +1323,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -978,7 +1333,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
   <div class="widget-wrap">
     <h3 class="widget-title">標籤雲</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Net-Framework/" style="font-size: 15.83px;">.Net Framework</a> <a href="/tags/AI/" style="font-size: 10px;">AI</a> <a href="/tags/API/" style="font-size: 11.67px;">API</a> <a href="/tags/AWS/" style="font-size: 15px;">AWS</a> <a href="/tags/Agile/" style="font-size: 17.5px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 10.83px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 11.67px;">CI-CD</a> <a href="/tags/CI-CD/" style="font-size: 13.33px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 12.5px;">Container</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/Database/" style="font-size: 14.17px;">Database</a> <a href="/tags/Docker/" style="font-size: 12.5px;">Docker</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Entity-Framework/" style="font-size: 10.83px;">Entity Framework</a> <a href="/tags/Expressjs/" style="font-size: 10px;">Expressjs</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Google/" style="font-size: 11.67px;">Google</a> <a href="/tags/Gulpjs/" style="font-size: 10.83px;">Gulpjs</a> <a href="/tags/HTTP/" style="font-size: 10.83px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 11.67px;">Integrated Testing</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/JQuery/" style="font-size: 10.83px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 10.83px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 11.67px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Teseting/" style="font-size: 10px;">Mutation Teseting</a> <a href="/tags/NPM/" style="font-size: 10.83px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/Openshift/" style="font-size: 10.83px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 11.67px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 10.83px;">Redis</a> <a href="/tags/Root-User/" style="font-size: 10px;">Root User</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 10px;">SQL Server</a> <a href="/tags/Scrum/" style="font-size: 17.5px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 10.83px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/TDD/" style="font-size: 16.67px;">TDD</a> <a href="/tags/Testing/" style="font-size: 14.17px;">Testing</a> <a href="/tags/Thread/" style="font-size: 10.83px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 13.33px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 19.17px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 10.83px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 20px;">實作筆記</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 10px;">工作筆記</a> <a href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" style="font-size: 10.83px;">時間管理</a> <a href="/tags/%E7%94%A2%E6%A5%AD%E8%B6%A8%E5%8B%A2/" style="font-size: 10px;">產業趨勢</a> <a href="/tags/%E8%A8%98%E9%8C%84/" style="font-size: 13.33px;">記錄</a> <a href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" style="font-size: 13.33px;">踩雷筆記</a> <a href="/tags/%E9%87%8D%E6%A7%8B/" style="font-size: 12.5px;">重構</a> <a href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" style="font-size: 18.33px;">閱讀筆記</a>
+      <a href="/tags/Net-Framework/" style="font-size: 17px;">.Net Framework</a> <a href="/tags/AI/" style="font-size: 10px;">AI</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/API/" style="font-size: 12px;">API</a> <a href="/tags/AWS/" style="font-size: 16px;">AWS</a> <a href="/tags/Agile/" style="font-size: 18px;">Agile</a> <a href="/tags/Aglie/" style="font-size: 10px;">Aglie</a> <a href="/tags/BootStrap/" style="font-size: 11px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 13px;">CI-CD</a> <a href="/tags/CI-CD/" style="font-size: 14px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 13px;">Container</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/Database/" style="font-size: 15px;">Database</a> <a href="/tags/Design-Pattern/" style="font-size: 10px;">Design Pattern</a> <a href="/tags/Docker/" style="font-size: 13px;">Docker</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Entity-Framework/" style="font-size: 11px;">Entity Framework</a> <a href="/tags/Expressjs/" style="font-size: 10px;">Expressjs</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Google/" style="font-size: 12px;">Google</a> <a href="/tags/Gulpjs/" style="font-size: 11px;">Gulpjs</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 11px;">Hexo</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 12px;">Integrated Testing</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/JQuery/" style="font-size: 11px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 13px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 11px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 12px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Teseting/" style="font-size: 10px;">Mutation Teseting</a> <a href="/tags/NPM/" style="font-size: 11px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 16px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/OOP/" style="font-size: 11px;">OOP</a> <a href="/tags/Openshift/" style="font-size: 11px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 12px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 11px;">Redis</a> <a href="/tags/Root-User/" style="font-size: 10px;">Root User</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 12px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 10px;">SQL Server</a> <a href="/tags/Scrum/" style="font-size: 18px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 11px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/TDD/" style="font-size: 18px;">TDD</a> <a href="/tags/Testing/" style="font-size: 15px;">Testing</a> <a href="/tags/Thread/" style="font-size: 11px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 14px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 19px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 11px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 20px;">實作筆記</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 10px;">工作筆記</a> <a href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" style="font-size: 11px;">時間管理</a> <a href="/tags/%E7%94%A2%E6%A5%AD%E8%B6%A8%E5%8B%A2/" style="font-size: 10px;">產業趨勢</a> <a href="/tags/%E8%A8%98%E9%8C%84/" style="font-size: 14px;">記錄</a> <a href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" style="font-size: 14px;">踩雷筆記</a> <a href="/tags/%E9%87%8D%E6%A7%8B/" style="font-size: 13px;">重構</a> <a href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" style="font-size: 19px;">閱讀筆記</a>
     </div>
   </div>
 
@@ -987,7 +1342,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
   <div class="widget-wrap">
     <h3 class="widget-title">標籤</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI-CD</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expressjs/" rel="tag">Expressjs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulpjs/" rel="tag">Gulpjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Teseting/" rel="tag">Mutation Teseting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Root-User/" rel="tag">Root User</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-Server/" rel="tag">SQL Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/" rel="tag">domain</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">工作筆記</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%A2%E6%A5%AD%E8%B6%A8%E5%8B%A2/" rel="tag">產業趨勢</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">13</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aglie/" rel="tag">Aglie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI-CD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Design-Pattern/" rel="tag">Design Pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Expressjs/" rel="tag">Expressjs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulpjs/" rel="tag">Gulpjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Teseting/" rel="tag">Mutation Teseting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Root-User/" rel="tag">Root User</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL-Server/" rel="tag">SQL Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/" rel="tag">domain</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">工作筆記</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%A2%E6%A5%AD%E8%B6%A8%E5%8B%A2/" rel="tag">產業趨勢</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">15</span></li></ul>
     </div>
   </div>
 
@@ -1069,7 +1424,7 @@ site : BrowserCache 遇到跨 Domain 存取時， 會發生 CORS Error</code></p
 
 
 <script>
-  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticsim: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Togethor is better","The best way to find out if it will work is to do it. --- Togethor is better","To go fast, go alone. To go far, go togethor. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。---Fever Pitch"];
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson（通用電氣前董事長）","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯"];
 </script>
   
 
