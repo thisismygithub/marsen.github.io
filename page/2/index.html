@@ -82,6 +82,189 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2020/productbacklog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/28/2020/productbacklog/" class="article-date">
+  <time datetime="2020-05-28T07:06:02.000Z" itemprop="datePublished">2020-05-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/28/2020/productbacklog/">[A社筆記] 閒聊 Product Backlog </a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>Although implementing only parts of Scrum is possible, the result is not Scrum.</p>
+<blockquote>
+</blockquote>
+<p>雖然實施部分的 Scrum 是可能的，但結果並不是 Scrum 《Scrum Guide》</p>
+</blockquote>
+<p>之所以在文章一開頭就引述這段文字，是因為世界上太多 <code>Scrum But</code> 了;<br>而我下文所敘的則是 <code>Not Scrum</code>。<br>未來有機會再深入討論兩者的差異，對我來說主要是心態上的差異。</p>
+<p>我們透明、檢核、調試，我們擁抱改變，我們有所堅持，我們有理想但我們也務實。<br>好啦，說不定只有你自已。  </p>
+<p>在 A 社的導入的過程中，我開場白通常會說「這不是 Scurm」然後開始拿 Scurm 的東西說嘴。<br>至少對我來說，這比那些號稱「我們跑 Scrum」「But #^%!~…」要好得多，<br>與其讓你難以分辨斷句在哪，或是誤會怎麼 Scrum 這麼糞，不如讓我明確的告訴你「這不是 Scurm」。  </p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>蠻小巧的團隊，小到我覺得也許不用任何「敏捷」<br>分為兩個組成 QA 部門與 RD 部門，遠端工作的 RD 主管兼職 PM<br>QA 團隊的主管除了目前這個團隊，也要兼者作其它團隊的測試，<br>此外還有一個大主管，在國外有時差，每周固定會與成員們開 3 次的會。<br>RD 團隊成為會有一個 Daily Sync 的會議，每天約 5~10 分鐘。<br>整個團隊有使用 Azure DevOps 的看板，但是 QA 只會用來開 Bug。<br>但不知道什麼時候 Bug 才會被修復。</p>
+<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><h3 id="Azure-DevOps-BackLogs-太像文件"><a href="#Azure-DevOps-BackLogs-太像文件" class="headerlink" title="Azure DevOps BackLogs 太像文件"></a>Azure DevOps BackLogs 太像文件</h3><p>Azure DevOps 的 BackLogs 放著許多 Feature ，<br>依據不同的功能，再將每個 Sprint 的 User Story 放進去<br>這些 Feature 永遠不會被作完，隨著時間過去，<br>儘管完成了許多 User Story ，但是也會有新的 User Story 被加進去。<br>而作為文件，他的巢狀結構又不足以面對複雜的需求內容，<br>分散式存儲對於維護與修改上也是相同不便。</p>
+<h3 id="Bug-隨時蹦出"><a href="#Bug-隨時蹦出" class="headerlink" title="Bug 隨時蹦出"></a>Bug 隨時蹦出</h3><p>QA 的工作就是不斷的測試，一有發現問題就開立 Bug，<br>RD 有空就會去領來作，有時候也會有 RD 主管確認過後再分配給 RD<br>這導致不同面向的問題，RD 自領的情況可能會無序的作，<br>導致真正有價值的 Bug 無法第一時間被修正。<br>而如果每件事情都要 RD 主管確認後再進行動作，<br>RD 主管恐怕會變成瓶頸所在。</p>
+<h2 id="BackLogs-簡介"><a href="#BackLogs-簡介" class="headerlink" title="BackLogs 簡介"></a>BackLogs 簡介</h2><p>下面是我在向團隊介紹 Backlogs 後的筆記。</p>
+<p>在 Azure DevOps 上會有 BackLogs 與 Sprints &gt; Backlog。<br>恰巧與 Scurm 的 Product BackLogs 與 Sprints Backlog 可以一一對應。<br>如果以 XP 來說，可以投射到發佈計劃會議與迭代計劃會議中討論的「用戶故事清單」。<br>如果以 GTD 的方法論來說 BackLogs 可以當作收集一切事務的 Inbox，<br>而 Sprints &gt; Backlog 可以視作專案裡面的工作項目。</p>
+<p>總的來說，這些方法論的名詞故有所不同，但本質上卻是非常接近的事務。<br>我們總是有許多新的想法，但是沒有足夠的時間作所有的事。<br>所以我們必須補捉這些想法，放入 BackLogs 之中<br>補捉了之後，必須排序，這裡的概念有「重要且緊急」先作 ( 參考 Eisenhower Matrix )，<br>或是「價值高」的先作，或是有影響力的先作 ( 參考 Impact Mapping )。<br>GTD 的概念是 5 分鐘能完成的想法，立刻去作不然就丟到 BackLogs ( Inbox ) 之中，<br>我認為團隊不適合這樣作，畢竟 GTD 是針對個人的工作法。<br>團隊反而要刻意不作為，才能讓真正重要的事情浮現，而不是被一堆雜訊 DDos，<br>所有想法我的建議是「丟到 Backlogs 之中」，然後定期梳理吧。</p>
+<p>理論上大部份事情會由模糊到清晰，這是個過程，之後才會進入到一個可以被執行的階段。<br>在 Scurm 之中，常用「遠光燈」作例子，我個人比較喜歡用「通勤」舉例。</p>
+<p>留個問題給你，誰來衡量 ? 團隊 ? PO ? 客戶 ?</p>
+<p>想像一下你要上班了，在家裡你對公司的方向與位置其實有個大概的想法，<br>要走過哪些路口，經過某個大樓，穿越了一座橋後你需要待轉，<br>再過幾個紅綠燈，看到速食店後就可以開始找車位了。<br>實際上路後，也許路上施工，你必需繞個路，或是運氣很好一路綠燈。<br>哦，不!! 你的車拋錨了，你必須改搭公車，而它的路線是……  </p>
+<p>有個大方向就是你的目標，路口、橋、大樓，就是你的每個迭代，<br>每次的煞車、轉彎或催油門就是再被細分下來的工作項目，<br>紅燈、拋錨、下雨天就是你真實上路後才會體驗到的事。<br>有個概念「Road Map」其實也是在說差不多的事。  </p>
+<p>回到 Product BackLogs 與 Sprints Backlog ，<br>我們也就是不斷的細化這些項目，一直到可執行然後被執行為止。  </p>
+<p>至於怎麼變快呢 ?<br>也許你要選一條最優路線，最短的距離最少的車流，沒有紅綠燈之類的，<br>也許你要有最棒的工具，最好的機車、定期保養之類的，<br>也許你要改變的開車習慣，不要危險駕駛、不任意切換車道等等…  </p>
+<p>透過的調整工作順序、找尋最佳工具輔助與保持正確心態，是我目前的答案。  </p>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/05/28/2020/productbacklog/" data-id="ckart7jr10000vcug4npy1jp7" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/05/28/2020/productbacklog/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/" rel="tag">Agile</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2020/dotnet_logger_with_elasticsearch_kibana" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/13/2020/dotnet_logger_with_elasticsearch_kibana/" class="article-date">
+  <time datetime="2020-05-13T07:47:03.000Z" itemprop="datePublished">2020-05-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/13/2020/dotnet_logger_with_elasticsearch_kibana/">[實作筆記] Dotnet Logger 整合 Kibana Kibana 與 Elasticsearch</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>我將 ASP.Net Core 的 API 服務加上 Log。<br>Logger 使用 NLog ，載體我使用 Elasticsearch ，<br>使用者操作介面使用 Kibana。</p>
+<p>然後面對開發者，我希望用 AOP 方式，<br>讓 Logger 與主邏輯分離。</p>
+<ul>
+<li>這裡會用到簡單基本的 docker 技術</li>
+<li>透過 docker-compose 建立 Kibana 與 Elasticsearch</li>
+<li>假設你已經會使用 Dotnet Core DI 注入 Logger</li>
+<li>用最原生的方法實作 AOP</li>
+<li>對你可能沒有幫助</li>
+</ul>
+<h2 id="Run-ElasticSearch-amp-Kibana-with-docker"><a href="#Run-ElasticSearch-amp-Kibana-with-docker" class="headerlink" title="Run ElasticSearch &amp; Kibana with docker"></a>Run ElasticSearch &amp; Kibana with docker</h2><p>在本機建立 ElasticSearch &amp; Kibana<br>首先建立 docker-compose.yaml 檔如下，<br>簡單說明一下內容:</p>
+<ul>
+<li>起一個 elasticsearch，port : 9200</li>
+<li>起一個 kibana ，port : 5601，設定環境變數 <code>ELASTICSEARCH_URL</code> 為 <code>http://localhost:9200</code></li>
+<li>網路名命為 elastic 使用 birdge 讓兩個 container 連起來</li>
+<li><code>elasticsearch-data:</code> 實務上我想需要指定一個 storage(硬碟或 File System 之類的)</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3.1'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">elasticsearch:</span></span><br><span class="line">   <span class="attr">container_name:</span> <span class="string">elasticsearch</span></span><br><span class="line">   <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.6.2</span></span><br><span class="line">   <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">9200</span><span class="string">:9200</span></span><br><span class="line">   <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">elasticsearch-data:/usr/share/elasticsearch/data</span></span><br><span class="line">   <span class="attr">environment:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">xpack.monitoring.enabled=true</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">xpack.watcher.enabled=false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">discovery.type=single-node</span></span><br><span class="line">   <span class="attr">networks:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">elastic</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">kibana:</span></span><br><span class="line">   <span class="attr">container_name:</span> <span class="string">kibana</span></span><br><span class="line">   <span class="attr">image:</span> <span class="string">docker.elastic.co/kibana/kibana:7.6.2</span></span><br><span class="line">   <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">5601</span><span class="string">:5601</span></span><br><span class="line">   <span class="attr">depends_on:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">elasticsearch</span></span><br><span class="line">   <span class="attr">environment:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ELASTICSEARCH_URL=http://localhost:9200</span></span><br><span class="line">   <span class="attr">networks:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">elastic</span></span><br><span class="line">  </span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">elastic:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">elasticsearch-data:</span></span><br></pre></td></tr></table></figure>
+
+<p>執行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>完成後在本機瀏覽器瀏覽以下網址。<br>確定功能正常。</p>
+<ul>
+<li>Elasticsearch URL <a href="http://localhost:9200/" target="_blank" rel="noopener">http://localhost:9200/</a></li>
+<li>Kibana URL <a href="http://localhost:5601/" target="_blank" rel="noopener">http://localhost:5601/</a></li>
+</ul>
+<h3 id="雷包"><a href="#雷包" class="headerlink" title="雷包"></a>雷包</h3><p>第一次啟動 Kibana 要 5 分鐘左右，但是我不確定是 docker 或是 Kibana 的問題</p>
+<h2 id="Dotnet-Core-NLog-with-ElasticSearch"><a href="#Dotnet-Core-NLog-with-ElasticSearch" class="headerlink" title="Dotnet Core NLog with ElasticSearch"></a>Dotnet Core NLog with ElasticSearch</h2><p>首先必需安裝相關套件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Install-Package NLog.Web.AspNetCore</span><br><span class="line"></span><br><span class="line">Install-Package NLog</span><br><span class="line"></span><br><span class="line">Install-package NLog.Targets.ElasticSearch</span><br></pre></td></tr></table></figure>
+
+<p><del>設定 <code>appsettings.json</code></del><br>(請見 <a href="#20200518-補充">20200518 的補充</a>)</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"ConnectionsString"</span>: &#123;</span><br><span class="line">    <span class="attr">"ElasticSearchServerAddress"</span>: <span class="string">"http://localhost:9200/"</span>  </span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">///...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>設定 nlog.config，注意以下路徑</p>
+<ul>
+<li><code>nlog &gt; extenstions &gt; assembly</code></li>
+<li><code>nlog &gt; targets &gt; target</code></li>
+<li><code>nlog &gt; rules &gt; logger</code></li>
+</ul>
+<p><del>這裡的重點是 <code>ElasticSearchServerAddress</code> 這組字串需設定成你的 ElasticSearchServerAddress</del><br>(請見 <a href="#20200518-補充">20200518 的補充</a>)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">nlog</span> <span class="attr">xmlns</span>=<span class="string">"http://www.nlog-project.org/schemas/NLog.xsd"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">autoReload</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">internalLogLevel</span>=<span class="string">"Info"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">internalLogFile</span>=<span class="string">"c:\temp\internal-nlog.txt"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- enable asp.net core layout renderers --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">extensions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">assembly</span>=<span class="string">"NLog.Web.AspNetCore"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">assembly</span>=<span class="string">"NLog.Targets.ElasticSearch"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">extensions</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- the targets to write to --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">targets</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- write logs to file  --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">xsi:type</span>=<span class="string">"File"</span> <span class="attr">name</span>=<span class="string">"allfile"</span> <span class="attr">fileName</span>=<span class="string">"$&#123;currentdir&#125;\log\nlog-$&#123;shortdate&#125;.log"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">layout</span>=<span class="string">"$&#123;longdate&#125;|$&#123;event-properties:item=EventId_Id&#125;|$&#123;uppercase:$&#123;level&#125;&#125;|$&#123;logger&#125;|$&#123;message&#125; $&#123;exception:format=tostring&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- ElasticSearch --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"ElasticSearch"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">xsi:type</span>=<span class="string">"ElasticSearch"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">ConnectionStringName</span>=<span class="string">"ElasticSearchServerAddress"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">index</span>=<span class="string">"dotnetcore-nlog-elk-$&#123;date:format=yyyy.MM.dd&#125;"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">documentType</span>=<span class="string">"logevent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">includeAllProperties</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">layout</span>=<span class="string">"[$&#123;date:format=yyyy-MM-dd HH\:mm\:ss&#125;][$&#123;level&#125;] $&#123;logger&#125; $&#123;message&#125; $&#123;exception:format=toString&#125;"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"MachineName"</span> <span class="attr">layout</span>=<span class="string">"$&#123;machinename&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"Time"</span> <span class="attr">layout</span>=<span class="string">"$&#123;longdate&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"level"</span> <span class="attr">layout</span>=<span class="string">"$&#123;level:uppercase=true&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"logger"</span> <span class="attr">layout</span>=<span class="string">" $&#123;logger&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"message"</span> <span class="attr">layout</span>=<span class="string">" $&#123;message&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"exception"</span> <span class="attr">layout</span>=<span class="string">" $&#123;exception:format=toString&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"processid"</span> <span class="attr">layout</span>=<span class="string">" $&#123;processid&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"threadname"</span> <span class="attr">layout</span>=<span class="string">" $&#123;threadname&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"stacktrace"</span> <span class="attr">layout</span>=<span class="string">" $&#123;stacktrace&#125;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">"Properties"</span> <span class="attr">layout</span>=<span class="string">"$&#123;machinename&#125; $&#123;longdate&#125; $&#123;level:uppercase=true&#125; $&#123;logger&#125; $&#123;message&#125; $&#123;exception&#125;|$&#123;processid&#125;|$&#123;stacktrace&#125;|$&#123;threadname&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">targets</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- rules to map from logger name to target --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">rules</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--All logs, including from Microsoft--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"*"</span> <span class="attr">minlevel</span>=<span class="string">"Trace"</span> <span class="attr">writeTo</span>=<span class="string">"allfile"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"*"</span> <span class="attr">minlevel</span>=<span class="string">"Trace"</span> <span class="attr">writeTo</span>=<span class="string">"ElasticSearch"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">rules</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nlog</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我的 Logger 代碼可能會類似這樣:<br>我想調整 Logger 代碼，不要與商務邏輯混在一起。</p>
+<ul>
+<li>一般的 Logger 我會用 AOP 的方式作成 Audit Log 記錄</li>
+<li>catch Exception 的 Logger 我會統一處理</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">readonly</span> ILogger logger;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> Result <span class="title">MyMethod</span>(<span class="params">Context ctx</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.logger.LogInformation(<span class="string">"Hello Marsen"</span>);</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">      <span class="comment"><span class="doctag">///</span>/ do some thing</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.LogError(<span class="string">"What's a Wonderful World"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="20200518-補充"><a href="#20200518-補充" class="headerlink" title="20200518 補充"></a>20200518 補充</h3><p><code>nlog.config</code> 與 <code>appsettings.json</code> 內容調整。</p>
+<p>使用<a href="https://www.elastic.co/" target="_blank" rel="noopener">Elasticsearch Cloud</a>(以下簡稱 ESC)當作服務的儲存體。<br>踩到了一個雷包，當我把 <code>ElasticSearchServerAddress</code> 修改成 ESC 服務的 EndPoint<br>我發現 ESC 並未接收到 Log ，更奇怪的事情是，在我本機端 docker 所建置服務仍然收到了 Log。</p>
+<p>查詢了一下最新的<a href="https://github.com/markmcdowell/NLog.Targets.ElasticSearch/wiki" target="_blank" rel="noopener">Nlog ElasticSearch Wiki</a>後，<br>應該改用 <code>uri</code> 屬性設定 EndPoint ，而沒有設定的情況下預設為 <code>localhost:9200</code> ，  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uri - Uri of a Elasticsearch node. Multiple can be passed comma separated.  </span><br><span class="line">Ignored if cloud id is provided. Layout Default: http:&#x2F;&#x2F;localhost:9200</span><br></pre></td></tr></table></figure>
+
+<p>而要使用 ESC 的 EndPoint，除了設定 <code>uri</code> 外，還需要啟用授權。<br><code>requireAuth</code> 設定為 <code>true</code>(預設為<code>false</code>)，另外還要設定 <code>username</code> 與 <code>password</code>。<br><code>appsettings.json</code> 的 ConnectionsString 就可以刪除了。<br><code>nlog.config</code> 修改大致如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--略--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">target</span> <span class="attr">xsi:type</span>=<span class="string">"ElasticSearch"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">name</span>=<span class="string">"elastic.co"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">index</span>=<span class="string">"dotnetcore-nlog-elk-$&#123;date:format=yyyy.MM.dd&#125;"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">documentType</span>=<span class="string">"_doc"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">includeAllProperties</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">layout</span>=<span class="string">"[$&#123;date:format=yyyy-MM-dd HH\:mm\:ss&#125;][$&#123;level&#125;] $&#123;logger&#125; $&#123;message&#125; $&#123;exception:format=toString&#125;"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">uri</span>=<span class="string">"https://**************elastic-cloud.com:9243"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">requireAuth</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">username</span>=<span class="string">"**********"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">password</span>=<span class="string">"******************"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--略--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Dotnet-Core-AOP"><a href="#Dotnet-Core-AOP" class="headerlink" title="Dotnet Core AOP"></a>Dotnet Core AOP</h2><p>用 AOP 的方式作成 Audit Log 記錄，<br>想法是方法的 in / out 我將想知道資訊記錄下來。<br>比如輸入的參數或是回傳值。<br>題外話，因為 AOP 的特性，如果方法處理到一半想要記錄是作不到的，<br>這是不是意味著必須重構將方法一分為二 ?  </p>
+<p><a href="https://www.cnblogs.com/jlion/p/12394949.html" target="_blank" rel="noopener">參考這篇</a>，我會使用最基本的 Filter 實作 AOP，<br><img src="https://i.imgur.com/iZ391Rb.png" alt="Filter　簡介"><br>依據 <code>Filter</code> 的特性我在這裡會實作 <code>IActionFilter</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AuditLogAttribute</span> : <span class="title">Attribute</span>, <span class="title">IActionFilter</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> ILogger logger;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AuditLogAttribute</span>(<span class="params">ILogger&lt;AuditLogAttribute&gt; logger</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>.logger = logger;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnActionExecuted</span>(<span class="params">ActionExecutedContext context</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.LogInformation(<span class="string">"Result Filter End"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnActionExecuting</span>(<span class="params">ActionExecutingContext context</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.LogInformation(<span class="string">"Result Filter Start"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我的最終目標是透過掛載 Attribute 的方式來讓 Logger 與解耦，<br>參考下方的程式碼。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">readonly</span> ILogger logger;</span><br><span class="line"></span><br><span class="line">[<span class="meta">AuditLog</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> Result <span class="title">MyMethod</span>(<span class="params">Context ctx</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">      <span class="comment"><span class="doctag">///</span>/ do some thing</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.LogError(<span class="string">"What's a Wonderful World"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡就有一件討厭的事，因為我的 Logger 都是透過建構子注入產生，<br>而自已本身也比較傾向不要使用公開 Property Injection 的方式*。<br>但是使用建構子在這裡會產生另一個問題，<br>我將無法使用掛載 Attribute 的方式處理 Logger<br>解決的方式是透過另一個 Attribute <code>ServiceFilterAttribute</code> 作間接掛載</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">readonly</span> ILogger logger;</span><br><span class="line"></span><br><span class="line">[<span class="meta">ServiceFilter(typeof(AuditLogAttribute))</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> Result <span class="title">MyMethod</span>(<span class="params">Context ctx</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">      <span class="comment"><span class="doctag">///</span>/ do some thing</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.LogError(<span class="string">"What's a Wonderful World"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這樣作還是有一些缺點，最明顯就是掛載的 Attribute 變長，<br>然後視覺上又是末端文字才能表達意涵，<br>另一點是原本約定成俗可以省略的<code>*Attribute</code>後綴不能省略了。</p>
+<p>我想使用 <a href="http://www.castleproject.org/" target="_blank" rel="noopener">Castle</a> 與 <a href="https://autofac.org/" target="_blank" rel="noopener">AutoFac</a> 重作一次。<br>應該可以變得更加簡潔。</p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="https://www.humankode.com/asp-net-core/logging-with-elasticsearch-kibana-asp-net-core-and-docker" target="_blank" rel="noopener">https://www.humankode.com/asp-net-core/logging-with-elasticsearch-kibana-asp-net-core-and-docker</a></li>
+<li><a href="https://kevintsengtw.blogspot.com/2018/07/aspnet-core-nlog-log-elasticsearch.html" target="_blank" rel="noopener">https://kevintsengtw.blogspot.com/2018/07/aspnet-core-nlog-log-elasticsearch.html</a></li>
+<li><a href="https://kevintsengtw.blogspot.com/2018/07/aspnet-core-nlog-log-elasticsearch_9.html" target="_blank" rel="noopener">https://kevintsengtw.blogspot.com/2018/07/aspnet-core-nlog-log-elasticsearch_9.html</a></li>
+<li><a href="https://www.cnblogs.com/jlion/p/12394949.html" target="_blank" rel="noopener">https://www.cnblogs.com/jlion/p/12394949.html</a></li>
+<li><a href="https://paper.dropbox.com/doc/202001-DIAOP--Az2Kl_lUwdJulCygth_VSyrcAg-41nJ40hCmLj7o7haWhual" target="_blank" rel="noopener">https://paper.dropbox.com/doc/202001-DIAOP--Az2Kl_lUwdJulCygth_VSyrcAg-41nJ40hCmLj7o7haWhual</a></li>
+<li><a href="https://blog.johnwu.cc/article/ironman-day14-asp-net-core-filters.html" target="_blank" rel="noopener">https://blog.johnwu.cc/article/ironman-day14-asp-net-core-filters.html</a></li>
+<li><a href="https://edi.wang/post/2019/1/21/aspnet-core-dependency-injection-in-actionfilterattribute" target="_blank" rel="noopener">https://edi.wang/post/2019/1/21/aspnet-core-dependency-injection-in-actionfilterattribute</a></li>
+<li>請比較 Property Injection 與其它的注入方式的優缺點。</li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/05/13/2020/dotnet_logger_with_elasticsearch_kibana/" data-id="cka556f4a00005gugbqjegnwl" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/05/13/2020/dotnet_logger_with_elasticsearch_kibana/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2020/github_action_with_stryker_mutator" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/05/06/2020/github_action_with_stryker_mutator/" class="article-date">
@@ -934,239 +1117,6 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2020/book/better_by_atul_gawande" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/01/28/2020/book/better_by_atul_gawande/" class="article-date">
-  <time datetime="2020-01-28T05:18:10.000Z" itemprop="datePublished">2020-01-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/28/2020/book/better_by_atul_gawande/">[閱讀筆記] 開刀房裡的沉思 -- 一位外科醫師的精進</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因為<a href="https://blog.marsen.me/2019/08/07/2019/book/apprenticeship_patterns/">「學徒模式」</a>在最後的章節多次提到這本書，<br>於是去了圖書館借來翻了一下，內容大多與醫療與醫生相關，<br>作者在醫療上如何追求卓越，精益求精 ?<br>作為一個開發人員，能否借鏡不同產業的精進旅程帶來一些反思 ?  </p>
-<p>簡單先作個小結，作者認為精進有三個基本要素</p>
-<ol>
-<li>努力不懈，簡單卻最困難，如何堅持?</li>
-<li>務求正確, 這裡面臨了人性的挑戰，包含貪心、防衛心理和堅持與適時放棄</li>
-<li>創新，勇於認錯、願意改變、見賢思齊</li>
-</ol>
-<p>引述一小段。</p>
-<blockquote><p>我們不只是活在一個人的世界，<br>必須和別人一起工作，與科學一起進步，<br>也活在混亂、複雜的現實世界裡，而且任重道遠。<br>……<br>光是擔責任還不夠，選要想想如何能做得更好。</p>
-</blockquote>
-
-<h2 id="章節概要"><a href="#章節概要" class="headerlink" title="章節概要"></a>章節概要</h2><h3 id="CH-1-禍手"><a href="#CH-1-禍手" class="headerlink" title="CH 1 禍手"></a>CH 1 禍手</h3><p>簡單卻作不到的事。</p>
-<h4 id="創新者的困境"><a href="#創新者的困境" class="headerlink" title="創新者的困境"></a>創新者的困境</h4><p>山姆維茲雖然推論出醫生不洗手是產婦致死的原兇，<br>但在同業同事間推動卻因批判與溝通而大大的失敗，<br>成為了悲劇英雄。</p>
-<h4 id="現場執行的困境"><a href="#現場執行的困境" class="headerlink" title="現場執行的困境"></a>現場執行的困境</h4><ul>
-<li>洗手的 SOP :首先缷下手錶，戒指…其次，用溫水潤濕雙手…最後沖水至少 30 秒…然後拿擦手紙…事實上沒有人能夠謹守這樣的步驟。</li>
-<li>「不問你為什麼不洗手，而是問你為什麼不能洗手 ?」答案多半是:沒時間。</li>
-<li>把病房變得像開刀房，使維持清潔變得容易，當他另謀高就後，原單位故態復萌、改革挫敗、白費功夫</li>
-<li>「正向偏差」:透過內部推廣取代指示改變，詢問現場一線取代宣導與命令(現場改善、由下而上)</li>
-</ul>
-<blockquote><p>反思:<br>現場如何推動單元測試與 Clean Code ?<br>只靠個人 ? 明星開發者 ? 嚴格的規定 ? 無處不在的口號標語 ?  </p>
-</blockquote>
-
-<h3 id="Ch-6-薪事誰人知"><a href="#Ch-6-薪事誰人知" class="headerlink" title="Ch 6 薪事誰人知"></a>Ch 6 薪事誰人知</h3><p>醫師的困境是按件計酬，而存在與之對立的醫療保險業者，<br>原本醫療保險的立意是良善的，避免有的醫生漫天喊價。<br>但是時至今日，美國的醫療保險規則太過複雜，<br>引入第三方(保險業者)不但沒有幫助，反而變得更加複雜，<br>醫生無法得到合理的收費，沒有保險的病人無法得到醫療照護。</p>
-<p>馬修．松頓保健計劃，在初期簡化與保險公司打交道的複雜性，<br>提昇了照護病人的成效，但在組織成長變大後，<br>諸多的規定與合約讓這個保險計劃也由保險集團接手，最終宣告結束。</p>
-<h3 id="Ch-9-艾卜佳評分表"><a href="#Ch-9-艾卜佳評分表" class="headerlink" title="Ch 9 艾卜佳評分表"></a>Ch 9 艾卜佳評分表</h3><p>對人類來說，生產一直是一件困難的事。<br>對新生兒與孕婦在生產的過程中一不小心就有生命危險，<br>單鈎、產鉗、多達數十種的助產法、剖腹產等…</p>
-<p>二十世紀複，隨著知識與器械的進步，研究卻表明醫院生產的新生兒死亡率高於產婆接生<br>生產流程的革新與標準化才進一步確保了新生兒的生存率<br>艾卜佳評分表在這當中擔任關鍵的角色，而且相當簡單。<br>膚色、哭聲、呼吸、四肢活動力、心跳次數等，簡單的分為 0、1、2 三種評分，<br>這讓主觀評量變成了客觀，有了評量才有改善的方向。<br>新生兒加護病房、產婦脊髓麻醉與胎兒心跳監視器也相應而生。</p>
-<blockquote><p>反思 1 :<br>如何客觀評量績效 ?<br>書中說明產科的進步並不在嚴謹的「實證醫學」而是一個簡單的評分表。  </p>
-<p>那麼如何評量代碼質量 ?  </p>
-<ul>
-<li>如何建立一個開發人員的評分表 ?  </li>
-<li>如何建立代碼的艾卜佳評分表呢 ?</li>
-</ul>
-<p>反思 2 :<br>產鉗在上個世紀是一門技藝，<br>儘管有研究表明剖腹產未必優於產鉗，但這門技藝仍就消失了。<br>如果產鉗是因為標準化的流程而消失，那軟體工程呢 ?<br>TDD 會是軟體工程裡的產鉗嗎 ? 2014 年的 <a href="http://joe-dev.blogspot.com/2014/06/tdd-is-dead.html" target="_blank" rel="noopener">TDD is died</a> 仍值得回味再三。</p>
-<p>績效又該如何轉換成<a href="https://earnings.dgbas.gov.tw/experience_sub_01.aspx" target="_blank" rel="noopener">合理的收入</a>呢 ?</p>
-</blockquote>
-
-<h3 id="Ch-10-醫師的成績單"><a href="#Ch-10-醫師的成績單" class="headerlink" title="Ch 10 醫師的成績單"></a>Ch 10 醫師的成績單</h3><p>辛辛那提的醫生全力以赴，仍然只是中等平庸的醫院，<br>在本書中，醫生的技藝是呈現鐘型曲線。<br>作者表達的意思是，病人都想找最好的醫生，但在醫療的這個領域，<br>大多數都是平庸的。<br>在學徒模式書中，工程師是左傾的曲線，暗示大多數工程師都是拙劣的。<br><img src="/images/2020/1/better_by_atul_gawande_02.jpg" alt="左傾的曲線"></p>
-<blockquote><p>反思<br>雖然手頭上沒有完整數據佐証，但是一般醫生至少需要 7 年的專業訓練，<br>而軟體工程業界，中途出家的非本科工程師比比皆是，<br>一線從業人員的水平參疵不齊，甚至有達克效應</p>
-<p>這個行業本身歷史很短也很年輕，<br>影響範圍卻相當的廣大，<br>整個世界各行各業軟體都能參予其中。<br>缺乏調研、認証相關機構，但是我相信在未來這點能夠逐步改善</p>
-</blockquote>
-
-<p><img src="/images/2020/1/better_by_atul_gawande_01.jpg" alt="Dunning-Kruger Effec">  </p>
-<h2 id="其它章節"><a href="#其它章節" class="headerlink" title="其它章節"></a>其它章節</h2><ul>
-<li>一個都不能漏</li>
-<li>浴血</li>
-<li>裸</li>
-<li>纏訟</li>
-<li>死刑室醫師</li>
-<li>戰鬥</li>
-<li>我的印度之旅</li>
-</ul>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>2020 過年寫下這篇文章，幾個事件與書共鳴，<br>反思記錄一下。</p>
-<p>先是 2020 年<a href="https://www.ptt.cc/bbs/Soft_Job/M.1579798528.A.0A9.html" target="_blank" rel="noopener">館長的新聞</a> 。  </p>
-<p>館長已經揚言要提告了，他的需求是能同時十萬人上線的網站，<br>報價要 300 萬 + 30 萬壓測費，透過熟人介紹接案。<br>個人小小碎唸，在軟體業界常常有亂喊價，亂報時程的常態，<br>最後損失的往往是品質。</p>
-<ul>
-<li>盲信的後果，你沒有專業要如何相信對方呢 ? 反過來，你有專業要如何讓客戶相信你呢 ?  </li>
-<li>本例中館長揚言要提告工程師，但我疑惑為什麼不是中間人、接案公司或業務而是工程師 ? 窗口真的是工程師嗎 ?  </li>
-<li>壓測應該收多少錢 ? 10萬人同時上線搶購，要作到什麼程度 ?  </li>
-<li>資安避險應收多少錢 ? 要作到什麼程度 ?  </li>
-<li>功能的缺失(帳務、發票 etc…)。如何驗收呢 ?  為何驗收失敗仍要行銷 ?  </li>
-</ul>
-<p>第二個反思，公開透明的組織運作，將會成為組織是否能夠進步改善的關鍵<br>2020 的武漢肺炎是反向的例子，</p>
-<ul>
-<li>武漢市長表示未被授權, 依法不能批露疫情。</li>
-<li>WHO 錯誤評估風險等級</li>
-<li>ICAO 屏避支持台灣的帳號</li>
-<li>陳秋實、面具人、口罩哥與黨與組織的各種輿情論戰。</li>
-</ul>
-<p>這件事還沒有結束，就不多作評論了。<br>後續再作追踪。</p>
-<p>最後，今年我的侄子出生了，<br>因為剛好讀到產婦相關章節，所以特別有感<br>願他平安成長。</p>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/01/28/2020/book/better_by_atul_gawande/" data-id="ck98nwuvp00bth1wfbgh85vkz" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2020/01/28/2020/book/better_by_atul_gawande/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2020/tdd_with_parse_json" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/01/17/2020/tdd_with_parse_json/" class="article-date">
-  <time datetime="2020-01-16T16:14:31.000Z" itemprop="datePublished">2020-01-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/17/2020/tdd_with_parse_json/">[實作筆記] 記錄用 TDD 寫一個 Entity Parser </a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="如何用-TDD-寫一個-Entity-Parser"><a href="#如何用-TDD-寫一個-Entity-Parser" class="headerlink" title="如何用 TDD 寫一個 Entity Parser"></a>如何用 TDD 寫一個 Entity Parser</h2><p>情境，假設有一包 JSON 檔案如下</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"FirstName"</span>: <span class="string">"Tian"</span>,</span><br><span class="line">  <span class="attr">"LastName"</span>: <span class="string">"Tank"</span>,</span><br><span class="line">  <span class="attr">"BirthDate"</span>: <span class="string">"1989/06/04"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我想轉換成 C# Entity ，<br>這個 Entity 裡面包含兩個商業邏輯</p>
-<ol>
-<li>提供全名</li>
-<li>提供年紀</li>
-</ol>
-<p>ex:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Name &#x3D; Tank Tian</span><br><span class="line">Age &#x3D; 35</span><br></pre></td></tr></table></figure>
-
-<p>如何透過 TDD 的工序達到這個目標 ?</p>
-<h3 id="Arrange"><a href="#Arrange" class="headerlink" title="Arrange"></a>Arrange</h3><p>傳入的 JSON 字串如下</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"FirstName"</span>: <span class="string">"Tian"</span>,</span><br><span class="line">  <span class="attr">"LastName"</span>: <span class="string">"Tank"</span>,</span><br><span class="line">  <span class="attr">"BirthDate"</span>: <span class="string">"1989/06/04"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Act"><a href="#Act" class="headerlink" title="Act"></a>Act</h3><p>執行 Parse 方法之後</p>
-<h3 id="Assert"><a href="#Assert" class="headerlink" title="Assert"></a>Assert</h3><p>回傳一個 PersonEntity ，裡面的資料應該要是</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> PersonEntity &#123;</span><br><span class="line">    Name = <span class="string">"Tian Tank"</span></span><br><span class="line">    Age = <span class="number">30</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="工序"><a href="#工序" class="headerlink" title="工序"></a>工序</h3><h4 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h4><p>第一個案例，我會只驗証 Name 的組合邏輯  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CovertName</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Arrange</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Act</span></span><br><span class="line">    <span class="keyword">var</span> actual = _target.Parse(testJson).Name;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Assert</span></span><br><span class="line">    actual.Should().BeEquivalentTo(<span class="string">"Tian Tank"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Production Code 簡單寫可以這樣,<br>這個可以說是極致的 Baby Step 吧 ?</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">    &#123;</span><br><span class="line">        Name = <span class="string">"Tian Tank"</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>不過這個階段可以透過 IDE 工具長出 PersnaEntity</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonaEntity</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step1-1"><a href="#Step1-1" class="headerlink" title="Step1.1"></a>Step1.1</h4><p>透過分析過需求，我們應該可以理解到 PersonaEntity.Name<br>其實是 FirstName 與 LastName 的組合，<br>所以我們可重構一下 Production Code，<br>這個步伐會大步一點，如下</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">    &#123;</span><br><span class="line">        Name = <span class="string">"Tian"</span> + <span class="string">"Tank"</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step1-2"><a href="#Step1-2" class="headerlink" title="Step1.2"></a>Step1.2</h4><p>Oops !! 我拿到了一個紅燈，因為我忘了<strong>空白</strong>，<br>修改 Production Code 如下，得到綠燈</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">    &#123;</span><br><span class="line">        Name = <span class="string">"Tian"</span> +<span class="string">" "</span>+ <span class="string">"Tank"</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step1-3"><a href="#Step1-3" class="headerlink" title="Step1.3"></a>Step1.3</h4><p>開始重構，這樣的 Baby Step 會不會真的太小步了 ?</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> firstName = <span class="string">"Tian"</span>;</span><br><span class="line">    <span class="keyword">var</span> lastName = <span class="string">"Tank"</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">    &#123;</span><br><span class="line">        Name = firstName + <span class="string">" "</span> + lastName</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step1-4"><a href="#Step1-4" class="headerlink" title="Step1.4"></a>Step1.4</h4><p>長出新的 Entity</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> firstName = <span class="string">"Tian"</span>;</span><br><span class="line">    <span class="keyword">var</span> lastName = <span class="string">"Tank"</span>;</span><br><span class="line">    <span class="keyword">var</span> originEntity = <span class="keyword">new</span> PersonaOriginEntity</span><br><span class="line">    &#123;</span><br><span class="line">        FirstName = firstName,</span><br><span class="line">        LastName = lastName</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">    &#123;</span><br><span class="line">        Name = <span class="string">$"<span class="subst">&#123;originEntity.FirstName&#125;</span> <span class="subst">&#123;originEntity.LastName&#125;</span>"</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonaOriginEntity</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> LastName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> FirstName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step1-5"><a href="#Step1-5" class="headerlink" title="Step1.5"></a>Step1.5</h4><p>重構</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> originEntity = <span class="keyword">new</span> PersonaOriginEntity</span><br><span class="line">    &#123;</span><br><span class="line">        FirstName = <span class="string">"Tian"</span>,</span><br><span class="line">        LastName = <span class="string">"Tank"</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">    &#123;</span><br><span class="line">        Name = <span class="string">$"<span class="subst">&#123;originEntity.FirstName&#125;</span> <span class="subst">&#123;originEntity.LastName&#125;</span>"</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step1-6"><a href="#Step1-6" class="headerlink" title="Step1.6"></a>Step1.6</h4><p>改用 JSON Parser</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">//var originEntity = new PersonaOriginEntity</span></span><br><span class="line">   <span class="comment">//&#123;</span></span><br><span class="line">   <span class="comment">//    FirstName = "Tian",</span></span><br><span class="line">   <span class="comment">//    LastName = "Tank"</span></span><br><span class="line">   <span class="comment">//&#125;;</span></span><br><span class="line">   <span class="keyword">var</span> originEntity = JsonSerializer.Deserialize&lt;PersonaOriginEntity&gt;(json);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">   &#123;</span><br><span class="line">       Name = <span class="string">$"<span class="subst">&#123;originEntity.FirstName&#125;</span> <span class="subst">&#123;originEntity.LastName&#125;</span>"</span></span><br><span class="line">   &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step1-7"><a href="#Step1-7" class="headerlink" title="Step1.7"></a>Step1.7</h4><p>移除無用代碼</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">//var originEntity = new PersonaOriginEntity</span></span><br><span class="line">   <span class="comment">//&#123;</span></span><br><span class="line">   <span class="comment">//    FirstName = "Tian",</span></span><br><span class="line">   <span class="comment">//    LastName = "Tank"</span></span><br><span class="line">   <span class="comment">//&#125;;</span></span><br><span class="line">   <span class="keyword">var</span> originEntity = JsonSerializer.Deserialize&lt;PersonaOriginEntity&gt;(json);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">   &#123;</span><br><span class="line">       Name = <span class="string">$"<span class="subst">&#123;originEntity.FirstName&#125;</span> <span class="subst">&#123;originEntity.LastName&#125;</span>"</span></span><br><span class="line">   &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h4><p>第二個案例，我會驗証 Age 的計算邏輯  </p>
-<h4 id="Case-2-Age-是現在時間減去生日的年份差"><a href="#Case-2-Age-是現在時間減去生日的年份差" class="headerlink" title="Case 2. Age 是現在時間減去生日的年份差"></a>Case 2. Age 是現在時間減去生日的年份差</h4><p>首先，要如何處理 <strong>現在時間</strong>  ??<br>一般的 Production Code 會用 <code>DateTime.Now</code><br>這是一個 struct 的 static 方法。</p>
-<h4 id="Step2-1"><a href="#Step2-1" class="headerlink" title="Step2.1"></a>Step2.1</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CovertAge</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Arrange</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Act</span></span><br><span class="line">    <span class="keyword">var</span> actual = _target.Parse(testJson).Age;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Assert</span></span><br><span class="line">    actual.Should().Be(<span class="number">30</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>透過測試逼出 Age 欄位</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PersonaEntity</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Age &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>快速讓測試綠燈</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> originEntity = JsonSerializer.Deserialize&lt;PersonaOriginEntity&gt;(json);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">    &#123;</span><br><span class="line">        Name = <span class="string">$"<span class="subst">&#123;originEntity.FirstName&#125;</span> <span class="subst">&#123;originEntity.LastName&#125;</span>"</span>,</span><br><span class="line">        Age = <span class="number">30</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step2-2"><a href="#Step2-2" class="headerlink" title="Step2.2"></a>Step2.2</h4><p>實作計算 Age</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PersonaEntity <span class="title">Parse</span>(<span class="params"><span class="keyword">string</span> json</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> originEntity = JsonSerializer.Deserialize&lt;PersonaOriginEntity&gt;(json);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PersonaEntity</span><br><span class="line">    &#123;</span><br><span class="line">        Name = <span class="string">$"<span class="subst">&#123;originEntity.FirstName&#125;</span> <span class="subst">&#123;originEntity.LastName&#125;</span>"</span>,</span><br><span class="line">        Age = originEntity.BirthDate.Year - DateTime.Now.Year</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>這個測試案例會在 2019 年為綠燈，而在 2020 年變為紅燈<br>這不是一個好的測試，好的測試應該符合可重複性(Repeatable)，<br>所以我們要試著 Mock 掉 DateTime.Now</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> SystemDateTime</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DateTime? _mockDateTime = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> DateTime Now</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; _mockDateTime ?? DateTime.Now;</span><br><span class="line">        <span class="keyword">internal</span> <span class="keyword">set</span> =&gt; _mockDateTime = <span class="keyword">value</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Reset</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        _mockDateTime = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step2-3"><a href="#Step2-3" class="headerlink" title="Step2.3"></a>Step2.3</h4><p>改寫測試案例</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CovertAgeTodayIs2019</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Arrange</span></span><br><span class="line">    SystemDateTime.Now = Convert.ToDateTime(<span class="string">"2019/12/28"</span>);</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Act</span></span><br><span class="line">    <span class="keyword">var</span> actual = _target.Parse(testJson).Age;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Assert</span></span><br><span class="line">    actual.Should().Be(<span class="number">30</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step2-4"><a href="#Step2-4" class="headerlink" title="Step2.4"></a>Step2.4</h4><p>Mock 時間後再寫一個測試案例</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CovertAgeTodayIs2020</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Arrange</span></span><br><span class="line">    SystemDateTime.Now = Convert.ToDateTime(<span class="string">"2020/12/28"</span>);</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Act</span></span><br><span class="line">    <span class="keyword">var</span> actual = _target.Parse(testJson).Age;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/Assert</span></span><br><span class="line">    actual.Should().Be(<span class="number">31</span>);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Step2-5"><a href="#Step2-5" class="headerlink" title="Step2.5"></a>Step2.5</h4><p>改用 Given When Then，<br>測試案例如下，這樣會比較<strong>好讀</strong>嗎?:</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">parse_name</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AfterParseJson().Name.Should().Be(<span class="string">"Tian Tank"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">parse_age_today_is_2019</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GiveTodayIs(<span class="string">"2019/12/28"</span>).Age.Should().Be(<span class="number">30</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">parse_age_today_is_2030</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GiveTodayIs(<span class="string">"2030/05/06"</span>).Age.Should().Be(<span class="number">41</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="後續"><a href="#後續" class="headerlink" title="後續"></a>後續</h3><ul>
-<li>如果未來有多新的欄位再逐步加上測試。  </li>
-<li>但在實務上我極有可能會同時驗証大量的欄位 ，比如說欄位是一對一的 Mapping</li>
-<li>想省略 PersonaOriginEntity ，有可能用 Dynamic 嗎 ?</li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/01/17/2020/tdd_with_parse_json/" data-id="ck98nwuul008bh1wf2myi4oeg" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2020/01/17/2020/tdd_with_parse_json/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TDD/" rel="tag">TDD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -1183,6 +1133,14 @@ ga('send', 'pageview');
       <ul>
         
           <li>
+            <a href="/2020/09/09/2020/before_try_tutoring_app/">[生活筆記] TUTORING APP 多特英 第四屆體驗大使</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/07/2020/does_a_scrum_team_need_a_retrospective_every_sprint/">[翻譯]每個 Sprint 都需要 Retrospective Meeting 嗎 ？</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/29/2020/coupon_on_f2e/">[N社筆記] 沒有後端不行嗎？</a>
           </li>
         
@@ -1194,14 +1152,6 @@ ga('send', 'pageview');
             <a href="/2020/07/27/2020/oop_experience/">[閱讀筆記] 物件導向的心得與隨筆 </a>
           </li>
         
-          <li>
-            <a href="/2020/07/21/2020/tennis_kata_to_state_pattern/">[實作筆記] Tennis KATA 與 State Pattern </a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/20/2020/kata_in_dojo/">[A社筆記] KATA 跟本是個屁，練不出什麼鬼東西，不服來戰</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1211,7 +1161,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -1312,7 +1262,7 @@ ga('send', 'pageview');
 
 
 <script>
-  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson（通用電氣前董事長）","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯"];
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","「如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。」— Jane Goodall"];
 </script>
   
 

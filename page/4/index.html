@@ -82,6 +82,209 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2019/aws_auto_sacling_group" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/25/2019/aws_auto_sacling_group/" class="article-date">
+  <time datetime="2019-08-25T03:21:46.000Z" itemprop="datePublished">2019-08-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/25/2019/aws_auto_sacling_group/">[實作筆記] AWS Auto Scaling Group</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>最近將一個服務掛上雲端(AWS)，使用 EC2 ，<br>並且實作了 Auto Scaling ，特別紀錄一下。</p>
+<h2 id="概觀"><a href="#概觀" class="headerlink" title="概觀"></a>概觀</h2><p>以下使用的都是 AWS 的服務</p>
+<ol>
+<li><p>Auto Scaling Group (ASG) :<br> 本篇主角，根據指定的 Policies 與 LC 加開減少機器。</p>
+</li>
+<li><p>Launch Configuration (LC) :<br> 一個 ASG 背後一定要搭配一個 LC，可以說是 ASG 的生命共同體，<br> 用來指定 EC2 的配置，並透過 <code>User Data</code> 指定實體起動時所需要執行的工作。<br> 註: 也有使用 Launch Template 的作法，這篇不會討論。</p>
+</li>
+<li><p>Target Group (TG):<br> 由 1 到多個 EC2 實體(instance)組成，用來與 ELB(ALB) 搭配。</p>
+</li>
+<li><p>ALB :<br> 流量負載平衡，與 TG 作為搭配。可以依不同條件轉導到不同 TG</p>
+</li>
+</ol>
+<p><img src="/images/2019/8/aws_asg_overview.jpg" alt="Auto Scaling Group"></p>
+<h3 id="組合零件"><a href="#組合零件" class="headerlink" title="組合零件"></a>組合零件</h3><p>這有點像是在玩模型玩具，各個部份的小零件可以組成一個大零件，<br>再將各個部件結合，完成我所要的功能。<br>以下是這所需要的各個零件</p>
+<ul>
+<li>Golden Image : 由實際的 EC2 Instance 建立。並包含 Cloud Watch Agent 的配置。</li>
+<li>User Data : Lanuch Configuration 的一個子項目，可以在 EC2 啟動時，執行指定的命令，比如說在 WINDOWS 透過 Powershell 抓取新版程式來建置服務。</li>
+<li>Launch Configuration : 由上述兩個零件 (Gloden Image &amp; User Data) 組成，另外還可以設定 EBS、Plocies 等設定…</li>
+<li>Target Group : 用來存放相關實體(EC2 Instance)的抽象概念, 可以設定 Health Check 來確定實體的健康情況。</li>
+<li>Auto Scaling Group : 透過 Lanuch Configuration 來建立實體，並且可以將實體放入指定的 Target Group 之中。並且可以設定 Policy 來實現 Scaling Out/In.</li>
+<li>ALB : 負載平衡的一種，透過設定，可以將 Request 導到對應的 Target Group。</li>
+</ul>
+<h2 id="紀錄"><a href="#紀錄" class="headerlink" title="紀錄"></a>紀錄</h2><h3 id="Add-CloudWatch-Agent"><a href="#Add-CloudWatch-Agent" class="headerlink" title="Add CloudWatch Agent"></a>Add CloudWatch Agent</h3><ol>
+<li><p>Login EC2 Instance</p>
+</li>
+<li><p>安裝 CloudWatch Agent</p>
+</li>
+<li><p>準備一個 Json 檔如下</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line"><span class="attr">"agent"</span>:&#123;  </span><br><span class="line">    <span class="attr">"logfile"</span>:<span class="string">"c:\\ProgramData\\Amazon\\AmazonCloudWatchAgent\\Logs\\amazon-cloudwatch-agent.log"</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">"logs"</span>:&#123;  </span><br><span class="line">    <span class="attr">"logs_collected"</span>:&#123;  </span><br><span class="line">        <span class="attr">"files"</span>:&#123;  </span><br><span class="line">            <span class="attr">"collect_list"</span>:[  </span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="attr">"file_path"</span>:<span class="string">"D:\\logs\\**.log"</span>,</span><br><span class="line">                <span class="attr">"log_group_name"</span>:<span class="string">"/MY/Service/Worker"</span>,</span><br><span class="line">                <span class="attr">"log_stream_name"</span>:<span class="string">"&#123;instance_id&#125;"</span>,</span><br><span class="line">                <span class="attr">"timezone"</span>:<span class="string">"UTC"</span>,</span><br><span class="line">                <span class="attr">"timestamp_format"</span>:<span class="string">"%Y-%m-%dT%H:%M:%S"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"log_stream_name"</span>:<span class="string">"default-log-stream"</span>,</span><br><span class="line">    <span class="attr">"force_flush_interval"</span>:<span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>開啟powershell，切換目錄至 AmazonCloudWatchAgent</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="string">"C:\Program Files\Amazon\AmazonCloudWatchAgent"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>執行以下語法</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./amazon-cloudwatch-agent-ctl.ps1 -a fetch-config -m ec2 -c file:yourjsonfile.json -s</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="站台加入-Health-Check"><a href="#站台加入-Health-Check" class="headerlink" title="站台加入 Health Check"></a>站台加入 Health Check</h3><ul>
+<li>加入靜態檔案(ex:check.html)</li>
+<li>IIS Building <em>80<br>![IIS Building</em> 80](/images/2019/8/aws_iissetting.jpg)</li>
+<li>設定 Target Group 的 Health Check (ex:/check.html)<br><img src="/images/2019/8/aws_tg_healthcheck.jpg" alt="AWS Target Gropu Health Check"></li>
+</ul>
+<h3 id="包成-Gloden-Image"><a href="#包成-Gloden-Image" class="headerlink" title="包成 Gloden Image"></a>包成 Gloden Image</h3><ol>
+<li><p>機器下 ALB</p>
+<p> <img src="/images/2019/8/aws_gi_out_alb.jpg" alt="機器下ALB"></p>
+</li>
+<li><p>開啟 Ec2LaunchSettings.exe</p>
+<p> <img src="/images/2019/8/aws_ec2_launch_settings.jpg" alt="開啟 Ec2LaunchSettings.exe"></p>
+</li>
+<li><p>透過 Ec2LaunchSettings 關機</p>
+<p> <img src="/images/2019/8/aws_ec2_launch_settings_turn_off.jpg" alt="透過 Ec2LaunchSettings 關機"></p>
+</li>
+<li><p>Waitting Instance Stoped , Create Images</p>
+<p> <img src="/images/2019/8/aws_gi_create_images.jpg" alt="Waitting Instance Stoped , Create Images"></p>
+</li>
+</ol>
+<h3 id="Create-Launch-Configuration"><a href="#Create-Launch-Configuration" class="headerlink" title="Create Launch Configuration"></a>Create Launch Configuration</h3><p><img src="/images/2019/8/aws_create_lc.jpg" alt="Create Launch Configuration"></p>
+<ol>
+<li>Choose AMI<br> <img src="/images/2019/8/aws_choose_ami.jpg" alt="Choose Gloden Image"></li>
+<li>Choose Instance Type<br> <img src="/images/2019/8/aws_choose_instance_type.jpg" alt="t2.small"></li>
+<li>Configure details<br> <img src="/images/2019/8/aws_userdata.jpg" alt="Add User Data"></li>
+<li>Add Storage<br> <img src="/images/2019/8/aws_ebs.jpg" alt="Set EBS"></li>
+<li>Configure Security Group</li>
+<li>Review</li>
+</ol>
+<h3 id="Create-Auto-Scaling-group"><a href="#Create-Auto-Scaling-group" class="headerlink" title="Create Auto Scaling group"></a>Create Auto Scaling group</h3><ol>
+<li>Configure Auto Scaling group details<br> <img src="/images/2019/8/aws_create_asg.jpg" alt="Configure Auto Scaling group details"></li>
+<li>Configure scaling policies<blockquote>
+<p>略</p>
+</blockquote>
+</li>
+<li>Configure Notifications<blockquote>
+<p>略</p>
+</blockquote>
+</li>
+<li>Configure Tags<blockquote>
+<p>略</p>
+</blockquote>
+</li>
+<li>Review</li>
+</ol>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="https://docs.aws.amazon.com/zh_tw/autoscaling/ec2/userguide/create-asg-from-instance.html" target="_blank" rel="noopener">使用 EC2 執行個體建立 Auto Scaling 群組 - Amazon EC2 Auto Scaling</a></li>
+<li><a href="https://docs.aws.amazon.com/en_us/autoscaling/ec2/userguide/LaunchConfiguration.html" target="_blank" rel="noopener">Launch Configurations - Amazon EC2 Auto Scaling</a></li>
+<li><a href="https://aws.amazon.com/cn/blogs/china/aws-alb-route-distribute/" target="_blank" rel="noopener">使用AWS Application Load Balancer</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_tw/elasticloadbalancing/latest/network/load-balancer-target-groups.html" target="_blank" rel="noopener">Network Load Balancers 的目標群組</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_tw/elasticloadbalancing/latest/network/create-target-group.html" target="_blank" rel="noopener">為 Network Load Balancer 建立目標群組</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_tw/AmazonCloudWatch/latest/logs/QuickStartWindows2016.html#configure_cwl_download" target="_blank" rel="noopener">CloudWatch Logs</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_tw/AmazonCloudWatch/latest/monitoring/Install-CloudWatch-Agent.html" target="_blank" rel="noopener">使用 CloudWatch 代理程式從 Amazon EC2 執行個體和現場部署伺服器收集指標和日誌 - Amazon CloudWatch</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2019/08/25/2019/aws_auto_sacling_group/" data-id="ck98nwuua006yh1wf9hh2fkb2" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2019/08/25/2019/aws_auto_sacling_group/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2019/cpau" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/20/2019/cpau/" class="article-date">
+  <time datetime="2019-08-20T02:46:10.000Z" itemprop="datePublished">2019-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/20/2019/cpau/">[實作筆記] CPAU 加密仿登入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>登入 SQL Server 需要受到權限管控，<br>而在 Windows 中需要使用特定用戶身份登入時，<br>我們常常會選擇 runas 命令。  </p>
+<h2 id="原始作法"><a href="#原始作法" class="headerlink" title="原始作法"></a>原始作法</h2><p>大概類似如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runas.exe /netnoly /user:MyCompany\Marsen <span class="string">"C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\Ssms.exe"</span></span><br></pre></td></tr></table></figure>
+
+<p>我會寫成一個 ps (PowerShell) File 來執行這件事。<br>但是會有一些問題。</p>
+<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><ol>
+<li>每次登入都輸入密碼好麻煩</li>
+<li>密碼很長又複雜，Terminal 又看不出輸入是否正確，常常會打錯</li>
+<li>密碼如果寫在 PowerShell 中會有風險</li>
+</ol>
+<p>我希望點兩下就能以正確的身份開啟 SSMS 而且密碼不會被明碼存儲</p>
+<h2 id="CPAU"><a href="#CPAU" class="headerlink" title="CPAU"></a>CPAU</h2><ol>
+<li><p>請先下載<a href="https://www.joeware.net/freetools/tools/cpau/" target="_blank" rel="noopener">CPAU</a>\</p>
+<ul>
+<li>我採用綠色安裝，如果有必要可以設為環境變數</li>
+</ul>
+</li>
+<li><p>加密,以下的語法會產生以 <code>MyCompany\Marsen</code> 的身份登入執行 SSMS 的批次檔 <code>run.bat</code></p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CPAU -u MyCompany\marsen -p *************** -ex <span class="string">"C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\Ssms.exe"</span> -enc -file D:\run.bat</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解密</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CPAU -file D:\run.bat -dec</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>最後只要將步驟 4 的語法存成一個 bat 檔，就可以隨時點兩下執行了。</p>
+<h2 id="免責聲明"><a href="#免責聲明" class="headerlink" title="免責聲明"></a>免責聲明</h2><p>雖然是加密過的檔案，不過如果被人知道你是使用 CAPU 加密，攻擊者取得檔案後仍然可以透過 CAPU 解密登入。<br>所以使用上一定要小心檔案不要外流，主要的優點仍然是節省打密碼的時間與打錯的風險。</p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525(v%3Dws.11)" target="_blank" rel="noopener">Runas</a></li>
+<li><a href="https://www.joeware.net/freetools/tools/cpau/" target="_blank" rel="noopener">CPAU</a></li>
+<li><a href="https://blog.xuite.net/billchu1109/wretch/142970080-Rusas%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88CPAU" target="_blank" rel="noopener">Rusas的替代方案CPAU</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2019/08/20/2019/cpau/" data-id="ck98nwuua0070h1wf4rrg5hnh" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2019/08/20/2019/cpau/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2019/book/the_4_disciplines_of_execution" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/10/2019/book/the_4_disciplines_of_execution/" class="article-date">
@@ -1199,206 +1402,6 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2019/tool_sites" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/11/2019/tool_sites/" class="article-date">
-  <time datetime="2019-04-11T03:16:21.000Z" itemprop="datePublished">2019-04-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/11/2019/tool_sites/">[工作筆記] 好用的線上工具</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Net-Config-Transformation-Online"><a href="#Net-Config-Transformation-Online" class="headerlink" title=".Net Config Transformation Online"></a>.Net Config Transformation Online</h2><p><a href="https://webconfigtransformationtester.apphb.com/" target="_blank" rel="noopener">Web.config Transformation Tester</a></p>
-<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><h3 id="JSON-C-Class"><a href="#JSON-C-Class" class="headerlink" title="JSON C# Class"></a>JSON C# Class</h3><ul>
-<li><a href="http://json2csharp.com/" target="_blank" rel="noopener">json2csharp - generate c# classes from json</a></li>
-</ul>
-<h3 id="JSON-Query-Online"><a href="#JSON-Query-Online" class="headerlink" title="JSON Query Online"></a>JSON Query Online</h3><ul>
-<li><a href="http://www.jsonquerytool.com/" target="_blank" rel="noopener">Home - Online JSON Query Tester</a></li>
-</ul>
-<h3 id="JSON-Format"><a href="#JSON-Format" class="headerlink" title="JSON Format"></a>JSON Format</h3><ul>
-<li><a href="https://jsonformatter.curiousconcept.com/" target="_blank" rel="noopener">JSON Formatter &amp; Validator</a></li>
-<li><a href="http://jsonviewer.stack.hu/" target="_blank" rel="noopener">Online JSON Viewer</a></li>
-</ul>
-<h2 id="YAML"><a href="#YAML" class="headerlink" title="YAML"></a>YAML</h2><h3 id="Check"><a href="#Check" class="headerlink" title="Check"></a>Check</h3><ul>
-<li><a href="http://www.yamllint.com/" target="_blank" rel="noopener">YAMLlint - The YAML Validator</a></li>
-</ul>
-<h2 id="SQL-Format"><a href="#SQL-Format" class="headerlink" title="SQL Format"></a>SQL Format</h2><p><a href="https://sqlformat.org/" target="_blank" rel="noopener">Format SQL Statements Online - sqlformat.org</a></p>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2019/04/11/2019/tool_sites/" data-id="ck98nwuui007wh1wffhbfcqp3" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2019/04/11/2019/tool_sites/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2019/aspdotnet_core_logging" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/06/2019/aspdotnet_core_logging/" class="article-date">
-  <time datetime="2019-04-06T04:21:17.000Z" itemprop="datePublished">2019-04-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/06/2019/aspdotnet_core_logging/">[實作筆記] ASP.Net Core Logger</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="要知道的事"><a href="#要知道的事" class="headerlink" title="要知道的事"></a>要知道的事</h2><ul>
-<li>這是個人的學習記錄</li>
-<li>可能對你沒幫助</li>
-<li>網路上資訊很多</li>
-<li>希望對你有幫助</li>
-</ul>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Asp.Net Core 的 Life Cycle 由 <code>Program.cs</code> 的 <code>main</code> 方法開始(是的，就如同其它一般的程式)，<br>在 <code>WebHostBuilder</code> 中的 <code>ConfigureLogging</code> 可以提供彈性讓你設定屬於你的 LoggerProvider，<br>不論是微軟提供、知名的第三方套件或是你手工自已刻一個，大致你的程式碼會如下</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">CreateWebHostBuilder</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span> =&gt;</span><br><span class="line">    WebHost.CreateDefaultBuilder(args)</span><br><span class="line">        .ConfigureLogging(logging=&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            logging.ClearProviders();</span><br><span class="line">            logging.AddEventLog();</span><br><span class="line">            logging.AddFile(<span class="string">"D:\\Temp\\Log.txt"</span>);</span><br><span class="line">            logging.AddConsole();</span><br><span class="line">        &#125;)</span><br><span class="line">        .UseStartup&lt;Startup&gt;()</span><br></pre></td></tr></table></figure>
-
-<p>而在 Controller 或其它 Module 間，你只要透過建構子注入 logger 實體就可以實現 log 的功能</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">ILogger&lt;HomeController&gt; logger</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>._logger = logger;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="預設的行為"><a href="#預設的行為" class="headerlink" title="預設的行為"></a>預設的行為</h2><p>如果你沒有呼叫 <code>ConfigureLogging</code> 預設的行為如下述.</p>
-<p>The default project template calls <code>CreateDefaultBuilder</code>， which adds the following logging providers:</p>
-<ul>
-<li>Console</li>
-<li>Debug</li>
-<li>EventSource (starting in ASP.NET Core 2.2)</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    CreateWebHostBuilder(args).Build().Run();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">CreateWebHostBuilder</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span> =&gt;</span><br><span class="line">    WebHost.CreateDefaultBuilder(args)</span><br><span class="line">        .UseStartup&lt;Startup&gt;();</span><br></pre></td></tr></table></figure>
-
-<h3 id="Find-the-Logs"><a href="#Find-the-Logs" class="headerlink" title="Find the Logs"></a>Find the Logs</h3><h4 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h4><p>範例說明:在建構子中注入 <code>ILogger</code> 實體，運行網站後連到 Home\Index 頁面，並觀察 Console</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> ILogger _logger;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Initializes a new instance of the <span class="doctag">&lt;see cref="HomeController" /&gt;</span> class.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">ILogger&lt;HomeController&gt; logger</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>._logger = logger;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>._logger.Log(LogLevel.Information，<span class="string">"HomeController Information"</span>);</span><br><span class="line">        <span class="keyword">this</span>._logger.Log(LogLevel.Critical，<span class="string">"HomeController Critical"</span>);</span><br><span class="line">        <span class="keyword">this</span>._logger.Log(LogLevel.Debug，<span class="string">"HomeController Debug"</span>);</span><br><span class="line">        <span class="keyword">this</span>._logger.Log(LogLevel.Error，<span class="string">"HomeController Error"</span>);</span><br><span class="line">        <span class="keyword">this</span>._logger.Log(LogLevel.None，<span class="string">"HomeController None"</span>);</span><br><span class="line">        <span class="keyword">this</span>._logger.Log(LogLevel.Trace，<span class="string">"HomeController Trace"</span>);</span><br><span class="line">        <span class="keyword">this</span>._logger.Log(LogLevel.Warning，<span class="string">"HomeController Warning"</span>);</span><br><span class="line">        <span class="keyword">return</span> View();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>結果如下，可以發現 <code>LogLevel.None</code>、<code>LogLevel.Trace</code> 與 <code>LogLevel.Warning</code> 並未出現在 Console 資訊當中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">info: Marsen.NetCore.Site.Controllers.HomeController[0]</span><br><span class="line">      HomeController Information</span><br><span class="line">crit: Marsen.NetCore.Site.Controllers.HomeController[0]</span><br><span class="line">      HomeController Critical</span><br><span class="line">dbug: Marsen.NetCore.Site.Controllers.HomeController[0]</span><br><span class="line">      HomeController Debug</span><br><span class="line">fail: Marsen.NetCore.Site.Controllers.HomeController[0]</span><br><span class="line">      HomeController Error</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.extensions.logging.loglevel?view=aspnetcore-2.2" target="_blank" rel="noopener">LogLevel</a>說明了 <code>None</code> 的意義就是不記錄任何訊息，</p>
-<table>
-<thead>
-<tr>
-<th>Enum</th>
-<th>Level</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Trace</td>
-<td>0</td>
-<td>Logs that contain the most detailed messages. These messages may contain sensitive application data. These messages are disabled by default and should never be enabled in a production environment.</td>
-</tr>
-<tr>
-<td>Debug</td>
-<td>1</td>
-<td>Logs that are used for interactive investigation during development. These logs should primarily contain information useful for debugging and have no long-term value.</td>
-</tr>
-<tr>
-<td>Information</td>
-<td>2</td>
-<td>Logs that track the general flow of the application. These logs should have long-term value.</td>
-</tr>
-<tr>
-<td>Warning</td>
-<td>3</td>
-<td>Logs that highlight an abnormal or unexpected event in the application flow， but do not otherwise cause the application execution to stop.</td>
-</tr>
-<tr>
-<td>Error</td>
-<td>4</td>
-<td>Logs that highlight when the current flow of execution is stopped due to a failure. These should indicate a failure in the current activity， not an application-wide failure.</td>
-</tr>
-<tr>
-<td>Critical</td>
-<td>5</td>
-<td>Logs that describe an unrecoverable application or system crash， or a catastrophic failure that requires immediate attention.</td>
-</tr>
-<tr>
-<td>None</td>
-<td>6</td>
-<td>Not used for writing log messages. Specifies that a logging category should not write any messages.</td>
-</tr>
-</tbody></table>
-<p>Log 的作用範圍會受 <code>appsettings.json</code> 影響，<br>另外要注意 appsettings.json 的載入順序.  </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"Logging": &#123;</span><br><span class="line">  "LogLevel": &#123;</span><br><span class="line">    "Default": "Trace"，</span><br><span class="line">    "System": "Information"，</span><br><span class="line">    "Microsoft": "Information"</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h4><p>如同 <code>Console</code> 的行為一般，可以在 Visual Studio 的輸出(Output)&gt;偵錯(Debug)視窗中，查詢到記錄。</p>
-<p><img src="https://i.imgur.com/274witm.jpg" alt="Console"></p>
-<h4 id="EventSource"><a href="#EventSource" class="headerlink" title="EventSource"></a>EventSource</h4><p>如同<a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.2#eventsource-provider" target="_blank" rel="noopener">官方文件</a>所說，我下載了 <code>PerfView</code> ，<br>如下圖作了設定，<br><img src="/images/2019/4/perfview.jpg" alt="PerfView"><br>不過我並沒有取得記錄，<br><img src="/images/2019/4/perfview.jpg" alt="PerfView Log">  </p>
-<p>錯誤訊息如下<br> <code>EventSource Microsoft-Extensions-Logging: Object reference not set to an instance of an object</code><br>暫時不打算深追查，<br>ETW 可以記錄的 Memory 、Disc IO 、CPU 等資訊，<br>其實與我想要的應用程式記錄有所差異，稍稍記錄一下以後也許用得到。<br>如果有人能留言給我一些方向，也是非常歡迎。  </p>
-<h2 id="自訂-Filelog-與-EventLog"><a href="#自訂-Filelog-與-EventLog" class="headerlink" title="自訂 Filelog 與 EventLog"></a>自訂 Filelog 與 EventLog</h2><p>調整一下程式</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">CreateWebHostBuilder</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span> =&gt;</span><br><span class="line">    WebHost.CreateDefaultBuilder(args)</span><br><span class="line">        .ConfigureLogging(logging=&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            logging.AddEventLog();</span><br><span class="line">            logging.AddFile(<span class="string">"D:\\Temp\\Log.txt"</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">        .UseStartup&lt;Startup&gt;()</span><br></pre></td></tr></table></figure>
-
-<p>這裡我使用 <code>Microsoft.Extensions.Logging.EventLog</code> 處理 EventLog 可以在 Event View 中看見記錄;<br>而 file log 我使用 <code>Serilog.Extensions.Logging.File</code> ， 特別要注意以下兩點  </p>
-<ul>
-<li>Nuget 使用的版本為 2.0.0 以上版本，目前仍然不是穩定版本  </li>
-<li>AddFile 傳入的是記錄檔的完整 Path 而非目錄  </li>
-</ul>
-<h2 id="自訂-Elmah"><a href="#自訂-Elmah" class="headerlink" title="自訂 Elmah"></a>自訂 Elmah</h2><p>Elmah 在 Net 算是一個蠻方便的工具，有提供簡易介面、可以選擇用 File 或是 Database 方式作 Logging，<br>更重要是小弟我用了 4 年，順手就研究一下。</p>
-<p>設定相當簡單， 在 <code>Startup.cs</code> 的 <code>ConfigureServices</code> 加入</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">services.AddElmah&lt;XmlFileErrorLog&gt;(options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//options.CheckPermissionAction = context =&gt; context.User.Identity.IsAuthenticated;</span></span><br><span class="line">    <span class="comment">//options.Path = @"elmah";</span></span><br><span class="line">    options.LogPath = <span class="string">"D:\\Temp\\elmah"</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>在 <code>Configure</code> 加入</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.UseElmah();</span><br></pre></td></tr></table></figure>
-
-<p>要注意是使用 <code>XmlFileErrorLog</code> 時，要設定的 options 是 <code>LogPath</code> 而非 <code>Path</code>，<br>其實使用 File 只能說是開發環境的暫時處置，真正的 Prodction 應該將 Log 放到專門的 Database 或是 Cloud Service 之中，<br>在這裡可以看見 Elmah 的行為與 Net Core 的行為並不一致，Log 與錯誤記錄本來就不該混為一談。<br>我想我要調整一下我的想法了，不過關於 Log 暫時就到此為止。</p>
-<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a href="https://codingblast.com/asp-net-core-logging/" target="_blank" rel="noopener">ASP.NET Core Logging</a></li>
-<li><a href="https://stackify.com/net-core-loggerfactory-use-correctly/" target="_blank" rel="noopener">.NET Core Logging With LoggerFactory: Best Practices and Tips</a></li>
-<li><a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.2#log-scopes" target="_blank" rel="noopener">Logging in ASP.NET Core</a></li>
-<li><a href="https://blog.johnwu.cc/article/ironman-day16-asp-net-core-multiple-environments.html" target="_blank" rel="noopener">[鐵人賽 Day16] ASP.NET Core 2 系列 - 多重環境組態管理 (Multiple Environments)</a></li>
-<li><a href="https://stackoverflow.com/questions/47773058/asp-net-core-eventlog-provider" target="_blank" rel="noopener">ASP.NET Core EventLog provider</a></li>
-<li><a href="http://www.techbloginterview.com/asp-net-core-the-mvc-request-life-cycle/" target="_blank" rel="noopener">ASP.NET Core: The MVC Request Life Cycle</a></li>
-<li><a href="https://mattwarren.org/2018/08/21/Monitoring-and-Observability-in-the-.NET-Runtime/" target="_blank" rel="noopener">Monitoring and Observability in the .NET Runtime</a></li>
-<li><a href="https://github.com/ElmahCore/ElmahCore" target="_blank" rel="noopener">ElmahCore/ElmahCore</a></li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2019/04/06/2019/aspdotnet_core_logging/" data-id="ck98nwuu9006th1wf89ky3rro" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2019/04/06/2019/aspdotnet_core_logging/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -1415,6 +1418,14 @@ ga('send', 'pageview');
       <ul>
         
           <li>
+            <a href="/2020/09/09/2020/before_try_tutoring_app/">[生活筆記] TUTORING APP 多特英 第四屆體驗大使</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/07/2020/does_a_scrum_team_need_a_retrospective_every_sprint/">[翻譯]每個 Sprint 都需要 Retrospective Meeting 嗎 ？</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/29/2020/coupon_on_f2e/">[N社筆記] 沒有後端不行嗎？</a>
           </li>
         
@@ -1426,14 +1437,6 @@ ga('send', 'pageview');
             <a href="/2020/07/27/2020/oop_experience/">[閱讀筆記] 物件導向的心得與隨筆 </a>
           </li>
         
-          <li>
-            <a href="/2020/07/21/2020/tennis_kata_to_state_pattern/">[實作筆記] Tennis KATA 與 State Pattern </a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/20/2020/kata_in_dojo/">[A社筆記] KATA 跟本是個屁，練不出什麼鬼東西，不服來戰</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1443,7 +1446,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -1544,7 +1547,7 @@ ga('send', 'pageview');
 
 
 <script>
-  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson（通用電氣前董事長）","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯"];
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","「如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。」— Jane Goodall"];
 </script>
   
 
