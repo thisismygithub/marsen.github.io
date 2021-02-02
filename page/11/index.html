@@ -40,7 +40,7 @@ ga('send', 'pageview');
 
 
   <meta property ="og:image" content="https://avatars1.githubusercontent.com/u/4269720?s=460&v=4" /> 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 5.3.0"></head>
 
 <body>
   <div id="container">
@@ -82,6 +82,99 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2018/windows_with_sass" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/26/2018/windows_with_sass/" class="article-date">
+  <time datetime="2018-04-26T06:16:34.000Z" itemprop="datePublished">2018-04-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/26/2018/windows_with_sass/">[實作筆記] 在 Windows 環境編輯 SCSS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>安裝 Windows 套件管理工具 Chocolatey</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://chocolatey.org">https://chocolatey.org</a></li>
+</ul>
+</li>
+<li><p>安裝 Node.js®</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://chocolatey.org/packages/nodejs">https://chocolatey.org/packages/nodejs</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install nodejs -y</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>註冊公司內部 NPM Server</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://company.npm.server">http://company.npm.server</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="built_in">set</span> registry http://company.npm.server</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>安裝 RUBY</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://chocolatey.org/packages/ruby/2.5.1.1">https://chocolatey.org/packages/ruby/2.5.1.1</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install ruby -y</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>下載 RubyGems</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://rubygems.org/pages/download#formats">https://rubygems.org/pages/download#formats</a></li>
+<li>Download from above</li>
+<li>Unpack into a directory and cd there</li>
+<li>Install with: ruby setup.rb (you may need admin/root privilege)</li>
+</ul>
+</li>
+<li><p>安裝 compass</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://rubygems.org/gems/compass/versions/1.0.3">https://rubygems.org/gems/compass/versions/1.0.3</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install compass</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>檢查 PATH</p>
+</li>
+<li><p>重啟 CMD 與 Visual Studio 2017</p>
+</li>
+<li><p>執行 compass</p>
+<ul>
+<li><p>使用 Command Line</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp compass</span><br></pre></td></tr></table></figure></li>
+<li><p>使用工作執行器總管</p>
+<p>  <img src="https://i.imgur.com/2sEzAx5.jpg" alt="工作執行器總管"></p>
+</li>
+</ul>
+</li>
+</ol>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/04/26/2018/windows_with_sass/" data-id="ckk532ni1003vu4ug2g7g7nh8" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/04/26/2018/windows_with_sass/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2018/new_pc_install" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/04/17/2018/new_pc_install/" class="article-date">
@@ -96,7 +189,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/17/2018/new_pc_install/">[實作筆記]重灌開發環境</a>
+      <a class="article-title" href="/2018/04/17/2018/new_pc_install/">[實作筆記] 重灌開發環境</a>
     </h1>
   
 
@@ -107,9 +200,9 @@ ga('send', 'pageview');
         <h2 id="1-Typescript-踩雷"><a href="#1-Typescript-踩雷" class="headerlink" title="1.Typescript 踩雷"></a>1.Typescript 踩雷</h2><h3 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h3><p>visual studio 預設會安裝 typescript 2.6<br>專案使用 typescript 2.3 , 因為暫時無法升級到2.6以上的版本<br>會導致專案無法編譯成功</p>
 <h3 id="解決步驟"><a href="#解決步驟" class="headerlink" title="解決步驟"></a>解決步驟</h3><ol>
 <li>在專案目錄執行 <code>npm i</code> 重新安裝相關module</li>
-<li>complie 後發現 <code>node_modules/@types</code> 中有檔案無法成功編譯</li>
+<li>compile 後發現 <code>node_modules/@types</code> 中有檔案無法成功編譯</li>
 <li>移除 <code>node_modules/@types</code> 整個資料夾</li>
-<li>重新 complie 後仍會無法成功</li>
+<li>重新 compile 後仍會無法成功</li>
 <li>移除 <code>C:\Program Files (x86)\Microsoft SDKs\TypeScript\2.6</code> (非必要,好像要看vs預設載入的版本為何?)</li>
 </ol>
 <h2 id="2-多語系dll衝突"><a href="#2-多語系dll衝突" class="headerlink" title="2.多語系dll衝突"></a>2.多語系dll衝突</h2><ol>
@@ -118,7 +211,6 @@ ga('send', 'pageview');
 <li>重建前台專案</li>
 </ol>
 <h2 id="3-Chocolatey"><a href="#3-Chocolatey" class="headerlink" title="3.Chocolatey"></a>3.Chocolatey</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">choco install googlechrome -y</span><br><span class="line">choco install dropbox -y</span><br><span class="line">choco install evernote -y</span><br><span class="line"></span><br><span class="line">choco install git -y</span><br><span class="line">choco install nodejs -y</span><br><span class="line">choco install putty -y</span><br><span class="line">choco install visualstudiocode -y</span><br><span class="line"></span><br><span class="line">choco install winmerge -y</span><br><span class="line">choco install slack -y</span><br><span class="line">choco install linqpad -y</span><br><span class="line">choco install 7zip -y</span><br><span class="line"> </span><br><span class="line">choco install gitkraken -y</span><br><span class="line"><span class="meta">#</span><span class="bash">choco install sourcetree -y</span></span><br></pre></td></tr></table></figure>
-
 <p>(fin)</p>
 
       
@@ -160,10 +252,10 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a><a href="https://www.forbes.com/sites/ralphjennings/2018/04/04/why-google-ibm-and-microsoft-all-decided-to-expand-in-taiwan-this-year/#4fda82d5c721" target="_blank" rel="noopener">原文</a></h2><h2 id="重點節錄"><a href="#重點節錄" class="headerlink" title="重點節錄"></a>重點節錄</h2><ol>
-<li><a href="https://www.blog.google/topics/google-asia/intelligent-taiwan/" target="_blank" rel="noopener">Google 宣布要在台灣顧用300名員工並訓練5000名學生在人工智能領域</a></li>
-<li><a href="https://news.microsoft.com/apac/2018/01/12/microsoft-launches-artificial-intelligence-research-hub-taiwan/" target="_blank" rel="noopener">微軟也表明未來要在台灣發展AI業務,5年內投資3400萬鎂並招聘200人</a></li>
-<li><a href="https://meet.bnext.com.tw/intl/articles/view/42553" target="_blank" rel="noopener">IBM也表示將在台灣擴展AI/區塊鏈/雲計算等相關的研發中心,並增聘100人以上</a></li>
+        <h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a><a target="_blank" rel="noopener" href="https://www.forbes.com/sites/ralphjennings/2018/04/04/why-google-ibm-and-microsoft-all-decided-to-expand-in-taiwan-this-year/#4fda82d5c721">原文</a></h2><h2 id="重點節錄"><a href="#重點節錄" class="headerlink" title="重點節錄"></a>重點節錄</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.blog.google/topics/google-asia/intelligent-taiwan/">Google 宣布要在台灣顧用300名員工並訓練5000名學生在人工智能領域</a></li>
+<li><a target="_blank" rel="noopener" href="https://news.microsoft.com/apac/2018/01/12/microsoft-launches-artificial-intelligence-research-hub-taiwan/">微軟也表明未來要在台灣發展AI業務,5年內投資3400萬鎂並招聘200人</a></li>
+<li><a target="_blank" rel="noopener" href="https://meet.bnext.com.tw/intl/articles/view/42553">IBM也表示將在台灣擴展AI/區塊鏈/雲計算等相關的研發中心,並增聘100人以上</a></li>
 </ol>
 <h2 id="美國的投資與台灣的人材"><a href="#美國的投資與台灣的人材" class="headerlink" title="美國的投資與台灣的人材"></a>美國的投資與台灣的人材</h2><h3 id="台灣的優點"><a href="#台灣的優點" class="headerlink" title="台灣的優點"></a>台灣的優點</h3><ol>
 <li>人材容易訓練適應AI等新產業的工作<ul>
@@ -193,9 +285,9 @@ ga('send', 'pageview');
 </li>
 </ol>
 <h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><ul>
-<li><a href="https://careers.google.com/jobs#t=sq&q=j&li=20&l=false&jl=25.0329636%3A121.56542680000007%3ATaipei+City%2C+Taiwan%3ATW%3A%3A13.76366184019967%3AADMIN_1&jld=10&&jcoid=7c8c6665-81cf-4e11-8fc9-ec1d6a69120c&jcoid=e43afd0d-d215-45db-a154-5386c9036525&" target="_blank" rel="noopener">Google 在台職缺</a></li>
-<li><strong><a href="https://developers.google.com/machine-learning/crash-course/" target="_blank" rel="noopener">Google 的 Machine Learning 教程</a></strong></li>
-<li><a href="https://krb-sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=26059&siteid=5016&cm_mc_uid=66190819784615216541845&cm_mc_sid_50200000=93350001523199145451#keyWordSearch=&locationSearch=Taiwan&City%20%2F%20Township%20%2F%20Village=TAIPEI&Country%2FRegion=Taiwan" target="_blank" rel="noopener">IBM 職缺</a></li>
+<li><a target="_blank" rel="noopener" href="https://careers.google.com/jobs#t=sq&q=j&li=20&l=false&jl=25.0329636%3A121.56542680000007%3ATaipei+City%2C+Taiwan%3ATW%3A%3A13.76366184019967%3AADMIN_1&jld=10&&jcoid=7c8c6665-81cf-4e11-8fc9-ec1d6a69120c&jcoid=e43afd0d-d215-45db-a154-5386c9036525&">Google 在台職缺</a></li>
+<li><strong><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course/">Google 的 Machine Learning 教程</a></strong></li>
+<li><a target="_blank" rel="noopener" href="https://krb-sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=26059&siteid=5016&cm_mc_uid=66190819784615216541845&cm_mc_sid_50200000=93350001523199145451#keyWordSearch=&locationSearch=Taiwan&City%20%2F%20Township%20%2F%20Village=TAIPEI&Country%2FRegion=Taiwan">IBM 職缺</a></li>
 </ul>
 <p>(fin)</p>
 
@@ -230,7 +322,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/05/2018/linux_command_2/">[學習筆記]Linux 語法學習筆記 二</a>
+      <a class="article-title" href="/2018/04/05/2018/linux_command_2/">[學習筆記] Linux 語法學習筆記 二</a>
     </h1>
   
 
@@ -262,8 +354,7 @@ ga('send', 'pageview');
 <blockquote>
 <p>$ vim helloworld.sh</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">say hello</span></span><br><span class="line">echo "hello world"</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">say hello</span></span><br><span class="line">echo &quot;hello world&quot;</span><br></pre></td></tr></table></figure></li>
 <li><p>執行檔案</p>
 </li>
 </ol>
@@ -276,15 +367,13 @@ ga('send', 'pageview');
 <li>使用 <code>$</code>+變數名呼叫變數</li>
 </ol>
 <p>sample:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> this is a shell sample</span></span><br><span class="line">echo "who are you?"</span><br><span class="line">read name</span><br><span class="line">echo "Hi, $name nice to see you."</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> this is a shell sample</span></span><br><span class="line">echo &quot;who are you?&quot;</span><br><span class="line">read name</span><br><span class="line">echo &quot;Hi, $name nice to see you.&quot;</span><br></pre></td></tr></table></figure>
 <p>executed:</p>
 <blockquote>
 <p>$ sh whoareyou.sh<br>who are you?<br>Mark<br>Hi, Mark nice to see you.</p>
 </blockquote>
 <h3 id="互動式重新命名檔案"><a href="#互動式重新命名檔案" class="headerlink" title="互動式重新命名檔案"></a>互動式重新命名檔案</h3><p>sample:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> this is a shell sample</span></span><br><span class="line">echo "keyin a filename"</span><br><span class="line">read name</span><br><span class="line">mv $1 $name</span><br><span class="line">echo $name"</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> this is a shell sample</span></span><br><span class="line">echo &quot;keyin a filename&quot;</span><br><span class="line">read name</span><br><span class="line">mv $1 $name</span><br><span class="line">echo $name&quot;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>$ sh rename.sh file1<br>keyin a filename<br>newfile<br>newfile</p>
 </blockquote>
@@ -300,9 +389,9 @@ ga('send', 'pageview');
 </li>
 </ol>
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ol>
-<li><a href="https://www.tutorialspoint.com/unix_terminal_online.php" target="_blank" rel="noopener">Unix Terminal Online</a></li>
-<li><a href="https://itsfoss.com/how-to-exit-vim/" target="_blank" rel="noopener">離開Vim的<del>100種</del>方法</a></li>
-<li><a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank" rel="noopener">鳥哥的 Linux 私房菜—認識與學習BASH</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/unix_terminal_online.php">Unix Terminal Online</a></li>
+<li><a target="_blank" rel="noopener" href="https://itsfoss.com/how-to-exit-vim/">離開Vim的<del>100種</del>方法</a></li>
+<li><a target="_blank" rel="noopener" href="http://linux.vbird.org/linux_basic/0320bash.php">鳥哥的 Linux 私房菜—認識與學習BASH</a></li>
 </ol>
 <p>(fin)</p>
 
@@ -337,7 +426,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/04/2018/cloud_learn/aws_access_billing_console/">[學習筆記]允許 IAM User 存取 AWS Billing Console</a>
+      <a class="article-title" href="/2018/04/04/2018/cloud_learn/aws_access_billing_console/">[學習筆記] 允許 IAM User 存取 AWS Billing Console</a>
     </h1>
   
 
@@ -346,16 +435,16 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>設定了 IAM User Account 也給予了 Administrator 的權限,<br>不過仍然看不到 Billing 的頁面資訊 .  </p>
-<p><img src="https://i.imgur.com/1Ge6pGi.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/1Ge6pGi.jpg" alt="Billing"></p>
 <p>這帶來了很大的不方便, 因為如果要看 Billing 的資訊就要切換到 Root Account<br>而建立 Administrator IAM Account 的用意本來就是要儘可能不使用 Root Account 作登入.<br>檢查了權限,明明就有設定 Read Billing 但是仍然看不到.  </p>
 <h2 id="解決方法"><a href="#解決方法" class="headerlink" title="解決方法"></a>解決方法</h2><p>實際上要進入 Billing Console 其實要有兩個步驟  </p>
 <ol>
-<li>權限要設定,更多細節可以參考這篇<a href="https://aws.amazon.com/blogs/security/enhanced-iam-capabilities-for-the-aws-billing-console/" target="_blank" rel="noopener">文章</a>(2014)</li>
-<li>要透過 Root Account 在 <a href="https://console.aws.amazon.com/billing/home#/account" target="_blank" rel="noopener">Account Settings</a> 頁面設定, 允許 IAM user 存取 Billing Console  </li>
+<li>權限要設定,更多細節可以參考這篇<a target="_blank" rel="noopener" href="https://aws.amazon.com/blogs/security/enhanced-iam-capabilities-for-the-aws-billing-console/">文章</a>(2014)</li>
+<li>要透過 Root Account 在 <a target="_blank" rel="noopener" href="https://console.aws.amazon.com/billing/home#/account">Account Settings</a> 頁面設定, 允許 IAM user 存取 Billing Console  </li>
 </ol>
-<p><img src="https://i.imgur.com/yBXaLPJ.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/yBXaLPJ.jpg" alt="Root Account"></p>
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a href="https://aws.amazon.com/blogs/security/dont-forget-to-enable-access-to-the-billing-console/" target="_blank" rel="noopener">Don’t Forget to Enable Access to the Billing Console!</a></li>
+<li><a target="_blank" rel="noopener" href="https://aws.amazon.com/blogs/security/dont-forget-to-enable-access-to-the-billing-console/">Don’t Forget to Enable Access to the Billing Console!</a></li>
 </ul>
 <p>(fin)</p>
 
@@ -399,9 +488,9 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a href="https://www.tutorialspoint.com/unix_terminal_online.php" target="_blank" rel="noopener">Unix Terminal Online</a></li>
-<li><a href="https://www.udemy.com/learn-shell-scripting-all-levels/" target="_blank" rel="noopener">Learn Shell Scripting all Levels</a></li>
-<li><a href="http://linux.vbird.org/linux_basic/0320bash/csh/no3-8-01.html" target="_blank" rel="noopener">umask 指令</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/unix_terminal_online.php">Unix Terminal Online</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/learn-shell-scripting-all-levels/">Learn Shell Scripting all Levels</a></li>
+<li><a target="_blank" rel="noopener" href="http://linux.vbird.org/linux_basic/0320bash/csh/no3-8-01.html">umask 指令</a></li>
 </ul>
 <h2 id="學習筆記"><a href="#學習筆記" class="headerlink" title="學習筆記"></a>學習筆記</h2><h3 id="Clear"><a href="#Clear" class="headerlink" title="Clear"></a><code>Clear</code></h3><h4 id="清除目前-terminal-畫面"><a href="#清除目前-terminal-畫面" class="headerlink" title="清除目前 terminal 畫面"></a>清除目前 terminal 畫面</h4><h3 id="Cal"><a href="#Cal" class="headerlink" title="Cal"></a><code>Cal</code></h3><h4 id="產生當下的月曆"><a href="#產生當下的月曆" class="headerlink" title="產生當下的月曆"></a>產生當下的月曆</h4><blockquote>
 <p>$ cal                                                </p>
@@ -470,7 +559,7 @@ ga('send', 'pageview');
 <h3 id="ls"><a href="#ls" class="headerlink" title="ls"></a><code>ls</code></h3><h4 id="列出資料夾中的所有檔案"><a href="#列出資料夾中的所有檔案" class="headerlink" title="列出資料夾中的所有檔案"></a>列出資料夾中的所有檔案</h4><h4 id="ls-foldername"><a href="#ls-foldername" class="headerlink" title="ls foldername"></a><code>ls foldername</code></h4><p>列出指定的資料夾中所有的檔案</p>
 <h4 id="ls-l"><a href="#ls-l" class="headerlink" title="ls -l"></a><code>ls -l</code></h4><p>列出資料夾中的所有檔案與其權限資訊</p>
 <blockquote>
-<p>ls 最常被使用到的功能還是那個 -l 的選項，為此，很多 distribution 在預設的情況中， 已經將 ll (L 的小寫) 設定成為 ls -l 的意思了！其實，那個功能是 <a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank" rel="noopener">Bash shell</a> 的 <a href="http://linux.vbird.org/linux_basic/0320bash.php#alias" target="_blank" rel="noopener">alias</a> 功能呢<br>— 鳥哥的 Linux 私房菜</p>
+<p>ls 最常被使用到的功能還是那個 -l 的選項，為此，很多 distribution 在預設的情況中， 已經將 ll (L 的小寫) 設定成為 ls -l 的意思了！其實，那個功能是 <a target="_blank" rel="noopener" href="http://linux.vbird.org/linux_basic/0320bash.php">Bash shell</a> 的 <a target="_blank" rel="noopener" href="http://linux.vbird.org/linux_basic/0320bash.php#alias">alias</a> 功能呢<br>— 鳥哥的 Linux 私房菜</p>
 </blockquote>
 <h3 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a><code>chmod</code></h3><h4 id="修改檔案權限"><a href="#修改檔案權限" class="headerlink" title="修改檔案權限"></a>修改檔案權限</h4><blockquote>
 <p>sh-4.4$ ls -l<br>total 4<br>-rw-r–r– 1 33581 33581 978 Mar 12 17:30 README.txt<br>-rw-r–r– 1 33581 33581   0 Mar 12 17:32 test<br>sh-4.4$ chmod 777 test<br>sh-4.4$ ls -l<br>total 4<br>-rw-r–r– 1 33581 33581 978 Mar 12 17:30 README.txt<br>-rwxrwxrwx 1 33581 33581   0 Mar 12 17:32 test<br>sh-4.4$ chmod 444 test<br>sh-4.4$ ls -l<br>total 4<br>-rw-r–r– 1 33581 33581 978 Mar 12 17:30 README.txt<br>-r–r–r– 1 33581 33581   0 Mar 12 17:32 test</p>
@@ -512,7 +601,7 @@ ga('send', 'pageview');
 <blockquote>
 <p>$ cut -d”-“ -f 1,3 filenames<br>Name-Age<br>Roger-30<br>Nadal-25<br>Tiger-37<br>Michael-49</p>
 </blockquote>
-<h3 id="dd"><a href="#dd" class="headerlink" title="dd"></a><code>dd</code></h3><h4 id="資料處理、拷貝、備份、轉碼-更多"><a href="#資料處理、拷貝、備份、轉碼-更多" class="headerlink" title="資料處理、拷貝、備份、轉碼;更多"></a>資料處理、拷貝、備份、轉碼;<a href="https://blog.gtwang.org/linux/dd-command-examples/" target="_blank" rel="noopener">更多</a></h4><blockquote>
+<h3 id="dd"><a href="#dd" class="headerlink" title="dd"></a><code>dd</code></h3><h4 id="資料處理、拷貝、備份、轉碼-更多"><a href="#資料處理、拷貝、備份、轉碼-更多" class="headerlink" title="資料處理、拷貝、備份、轉碼;更多"></a>資料處理、拷貝、備份、轉碼;<a target="_blank" rel="noopener" href="https://blog.gtwang.org/linux/dd-command-examples/">更多</a></h4><blockquote>
 <p>$ cat &gt; infile<br>this is the input file<br>$ cat infile<br>this is the input file</p>
 </blockquote>
 <blockquote>
@@ -527,11 +616,10 @@ ga('send', 'pageview');
 <p>$ man ls<br>h</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">                   SUMMARY OF LESS COMMANDS</span><br><span class="line"></span><br><span class="line">      Commands marked with * may be preceded by a number, N.</span><br><span class="line">      Notes in parentheses indicate the behavior if N is given.</span><br><span class="line"></span><br><span class="line">  h  H                 Display this help.</span><br><span class="line">  q  :q  Q  :Q  ZZ     Exit.</span><br><span class="line"> ---------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">                           MOVING</span><br><span class="line"></span><br><span class="line">  e  ^E  j  ^N  CR  *  Forward  one line   (or N lines).</span><br><span class="line">  y  ^Y  k  ^K  ^P  *  Backward one line   (or N lines).</span><br><span class="line">  f  ^F  ^V  SPACE  *  Forward  one window (or N lines).</span><br><span class="line">  b  ^B  ESC-v      *  Backward one window (or N lines).</span><br><span class="line">  z                 *  Forward  one window (and set window to N).</span><br><span class="line">  w                 *  Backward one window (and set window to N).</span><br><span class="line">  ESC-SPACE         *  Forward  one window, but don&#39;t stop at end-of-file.</span><br><span class="line">  d  ^D             *  Forward  one half-window (and set half-window to N).</span><br><span class="line">  u  ^U             *  Backward one half-window (and set half-window to N).</span><br><span class="line">  ESC-)  RightArrow *  Left  one half screen width (or N positions).</span><br><span class="line">  ESC-(  LeftArrow  *  Right one half screen width (or N positions).</span><br><span class="line">  F                    Forward forever; like &quot;tail -f&quot;.</span><br><span class="line">  r  ^R  ^L            Repaint screen.</span><br><span class="line">HELP -- Press RETURN for more, or q when done</span><br></pre></td></tr></table></figure>
-
 <p>按<code>q</code>退出查詢畫面</p>
 <h3 id="banner"><a href="#banner" class="headerlink" title="banner"></a><code>banner</code></h3><h4 id="輸出用-組成的大形文字"><a href="#輸出用-組成的大形文字" class="headerlink" title="輸出用#組成的大形文字"></a>輸出用#組成的大形文字</h4><p>實測未出現,上網查了一下banner好像有蠻多不同的類型可以安裝?</p>
 <h3 id="compress"><a href="#compress" class="headerlink" title="compress"></a><code>compress</code></h3><h4 id="壓縮檔案"><a href="#壓縮檔案" class="headerlink" title="壓縮檔案"></a>壓縮檔案</h4><h3 id="zcat"><a href="#zcat" class="headerlink" title="zcat"></a><code>zcat</code></h3><h4 id="讀取壓縮檔案"><a href="#讀取壓縮檔案" class="headerlink" title="讀取壓縮檔案"></a>讀取壓縮檔案</h4><h3 id="uncompress"><a href="#uncompress" class="headerlink" title="uncompress"></a><code>uncompress</code></h3><h4 id="解壓縮檔案"><a href="#解壓縮檔案" class="headerlink" title="解壓縮檔案"></a>解壓縮檔案</h4><blockquote>
-<p>compress 已經退流行了。為了支援 windows 常見的 zip，其實 Linux 也早就有 zip 指令了！ gzip 是由 <a href="http://www.gnu.org/" target="_blank" rel="noopener">GNU 計畫</a>所開發出來的壓縮指令，該指令已經取代了 compress 。<br>— 鳥哥的 Linux 私房菜</p>
+<p>compress 已經退流行了。為了支援 windows 常見的 zip，其實 Linux 也早就有 zip 指令了！ gzip 是由 <a target="_blank" rel="noopener" href="http://www.gnu.org/">GNU 計畫</a>所開發出來的壓縮指令，該指令已經取代了 compress 。<br>— 鳥哥的 Linux 私房菜</p>
 </blockquote>
 <h3 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h3><p>以上是一些基本的 Linux Command ,<br>下一篇,我們會建立.sh檔,將 Linux Command 依照指定的順序執行<br>並使用 <code>sh</code> 命令執行<br>用以完成一些更進階的工作. </p>
 <p>(more..)</p>
@@ -567,7 +655,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/25/2018/cloud_learn/aws_cli_login/">[學習筆記]AWS EC2 學習筆記 AWS CLI 與 Login</a>
+      <a class="article-title" href="/2018/03/25/2018/cloud_learn/aws_cli_login/">[學習筆記] AWS EC2 學習筆記 AWS CLI 與 Login</a>
     </h1>
   
 
@@ -575,23 +663,20 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="安裝-AWS-CLI"><a href="#安裝-AWS-CLI" class="headerlink" title="安裝 AWS CLI"></a><a href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/installing.html" target="_blank" rel="noopener">安裝 AWS CLI</a></h2><h2 id="配置-AWS-CLI"><a href="#配置-AWS-CLI" class="headerlink" title="配置 AWS CLI"></a><a href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/cli-chap-getting-started.html#cli-quick-configuration" target="_blank" rel="noopener">配置 AWS CLI</a></h2><h2 id="EC2-開機"><a href="#EC2-開機" class="headerlink" title="EC2 開機"></a>EC2 開機</h2><p><img src="https://i.imgur.com/dNGygaT.jpg" alt="EC2 開機"></p>
+        <h2 id="安裝-AWS-CLI"><a href="#安裝-AWS-CLI" class="headerlink" title="安裝 AWS CLI"></a><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/installing.html">安裝 AWS CLI</a></h2><h2 id="配置-AWS-CLI"><a href="#配置-AWS-CLI" class="headerlink" title="配置 AWS CLI"></a><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/cli-chap-getting-started.html#cli-quick-configuration">配置 AWS CLI</a></h2><h2 id="EC2-開機"><a href="#EC2-開機" class="headerlink" title="EC2 開機"></a>EC2 開機</h2><p><img src="https://i.imgur.com/dNGygaT.jpg" alt="EC2 開機"></p>
 <ul>
 <li>直接開機跳過網路設定(也還沒有辦法設)</li>
 <li>第5步驟設定 TAG ,對找尋 ec2 的 instance 很有幫助</li>
 </ul>
-<h2 id="設定-Putty"><a href="#設定-Putty" class="headerlink" title="設定 Putty"></a>設定 <a href="https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/putty.html?icmpid=docs_ec2_console" target="_blank" rel="noopener">Putty</a></h2><h2 id="連線機器"><a href="#連線機器" class="headerlink" title="連線機器"></a>連線機器</h2><p><img src="https://i.imgur.com/xIQsEac.jpg" alt="連線機器"></p>
+<h2 id="設定-Putty"><a href="#設定-Putty" class="headerlink" title="設定 Putty"></a>設定 <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/putty.html?icmpid=docs_ec2_console">Putty</a></h2><h2 id="連線機器"><a href="#連線機器" class="headerlink" title="連線機器"></a>連線機器</h2><p><img src="https://i.imgur.com/xIQsEac.jpg" alt="連線機器"></p>
 <p>ex:  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i /path/my-key-pair.pem ec2-user@ec2-198-51-100-1.compute-1.amazonaws.com</span><br></pre></td></tr></table></figure>
-
 <h3 id="預設連線帳戶"><a href="#預設連線帳戶" class="headerlink" title="預設連線帳戶"></a>預設連線帳戶</h3><blockquote>
 <p>For Amazon Linux, the user name is <code>ec2-user</code>.<br>For Centos, the user name is <code>centos</code>.<br>For Debian, the user name is <code>admin</code> or <code>root</code>.<br>For Fedora, the user name is <code>ec2-user</code>.<br>For RHEL, the user name is <code>ec2-user</code> or <code>root</code>.<br>For SUSE, the user name is <code>ec2-user</code> or <code>root</code>.<br>For Ubuntu, the user name is <code>ubuntu</code> or <code>root</code>.<br>Otherwise, if <code>ec2-user</code> and <code>root</code> don’t work, check with your AMI provider.</p>
 </blockquote>
 <p>windows 好像是 Administrator ? 求補充</p>
 <h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><h3 id="安裝-Docker"><a href="#安裝-Docker" class="headerlink" title="安裝 Docker"></a>安裝 Docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install docker</span><br></pre></td></tr></table></figure>
-
 <h3 id="啟動-Docker-服務，並讓它隨系統啟動自動載入"><a href="#啟動-Docker-服務，並讓它隨系統啟動自動載入" class="headerlink" title="啟動 Docker 服務，並讓它隨系統啟動自動載入"></a>啟動 Docker 服務，並讓它隨系統啟動自動載入</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service docker start</span><br><span class="line">sudo chkconfig docker on</span><br></pre></td></tr></table></figure>
-
 <h3 id="雷包"><a href="#雷包" class="headerlink" title="雷包"></a>雷包</h3><ul>
 <li>重啟機器的話 public dns 會改變.(意味連線的命令參數會變)</li>
 <li>注意使用的AIM, 不同的 Linux OS 會有不同的套件執行命令</li>
@@ -599,8 +684,8 @@ ga('send', 'pageview');
 <li>CentOS <code>yum</code></li>
 </ul>
 <h3 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h3><ul>
-<li><a href="https://philipzheng.gitbooks.io/docker_practice" target="_blank" rel="noopener">Docker —— 從入門到實踐</a></li>
-<li><a href="https://www.gitbook.com/book/joshhu/dockercommands/details" target="_blank" rel="noopener">全面易懂的Docker指令大全</a></li>
+<li><a target="_blank" rel="noopener" href="https://philipzheng.gitbooks.io/docker_practice">Docker —— 從入門到實踐</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.gitbook.com/book/joshhu/dockercommands/details">全面易懂的Docker指令大全</a></li>
 </ul>
 <p>(fin)</p>
 
@@ -644,7 +729,7 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="要知道的事"><a href="#要知道的事" class="headerlink" title="要知道的事"></a>要知道的事</h2><ol>
-<li>這是<a href="http://www.books.com.tw/products/0010765689" target="_blank" rel="noopener">單元測試的藝術</a>的閱讀筆記</li>
+<li>這是<a target="_blank" rel="noopener" href="http://www.books.com.tw/products/0010765689">單元測試的藝術</a>的閱讀筆記</li>
 <li>筆記的意思就是不一定會有心得</li>
 <li>這篇主要是導讀</li>
 </ol>
@@ -680,8 +765,8 @@ ga('send', 'pageview');
 <li>可讀性差</li>
 </ul>
 <h3 id="作者推薦的框架"><a href="#作者推薦的框架" class="headerlink" title="作者推薦的框架"></a>作者推薦的框架</h3><ul>
-<li><a href="http://nsubstitute.github.io" target="_blank" rel="noopener">NSubstitute</a></li>
-<li><a href="https://github.com/FakeItEasy/FakeItEasy" target="_blank" rel="noopener">FakeItEasy</a></li>
+<li><a target="_blank" rel="noopener" href="http://nsubstitute.github.io">NSubstitute</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FakeItEasy/FakeItEasy">FakeItEasy</a></li>
 </ul>
 <h3 id="學習路線圖"><a href="#學習路線圖" class="headerlink" title="學習路線圖"></a>學習路線圖</h3><ul>
 <li>Part I 基礎知識</li>
@@ -748,8 +833,8 @@ ga('send', 'pageview');
 </ol>
 <h3 id="TDD的核心技能"><a href="#TDD的核心技能" class="headerlink" title="TDD的核心技能"></a>TDD的核心技能</h3><ol>
 <li>可維護、可讀、可靠(這本書的目的)</li>
-<li>寫出可維護、可讀、可靠的測試不等於TDD,至於如何寫優秀的TDD,作者推薦閱讀<a href="https://www.tenlong.com.tw/products/9780321146533" target="_blank" rel="noopener">〈Test-Driven Development:by Example〉</a></li>
-<li>就算執行TDD,也不保証能設計一個完善的系統,作者推薦閱讀<a href="http://tl.big5.zxhsd.com/kgsm/ts/big5/2010/07/30/1801246.shtml" target="_blank" rel="noopener">Growing Object-Oriented Software, Guided by Tests</a>與<a href="https://www.tenlong.com.tw/products/9789862017050" target="_blank" rel="noopener">無瑕的程式碼</a></li>
+<li>寫出可維護、可讀、可靠的測試不等於TDD,至於如何寫優秀的TDD,作者推薦閱讀<a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9780321146533">〈Test-Driven Development:by Example〉</a></li>
+<li>就算執行TDD,也不保証能設計一個完善的系統,作者推薦閱讀<a target="_blank" rel="noopener" href="http://tl.big5.zxhsd.com/kgsm/ts/big5/2010/07/30/1801246.shtml">Growing Object-Oriented Software, Guided by Tests</a>與<a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9789862017050">無瑕的程式碼</a></li>
 </ol>
 <p>簡單說就是:</p>
 <ul>
@@ -769,9 +854,9 @@ ga('send', 'pageview');
 </ul>
 <h2 id="揪錯"><a href="#揪錯" class="headerlink" title="揪錯"></a>揪錯</h2><p><img src="https://i.imgur.com/olnQxQ2.jpg" alt="印刷錯誤"></p>
 <h2 id="本書資源"><a href="#本書資源" class="headerlink" title="本書資源"></a>本書資源</h2><ol>
-<li><a href="https://github.com/royosherove/aout2" target="_blank" rel="noopener">Samples</a></li>
-<li><a href="http://artofunittesting.com/" target="_blank" rel="noopener">The Art Of Unit Testing</a></li>
-<li><a href="http://osherove.com/videos/" target="_blank" rel="noopener">Videos</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/royosherove/aout2">Samples</a></li>
+<li><a target="_blank" rel="noopener" href="http://artofunittesting.com/">The Art Of Unit Testing</a></li>
+<li><a target="_blank" rel="noopener" href="http://osherove.com/videos/">Videos</a></li>
 </ol>
 <p>(fin)</p>
 
@@ -819,9 +904,9 @@ ga('send', 'pageview');
 <li>這場活動使用人肉找尋變異</li>
 <li>實務上應使用工具</li>
 <li>但是不能完全相信工具</li>
-<li><a href="https://www.facebook.com/events/966762773499308/" target="_blank" rel="noopener">活動聯結</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.facebook.com/events/966762773499308/">活動聯結</a></li>
 <li>講師是 Odd-e 的姚若舟</li>
-<li><a href="http://boolan.com/lecture/1000001089" target="_blank" rel="noopener">簡報preview版</a></li>
+<li><a target="_blank" rel="noopener" href="http://boolan.com/lecture/1000001089">簡報preview版</a></li>
 </ul>
 <h2 id="什麼是變異"><a href="#什麼是變異" class="headerlink" title="什麼是變異"></a>什麼是變異</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>想像一下產品(<code>Production</code>)就是你的身體,<br>我們可以透過健康檢查(<code>Unit Test</code>);<br>檢查你的身體有沒有異狀 ?  </p>
 <p>但是檢查真的可靠嗎 ?<br>比如說一般的流感的快篩只有50~60%的準確率,<br>我們的測試也無法達到100%準確率(這裡不是指覆蓋率喔).<br>如何抓到測試抓不到的<strong>漏網之魚</strong>就是變異測試的目的.  </p>
@@ -833,7 +918,6 @@ ga('send', 'pageview');
 <p><strong>no , test not covered</strong><br>這表示你的測試並未</p>
 <h3 id="測試不一定能補捉變異"><a href="#測試不一定能補捉變異" class="headerlink" title="測試不一定能補捉變異"></a>測試不一定能補捉變異</h3><p>比如說 <code>邊際值</code> 或是 <code>隱含的互動</code>;<br>測試覆蓋率100%也不一定能補捉變異<br>要麼少了test case,<br>要麼多了無意義的代碼<br>看看以下例子<br>ex:</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">foo(x,y)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span>/ logic here</span></span><br><span class="line">    sideeffct();</span><br><span class="line">    <span class="keyword">return</span> z;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>反思一下, 測試過了代碼就沒問題 ?<br>不能捉到變異的測試,<br>有發揮它的功能嗎 ?<br>一般來說如果透過 TDD 進行軟體開發,<br>我們的測試應該是會恰巧符合一項 Test Case<br>而如果是先寫代碼再寫測試,<br>將很難通過變異測試(容易產生多餘的代碼)</p>
 <h3 id="找到變異的幾個方向"><a href="#找到變異的幾個方向" class="headerlink" title="找到變異的幾個方向"></a>找到變異的幾個方向</h3><ul>
 <li>邊界條件(<code>&lt;</code> =&gt; <code>&lt;=</code>)</li>
@@ -845,12 +929,10 @@ ga('send', 'pageview');
 <li>返回值</li>
 <li>移除代碼</li>
 </ul>
-<h3 id="先寫代碼再寫測試有問題是很正常的"><a href="#先寫代碼再寫測試有問題是很正常的" class="headerlink" title="先寫代碼再寫測試有問題是很正常的"></a>先寫代碼再寫測試有問題是很正常的</h3><h2 id="Kata-PokerHands-範例"><a href="#Kata-PokerHands-範例" class="headerlink" title="Kata-PokerHands 範例"></a>Kata-PokerHands 範例</h2><h3 id="原碼-使用java"><a href="#原碼-使用java" class="headerlink" title="原碼(使用java)"></a><a href="https://github.com/JosephYao/Kata-PokerHands" target="_blank" rel="noopener">原碼(使用java)</a></h3><h3 id="變異實例"><a href="#變異實例" class="headerlink" title="變異實例"></a>變異實例</h3><p>有問題 ,反向測試案例不足</p>
+<h3 id="先寫代碼再寫測試有問題是很正常的"><a href="#先寫代碼再寫測試有問題是很正常的" class="headerlink" title="先寫代碼再寫測試有問題是很正常的"></a>先寫代碼再寫測試有問題是很正常的</h3><h2 id="Kata-PokerHands-範例"><a href="#Kata-PokerHands-範例" class="headerlink" title="Kata-PokerHands 範例"></a>Kata-PokerHands 範例</h2><h3 id="原碼-使用java"><a href="#原碼-使用java" class="headerlink" title="原碼(使用java)"></a><a target="_blank" rel="noopener" href="https://github.com/JosephYao/Kata-PokerHands">原碼(使用java)</a></h3><h3 id="變異實例"><a href="#變異實例" class="headerlink" title="變異實例"></a>變異實例</h3><p>有問題 ,反向測試案例不足</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> List&lt;Integer&gt; <span class="title">getPairCardRanks</span><span class="params">(List&lt;Integer&gt; cardRanks)</span> </span>&#123;</span><br><span class="line">         List&lt;Integer&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; CARD_COUNT - <span class="number">1</span>; index++)</span><br><span class="line">         <span class="keyword">if</span> (isTwoNeighborCardRanksEquals(index, cardRanks))</span><br><span class="line">           result.add(cardRanks.get(index));</span><br><span class="line">         <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>有問題 , -1 但是預期中的行為</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span>   Integer   <span class="title">getThreeOfAKindCardRank</span><span class="params">(List&lt;Integer\&gt; cardRanks)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; CARD_COUNT - <span class="number">2</span>; index++)</span><br><span class="line">      <span class="keyword">if</span> (isThreeNeighborCardRanksEquals(index, cardRanks))</span><br><span class="line">       <span class="keyword">return</span>   cardRanks.get(index);</span><br><span class="line">     <span class="keyword">throw</span>   <span class="keyword">new</span>   IllegalStateException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><ol>
 <li>沒有TDD 沒有單元測試,別跑變異測試</li>
 <li>至少要有行級別的覆蓋率(line coverage)</li>
@@ -867,15 +949,15 @@ ga('send', 'pageview');
 <li>依靠工具不要相信工具,上一步的評估<br>Ex: mock 物件會取代互動實際的行為,導致變異測試失敗</li>
 </ol>
 <h3 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h3><ul>
-<li><a href="http://pitest.org" target="_blank" rel="noopener">http://pitest.org</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Mutation_testing" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Mutation_testing</a></li>
+<li><a target="_blank" rel="noopener" href="http://pitest.org">http://pitest.org</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mutation_testing">https://en.wikipedia.org/wiki/Mutation_testing</a></li>
 <li>使用 Sonarqube with mulations test(應該不用錢)</li>
 <li>tudou.com/home/yaoruozhou</li>
 </ul>
 <h2 id="參與者心得"><a href="#參與者心得" class="headerlink" title="參與者心得"></a>參與者心得</h2><ol>
-<li><p><a href="https://medium.com/@loverjersey/變異測試-mutation-test-一種提高測試和代碼質量的-新-方法速記-35bde79a5c7a" target="_blank" rel="noopener">變異測試 (Mutation Test) — 一種提高測試和代碼質量的 ”新” 方法速記</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://medium.com/@loverjersey/變異測試-mutation-test-一種提高測試和代碼質量的-新-方法速記-35bde79a5c7a">變異測試 (Mutation Test) — 一種提高測試和代碼質量的 ”新” 方法速記</a></p>
 </li>
-<li><p><a href="https://dotblogs.com.tw/im_sqz777/2018/03/15/004634" target="_blank" rel="noopener">Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的?</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/im_sqz777/2018/03/15/004634">Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的?</a></p>
 </li>
 </ol>
 <h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><ol>
@@ -884,7 +966,7 @@ ga('send', 'pageview');
 <li>Odd-e 的講師真的很粉棒, 雖然不致到毀三觀 不過眼界大開</li>
 </ol>
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a href="http://www.cnblogs.com/TongWee/p/4505289.html" target="_blank" rel="noopener">Mutation Testing(变异测试)</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/TongWee/p/4505289.html">Mutation Testing(变异测试)</a></li>
 </ul>
 <p>(fin)</p>
 
@@ -919,7 +1001,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/15/2018/shopee_tech_sharing/">[活動筆記]蝦皮購物新加坡研發團隊技術分享會</a>
+      <a class="article-title" href="/2018/03/15/2018/shopee_tech_sharing/">[活動筆記] 蝦皮購物新加坡研發團隊技術分享會</a>
     </h1>
   
 
@@ -934,7 +1016,7 @@ ga('send', 'pageview');
 <li>這篇文章對你應該沒有幫助</li>
 </ol>
 <h2 id="有關蝦皮"><a href="#有關蝦皮" class="headerlink" title="有關蝦皮"></a>有關蝦皮</h2><ul>
-<li>屬於<a href="http://www.seagroup.com/home" target="_blank" rel="noopener">Sea 集團</a>的一部份</li>
+<li>屬於<a target="_blank" rel="noopener" href="http://www.seagroup.com/home">Sea 集團</a>的一部份</li>
 <li>東南亞多國服務(新加坡、泰國、馬來西亞、印度、台灣、越南…)</li>
 <li>63e Request / Day</li>
 <li>8G IO / Mins</li>
@@ -949,41 +1031,41 @@ ga('send', 'pageview');
 <li>SPA / MPA ?</li>
 <li>Mesos / Kubernetes ?</li>
 </ul>
-<h2 id="Qiz-amp-Ans"><a href="#Qiz-amp-Ans" class="headerlink" title="Qiz &amp; Ans"></a>Qiz &amp; Ans</h2><h5 id="1"><a href="#1" class="headerlink" title="1"></a>1</h5><blockquote>
+<h2 id="Qiz-amp-Ans"><a href="#Qiz-amp-Ans" class="headerlink" title="Qiz &amp; Ans"></a>Qiz &amp; Ans</h2><h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><blockquote>
 <p>用戶下單的時候, 先收錢還是先扣庫存?<br>扣掉最後一件庫存後, 收錢失敗怎麼辦？<br>你已經把「賣完」訊息發給了賣家, 怎麼辦？</p>
 </blockquote>
-<h5 id="2"><a href="#2" class="headerlink" title="2"></a>2</h5><blockquote>
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><blockquote>
 <p>計算金額用整數還是浮點數？(浮點數不準)</p>
 </blockquote>
-<h5 id="3"><a href="#3" class="headerlink" title="3"></a>3</h5><blockquote>
+<h3 id="3"><a href="#3" class="headerlink" title="3"></a>3</h3><blockquote>
 <p>Android 一共有幾種螢幕的 DPI ?<br>Android WebView 和 Chrome 的 Webkit 有何不同 ?</p>
 </blockquote>
-<h5 id="4"><a href="#4" class="headerlink" title="4"></a>4</h5><blockquote>
+<h3 id="4"><a href="#4" class="headerlink" title="4"></a>4</h3><blockquote>
 <p>Web Service 花最多時間在處理什麼 ?<br>如何壓搾最高的吞吐量 ?<br>IO, USE async</p>
 </blockquote>
-<h5 id="5"><a href="#5" class="headerlink" title="5"></a>5</h5><blockquote>
-<p>什麼樣的情境適合增加伺服器數量來增進效能?<br>stateless<br>那有狀態怎麼辦 ? </p>
+<h3 id="5"><a href="#5" class="headerlink" title="5"></a>5</h3><blockquote>
+<p>什麼樣的情境適合增加伺服器數量來增進效能?<br>stateless<br>那有狀態怎麼辦 ?  </p>
 </blockquote>
-<h5 id="6"><a href="#6" class="headerlink" title="6"></a>6</h5><blockquote>
+<h3 id="6"><a href="#6" class="headerlink" title="6"></a>6</h3><blockquote>
 <p>load balancer 效能到達瓶頸怎麼辦 ?<br>IP</p>
 </blockquote>
-<h5 id="7"><a href="#7" class="headerlink" title="7"></a>7</h5><blockquote>
+<h3 id="7"><a href="#7" class="headerlink" title="7"></a>7</h3><blockquote>
 <p>一天 25TB 的 Log 數量,怎麼不會查到天荒地老</p>
 </blockquote>
-<h5 id="8"><a href="#8" class="headerlink" title="8"></a>8</h5><blockquote>
+<h3 id="8"><a href="#8" class="headerlink" title="8"></a>8</h3><blockquote>
 <p>Cache &amp; 超賣問題<br>什麼時候要清 Cache ?</p>
 </blockquote>
-<h5 id="9"><a href="#9" class="headerlink" title="9"></a>9</h5><blockquote>
+<h3 id="9"><a href="#9" class="headerlink" title="9"></a>9</h3><blockquote>
 <p>Database Master 與 Slave 哪個壓力大 ?(Slave)<br>增加 index 的代價為何 ?(Space)<br>Table 多大要 shard ?<br>Database 多大要分庫 ?<br>分庫如何作 transaction ?</p>
 </blockquote>
 <h2 id="實踐"><a href="#實踐" class="headerlink" title="實踐"></a>實踐</h2><ol>
 <li>Prototype 簡單 Production 困難 (邊際效應/熵)</li>
 <li>可靠:言出必行,作不到也要早點說(知難行易)</li>
-<li>Redis 的資料超過 64G 就無法用 <a href="http://redisdoc.com/server/bgsave.html" target="_blank" rel="noopener">bgsave</a> 有效存檔</li>
-<li>在 Prodction 千萬別用 Redis 的 <a href="https://redis.io/commands/keys" target="_blank" rel="noopener">key</a> 指令</li>
+<li>Redis 的資料超過 64G 就無法用 <a target="_blank" rel="noopener" href="http://redisdoc.com/server/bgsave.html">bgsave</a> 有效存檔</li>
+<li>在 Production 千萬別用 Redis 的 <a target="_blank" rel="noopener" href="https://redis.io/commands/keys">key</a> 指令</li>
 <li>衡量的基準(benchmark)為何？</li>
 <li>不要對邏輯下command(不要寫前因後果)<ul>
-<li>Dont command How</li>
+<li>Don’t command How</li>
 <li>Command Why</li>
 </ul>
 </li>
@@ -1015,15 +1097,15 @@ ga('send', 'pageview');
 <li>Hypergraph</li>
 <li>Tech Stack</li>
 <li>Roles<ul>
-<li>contries PM</li>
-<li>fucntion PM</li>
+<li>countries PM</li>
+<li>function PM</li>
 </ul>
 </li>
 <li>Scrum 是跑給老闆看的(!!?)</li>
 <li>馬來西亞不用小豬ICON(各地風俗民情不同)</li>
 </ul>
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a href="https://careers.shopee.com" target="_blank" rel="noopener">https://careers.shopee.com</a></li>
+<li><a target="_blank" rel="noopener" href="https://careers.shopee.com">careers</a></li>
 </ul>
 <p>(fin)</p>
 
@@ -1036,237 +1118,6 @@ ga('send', 'pageview');
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" rel="tag">活動筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2018/csharp_common_mistakes_1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/02/12/2018/csharp_common_mistakes_1/" class="article-date">
-  <time datetime="2018-02-11T18:12:47.000Z" itemprop="datePublished">2018-02-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/12/2018/csharp_common_mistakes_1/">[翻譯] C# 的常見錯誤</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="出處"><a href="#出處" class="headerlink" title="出處"></a>出處</h2><p><a href="http://www.dotnetcurry.com/csharp/1417/csharp-common-mistakes" target="_blank" rel="noopener">http://www.dotnetcurry.com/csharp/1417/csharp-common-mistakes</a></p>
-<h2 id="線上工具"><a href="#線上工具" class="headerlink" title="線上工具"></a>線上工具</h2><p><a href="https://dotnetfiddle.net" target="_blank" rel="noopener">https://dotnetfiddle.net</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>C#是個好棒棒的言語,但是它仍會有超乎你想像的行為,<br>而且就算你是有經驗的開發者,你也要看一看這篇文章.<br>這篇文章不講幹話,還會給你代碼喔  </p>
-<p><img src="https://i.imgur.com/wXjvug6.jpg" alt="C# Quiz"></p>
-<h3 id="Null-Value"><a href="#Null-Value" class="headerlink" title="Null Value"></a>Null Value</h3><p>Null 很危險啦, 你別在 Null 身上調用方法<br>(譯注:在公司的維運人員應該還蠻常見這個錯誤的 一ω一)  </p>
-<blockquote>
-<p>We are all aware that null values can be dangerous, if not handled properly.<br>Dereferencing a null-valued variable (i.e. calling a method on it or accessing one of its properties)<br>will result in a NullReferenceException, as demonstrated with the following sample code:  </p>
-</blockquote>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> nullValue = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">bool</span> areNullValuesEqual = nullValue.Equals(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
-
-<p>就安全的角度,好像我們要不停的檢查 reference type 是不是 null ,<br>雖然這件事常常發生,好像也很難說成是非預期的行為了…<br>(譯注:又有種中槍的感覺)  </p>
-<blockquote>
-<p>To be on the safer side, we should always make sure that reference type values are not null before dereferencing them.<br>Failing to do so could result in an unhandled exception in a specific edge case.<br>Although such a mistake occasionally happens to everyone, we could hardly call it unexpected behavior.  </p>
-</blockquote>
-<p>看看這個代碼, null 值在 runtime 的時候不會有 type 的  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">string</span> nullString = (<span class="keyword">string</span>)<span class="literal">null</span>;</span><br><span class="line"><span class="keyword">bool</span> isStringType = nullString <span class="keyword">is</span> <span class="keyword">string</span>;</span><br></pre></td></tr></table></figure>
-
-<p><strong>No</strong>, null 值在 runtime 的時候不會有 type 的<br><strong>No</strong>, null 值在 runtime 的時候不會有 type 的<br><strong>No</strong>, null 值在 runtime 的時候不會有 type 的<br>很重要所以說三次,<br>當然你也別想呼叫 <code>GetType()</code> 方法  </p>
-<blockquote>
-<p>The correct answer is <strong>No</strong>.  </p>
-<p>A null value has no type at runtime.  </p>
-<p>In a way, this also affects reflection.<br>Of course, you can’t call GetType() on a null value because a NullReferenceException would get thrown:  </p>
-</blockquote>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> nullValue = <span class="literal">null</span>;</span><br><span class="line">Type nullType = nullValue.GetType();</span><br></pre></td></tr></table></figure>
-
-<p>純量呢？</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> intValue = <span class="number">5</span>;</span><br><span class="line">Nullable&lt;<span class="keyword">int</span>&gt; nullableIntValue = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">bool</span> areTypesEqual = intValue.GetType() == nullableIntValue.GetType();</span><br></pre></td></tr></table></figure>
-
-<p>那我們可不可能用反射(reflection)區分 nullable 跟 non-nullable 的值？<br>答案是不可能, 看看後面的代碼  </p>
-<blockquote>
-<p>Is it possible to distinguish between a nullable and a non-nullable value type using reflection?  </p>
-<p>The answer is <strong>No</strong>.  </p>
-<p>The same type will be returned for both variables in the above code: System.Int32.<br>This does not mean that reflection has no representation for Nullable<T>, though.  </p>
-</blockquote>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Type intType = <span class="keyword">typeof</span>(<span class="keyword">int</span>);</span><br><span class="line">Type nullableIntType = <span class="keyword">typeof</span>(Nullable&lt;<span class="keyword">int</span>&gt;);</span><br><span class="line"><span class="keyword">bool</span> areTypesEqual = intType == nullableIntType;</span><br></pre></td></tr></table></figure>
-
-<p>上面兩段程式在runtime拿到的type很不一樣喔,<br>一個是<code>System.Int32</code>一個是 <code>System.Nullable&#39;1\[System.Int32\]</code>  </p>
-<h3 id="當-null-遇上多載方法-Handling-Null-values-in-Overloaded-methods"><a href="#當-null-遇上多載方法-Handling-Null-values-in-Overloaded-methods" class="headerlink" title="當 null 遇上多載方法 (Handling Null values in Overloaded methods)"></a>當 null 遇上多載方法 (Handling Null values in Overloaded methods)</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">string</span> <span class="title">OverloadedMethod</span>(<span class="params"><span class="keyword">object</span> arg</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"object parameter"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">string</span> <span class="title">OverloadedMethod</span>(<span class="params"><span class="keyword">string</span> arg</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"string parameter"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面有兩個<code>OverloadedMethod</code><br>猜猜看,傳入 null 時會呼叫哪一個方法？  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> result = OverloadedMethod(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
-
-<p>有人會猜編譯失敗嗎？<br>MAGIC ! 竟然可以編譯成功, 而回傳的值是 <strong>“string parameter”</strong> ,<br>一般來說,在編譯時期會作型別檢查,相同簽章的方法參數可以被轉型成另一個型別時,是可以編譯成功的喔.<br>而有明確型別的方法將被優先調用(譯注:求這段.Net Framework的原碼來看一下,知道的人請告訴我)  </p>
-<p>如果要指定 null 參數呼叫的多載方法就要對 null 轉型唷,可以參考下面的方法.  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> result = OverloadedMethod((<span class="keyword">object</span>)<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="算術運算-Arithmetic-Operations"><a href="#算術運算-Arithmetic-Operations" class="headerlink" title="算術運算 (Arithmetic Operations)"></a>算術運算 (Arithmetic Operations)</h3><p>好像很少用位移運算吼？<br>回憶一下 左移移 右移移  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> shifted = <span class="number">0b1</span> &lt;&lt; <span class="number">1</span>; <span class="comment">// = 0b10</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> shifted = <span class="number">0b1</span> &gt;&gt; <span class="number">1</span>; <span class="comment">// = 0b0</span></span><br></pre></td></tr></table></figure>
-
-<p>bits 跑到底並不會重頭開始喔,一直移位到爆掉就變 0 了.<br>(這裡會用32是因為 int 是32bit的數值,你可以試試放超過32的數值到for loop裡會發生什麼事)  </p>
-<blockquote>
-<p>The bits don’t wrap around when they reach the end.<br>That’s why the result of the second expression is 0.<br>The same would happen if we shifted the bit far enough to the left (32 bits because integer is a 32-bit number):  </p>
-</blockquote>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> shifted = <span class="number">0b1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">shifted = shifted &lt;&lt; <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>The result would again be 0.  </p>
-</blockquote>
-<p>那我們是不是可以一次移 32 bit,讓它一次變成 0 呢？<br>靠北啊 竟然不行捏, 你只會拿到 1,<br>這跟運算子(operator)基本運算有關,在作位元運算的時候,<br>會拿第一個運算數除以第二個運算數後取餘數,<br>這導致我們只會拿 32 % 32 的結果 , 也就是 1 啦<br>(譯注:這段其實我不是很確定,如果錯誤請糾正)  </p>
-<blockquote>
-<p>However, the bit shifting operators have a second operand.<br>Instead of shifting to the left by 1 bit 32 times, we can shift left by 32 bits and get the same result.  </p>
-</blockquote>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> shifted = <span class="number">0b1</span> &lt;&lt; <span class="number">32</span>;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Right? <strong>Wrong.</strong>  </p>
-<p>The result of this expression will be 1. Why?  </p>
-<p>Because that’s how the operator is defined. Before applying the operation,<br>the second operand will be normalized to the bit length of the first operand with the modulo operation,<br>i.e. by calculating the remainder of dividing the second operand by the bit length of the first operand.  </p>
-<p>The first operand in the example we just saw was a 32-bit number, hence: 32 % 32 = 0.<br>Our number will be shifted left by 0 bits. That’s not the same as shifting it left by 1 bit 32 times.  </p>
-</blockquote>
-<p>好棒棒 你竟然可以看到這裡,<br>那我們繼續討論 &amp; (and) 跟 | (or) 運算子吧,<br>這兩個運算子跟一般的運算子有點不一樣  </p>
-<ul>
-<li>通常只要看運算子的第一個運算數就能得知結果  </li>
-<li>在有掛 [Flag] attribute 的列舉它們好好用(看一下範例)  </li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Flags</span>]</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">enum</span> Colors</span><br><span class="line">&#123;</span><br><span class="line">    None = <span class="number">0b0</span>,</span><br><span class="line">    Red = <span class="number">0b1</span>,</span><br><span class="line">    Green = <span class="number">0b10</span>,</span><br><span class="line">    Blue = <span class="number">0b100</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Colors color = Colors.Red | Colors.Green;</span><br><span class="line"><span class="keyword">bool</span> isRed = (color &amp; Colors.Red) == Colors.Red;</span><br></pre></td></tr></table></figure>
-
-<p>上面這個刮號可不能省略喔, 因為(&amp;)運算符的優先順序低於(==)運算符,<br>不過這段程式沒有刮號的話連編譯都不會過,真是好加在<br>另外在 .NET framework 4.0 之後的版本提供更棒的方法去檢查flags  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> isRed = color.HasFlag(Colors.Red);</span><br></pre></td></tr></table></figure>
-
-<h3 id="Math-Round"><a href="#Math-Round" class="headerlink" title="Math.Round()"></a>Math.Round()</h3><p>猜一下這個值會是多少？  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rounded = Math.Round(<span class="number">1.5</span>);</span><br></pre></td></tr></table></figure>
-
-<p>猜2的就答對了, 下一題<br>猜一下這個值會是多少？  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rounded = Math.Round(<span class="number">2.5</span>);</span><br></pre></td></tr></table></figure>
-
-<p>還是2 ,<br>因為預設會取最接近的偶數</p>
-<blockquote>
-<p><strong>No.</strong> The result will be 2 again. By default,<br>the midpoint value will be rounded to the nearest even value.<br>You could provide the second argument to the method to request such behavior explicitly:  </p>
-</blockquote>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rounded = Math.Round(<span class="number">2.5</span>, MidpointRounding.ToEven);</span><br></pre></td></tr></table></figure>
-
-<p>這個行為可以透過<code>MidpointRounding</code>參數改變  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rounded = Math.Round(<span class="number">2.5</span>, MidpointRounding.AwayFromZero);</span><br></pre></td></tr></table></figure>
-
-<p>另外要小心浮點數的精度問題,<br>以下的例子結果會是1,( 因為float的0.1實際上小於0.1 一ω一 )<br>這提醒我們在處理精確數值時,應轉換成整數處理.<br>(譯注:使用 <a href="https://dotnetfiddle.net" target="_blank" rel="noopener">dotnet fiddle</a> 時並不會有這個問題, 在windows 環境下測試的確會有問題)  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="keyword">value</span> = <span class="number">1.4f</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> rounded = Math.Round(<span class="keyword">value</span> + <span class="number">0.1f</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="類別初始化"><a href="#類別初始化" class="headerlink" title="類別初始化"></a>類別初始化</h3><p>最佳實踐建我我們應該避免在建構子初始化類別,<br>特別是靜態建構子.<br>在初始化一個類別的順序如下</p>
-<ol>
-<li>靜態欄位</li>
-<li>靜態建構子</li>
-<li>實體欄位</li>
-<li>實體建構子</li>
-</ol>
-<p>看看這個例子</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Config</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">bool</span> ThrowException &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125; = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FailingClass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="title">FailingClass</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Config.ThrowException)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InvalidOperationException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>當我們嚐試實例化FailingClass時,你會得到Exception;<br>值得注意的事,你拿到的會是<code>TypeInitializationException</code><br>而並不是<code>InvalidOperationException</code>,  </p>
-<p>那麼我們是不是可以試著透過try catch補捉錯誤,<br>並修改靜態屬性,重新實體化class呢？<br><strong>答案是不行</strong></p>
-<p>一個靜態建構值,如果它拋出一個異常,<br>那麼無論何時你想創建一個實例或以任何其他方式訪問這個類,<br>這個異常都會被重新拋出.  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> failedInstance = <span class="keyword">new</span> FailingClass();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (TypeInitializationException) &#123; &#125;</span><br><span class="line">Config.ThrowException = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> FailingClass();</span><br></pre></td></tr></table></figure>
-
-<p>這個類別在程序重啟前是不能再被使用了(會拋出錯誤),<br>這在 C# 是個非常糟糕的實踐,<br>千萬別這樣設計你的類別.  </p>
-<blockquote>
-<p>The static constructor for a class is only called once.<br>If it throws an exception, then this exception will be rethrown<br>whenever you want to create an instance or access the class in any other way.  </p>
-<p>The class becomes effectively unusable until the process (or the application domain) is restarted.<br>Yes, having even a minuscule chance that the<br>static constructor will throw an exception, is a very bad idea.  </p>
-</blockquote>
-<h4 id="繼承與類別初始化"><a href="#繼承與類別初始化" class="headerlink" title="繼承與類別初始化"></a>繼承與類別初始化</h4><p>繼承的類別初始化執行順序更加複雜,看看下面的例子</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BaseClass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseClass</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        VirtualMethod(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">VirtualMethod</span>(<span class="params"><span class="keyword">int</span> dividend</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> dividend / <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DerivedClass</span> : <span class="title">BaseClass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> divisor;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DerivedClass</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        divisor = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">int</span> <span class="title">VirtualMethod</span>(<span class="params"><span class="keyword">int</span> dividend</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">base</span>.VirtualMethod(dividend / divisor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>當我們初始化 DerivedClass</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> DerivedClass();</span><br></pre></td></tr></table></figure>
-
-<p>你會得到一個除0的錯誤 <code>DivideByZeroException</code><br>這與執行順序有關</p>
-<ol>
-<li>呼叫 BaseClass 建構子</li>
-<li>執行 DerivedClass VirtualMethod (overrid BaseClass)</li>
-<li>divisor 未賦值拋出 <code>DivideByZeroException</code></li>
-</ol>
-<h2 id="多形-Polymorphism"><a href="#多形-Polymorphism" class="headerlink" title="多形 Polymorphism"></a>多形 Polymorphism</h2><p>這個例子只是要說明多形的概念與應用,<br>你可以透過轉形呼叫基底類別的方法.  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> DerivedClass();</span><br><span class="line"><span class="keyword">var</span> result = instance.Method(); <span class="comment">// -&gt; Method in DerivedClass</span></span><br><span class="line">result = ((BaseClass)instance).Method(); <span class="comment">// -&gt; Method in BaseClass</span></span><br><span class="line"><span class="comment">// The correct answer is: by using the new modifier.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BaseClass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">string</span> <span class="title">Method</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Method in BaseClass "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DerivedClass</span> : <span class="title">BaseClass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> new <span class="keyword">string</span> <span class="title">Method</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Method in DerivedClass"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>It’s typically used to hide the interface methods from the consumers of the class implementing it,<br>unless they cast the instance to that interface.<br>But it works just as well if we want to have two different implementations of a method inside a single class.<br>It’s difficult to think of a good reason for doing it, though.</p>
-</blockquote>
-<p>另外一個例子是明確實作介面方法,<br>如果你的類別已經有同名的方法的話.<br>雖然沒有什麼好理由建議你這樣作.<br>(譯注:實務上我有在遇到歷史共業這樣作過…)  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> DerivedClass();</span><br><span class="line"><span class="keyword">var</span> result = instance.Method(); <span class="comment">// -&gt; Method in DerivedClass</span></span><br><span class="line">result = ((IInterface)instance).Method(); <span class="comment">// -&gt; Method belonging to IInterface</span></span><br><span class="line">It’s explicit interface implementation.</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IInterface</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">string</span> <span class="title">Method</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DerivedClass</span> : <span class="title">IInterface</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">string</span> <span class="title">Method</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Method in DerivedClass"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">string</span> IInterface.Method()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Method belonging to IInterface"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="迭代器-Iterators"><a href="#迭代器-Iterators" class="headerlink" title="迭代器 Iterators"></a>迭代器 Iterators</h2><p>小心 Iterators 的陷阱<br>看看以下<a href="https://dotnetfiddle.net/BxfF0d" target="_blank" rel="noopener">代碼</a>:</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> IEnumerable&lt;<span class="keyword">int</span>&gt; <span class="title">GetEnumerable</span>(<span class="params">StringBuilder log</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> context = <span class="keyword">new</span> Context(log))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> Enumerable.Range(<span class="number">1</span>, <span class="number">5</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Context</span> : <span class="title">IDisposable</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> StringBuilder log;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Context</span>(<span class="params">StringBuilder log</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>.log = log;</span><br><span class="line">        <span class="keyword">this</span>.log.AppendLine(<span class="string">"Context created"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>.log.AppendLine(<span class="string">"Context disposed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>假設我們 foreach 呼叫 GetEnumerable 方法,<br>你預期 Context 類別會有什麼樣的行為？<br>我們會印出以下的output嗎？</p>
-<blockquote>
-<p>Context created<br>1<br>2<br>3<br>4<br>5<br>Context disposed</p>
-</blockquote>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> log = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">foreach</span> (<span class="function"><span class="keyword">var</span> number <span class="keyword">in</span> <span class="title">GetEnumerable</span>(<span class="params">log</span>))</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    log.AppendLine(<span class="string">$"<span class="subst">&#123;number&#125;</span>"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>不是的,<br>實際上印出的是</p>
-<blockquote>
-<p>Context created<br>Context disposed<br>1<br>2<br>3<br>4<br>5</p>
-</blockquote>
-<p>這點很重要,<br>因為實務上你很有可能 using dbconnetion 之類的物件,<br>那麼你在取得真正的資料之前,<br>你的連線就已經中斷了</p>
-<blockquote>
-<p>This means that in our real world database example, the code would fail –<br>the connection would be closed before the values could be read from the database.</p>
-</blockquote>
-<p>看看以下的<a href="https://dotnetfiddle.net/IgJaak" target="_blank" rel="noopener">修正</a></p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> IEnumerable&lt;<span class="keyword">int</span>&gt; <span class="title">GetEnumerable</span>(<span class="params">StringBuilder log</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> context = <span class="keyword">new</span> Context(log))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> i <span class="keyword">in</span> Enumerable.Range(<span class="number">1</span>, <span class="number">5</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">yield</span> <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>譯注:看到這裡對 <code>yield return</code> 的使用情境才比較有感啊…</p>
-<p>如果你不太熟<code>yield return</code>,其實它只是個語法糖,允許增量執行,<br>參考以下範例,或許能更容易理解</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> IEnumerable&lt;<span class="keyword">int</span>&gt; <span class="title">GetCustomEnumerable</span>(<span class="params">StringBuilder log</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    log.AppendLine(<span class="string">"before 1"</span>);</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    log.AppendLine(<span class="string">"before 2"</span>);</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    log.AppendLine(<span class="string">"before 3"</span>);</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">    log.AppendLine(<span class="string">"before 4"</span>);</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">return</span> <span class="number">4</span>;</span><br><span class="line">    log.AppendLine(<span class="string">"before 5"</span>);</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">return</span> <span class="number">5</span>;</span><br><span class="line">    log.AppendLine(<span class="string">"before end"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> log = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">log.AppendLine(<span class="string">"before enumeration"</span>);</span><br><span class="line"><span class="keyword">foreach</span> (<span class="function"><span class="keyword">var</span> number <span class="keyword">in</span> <span class="title">GetCustomEnumerable</span>(<span class="params">log</span>))</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    log.AppendLine(<span class="string">$"<span class="subst">&#123;number&#125;</span>"</span>);</span><br><span class="line">&#125;</span><br><span class="line">log.AppendLine(<span class="string">"after enumeration"</span>);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>before enumeration<br>before 1<br>1<br>before 2<br>2<br>before 3<br>3<br>before 4<br>4<br>before 5<br>5<br>before end<br>after enumeration</p>
-</blockquote>
-<p>值得注意的事, 如果你在loop當中重複執行以上的代碼,<br>那麼 Iterators 也會重複執行</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> log = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">var</span> enumerable = GetCustomEnumerable(log);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">2</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    log.AppendLine(<span class="string">$"enumeration #<span class="subst">&#123;i&#125;</span>"</span>);</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> number <span class="keyword">in</span> enumerable)</span><br><span class="line">    &#123;</span><br><span class="line">        log.AppendLine(<span class="string">$"<span class="subst">&#123;number&#125;</span>"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>輸出如下,可以明顯看到 <code>GetCustomEnumerable</code> 方法,<br>實際上被隱含的執行了兩次,<br>這在 Code Review 的階段也是難以被察覺的.</p>
-<blockquote>
-<p>enumeration #1<br>before 1<br>1<br>before 2<br>2<br>before 3<br>3<br>before 4<br>4<br>before 5<br>5<br>before end<br>enumeration #2<br>before 1<br>1<br>before 2<br>2<br>before 3<br>3<br>before 4<br>4<br>before 5<br>5<br>before end</p>
-</blockquote>
-<p>比較好的作法是將 <code>IEnumerable</code> ToList(),<br>如果你真的需要對 <code>IEnumerable</code> 的結果作 loop 的操作</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> log = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">var</span> enumerable = GetCustomEnumerable(log).ToList();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">2</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    log.AppendLine(<span class="string">$"enumeration #<span class="subst">&#123;i&#125;</span>"</span>);</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> number <span class="keyword">in</span> enumerable)</span><br><span class="line">    &#123;</span><br><span class="line">        log.AppendLine(<span class="string">$"<span class="subst">&#123;number&#125;</span>"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>輸出結果</p>
-<blockquote>
-<p>before 1<br>before 2<br>before 3<br>before 4<br>before 5<br>before end<br>enumeration #1<br>1<br>2<br>3<br>4<br>5<br>enumeration #2<br>1<br>2<br>3<br>4<br>5</p>
-</blockquote>
-<h2 id="譯者小結"><a href="#譯者小結" class="headerlink" title="譯者小結"></a>譯者小結</h2><p>如果真的能夠預期所有的行為的開發人員,<br>真的是好棒棒,<br>對我來說 static class constructor 的行為是超乎預期的,<br>然後對 <code>yield return</code> 的使用場景更有感覺了.<br>本來預計農曆年就可以完成的翻譯,<br>竟然也拖了這麼久,看來我英文還是不行啊.</p>
-<p>希望對大家有幫助,也請多多看原文 :)</p>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/02/12/2018/csharp_common_mistakes_1/" data-id="ckk532nkx00gbu4ugcho7akqq" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/02/12/2018/csharp_common_mistakes_1/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a></li></ul>
 
     </footer>
   </div>
@@ -1291,6 +1142,10 @@ ga('send', 'pageview');
       <ul>
         
           <li>
+            <a href="/2021/02/03/2021/update_sonarcloud_workflow/">[實作筆記] SonarCloud Move analysis to Java 11 更新 Github Action</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/22/2021/role-expectations-matrix/">[活動筆記] Role Expectations Matrix 角色期望矩陣</a>
           </li>
         
@@ -1306,10 +1161,6 @@ ga('send', 'pageview');
             <a href="/2021/01/11/2021/legacy_code_with_unit_test/">[上課筆記] 針對遺留代碼加入單元測試的藝術 </a>
           </li>
         
-          <li>
-            <a href="/2021/01/11/2021/about_unit_test/">[生活筆記] 有關單元測試的一些反思</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1319,7 +1170,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -1329,7 +1180,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">標籤雲</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Net-Framework/" style="font-size: 15.38px;">.Net Framework</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/API/" style="font-size: 11.54px;">API</a> <a href="/tags/AWS/" style="font-size: 14.62px;">AWS</a> <a href="/tags/Agile/" style="font-size: 17.69px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 10.77px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 15.38px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 12.31px;">Container</a> <a href="/tags/Database/" style="font-size: 13.85px;">Database</a> <a href="/tags/Design-Pattern/" style="font-size: 10.77px;">Design Pattern</a> <a href="/tags/Docker/" style="font-size: 12.31px;">Docker</a> <a href="/tags/Entity-Framework/" style="font-size: 10.77px;">Entity Framework</a> <a href="/tags/Git/" style="font-size: 10.77px;">Git</a> <a href="/tags/Google/" style="font-size: 11.54px;">Google</a> <a href="/tags/GulpJs/" style="font-size: 10.77px;">GulpJs</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 10.77px;">Hexo</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 11.54px;">Integrated Testing</a> <a href="/tags/JQuery/" style="font-size: 10.77px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 12.31px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 10.77px;">Linux</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 11.54px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Testing/" style="font-size: 10px;">Mutation Testing</a> <a href="/tags/NPM/" style="font-size: 10.77px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 14.62px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/OOP/" style="font-size: 11.54px;">OOP</a> <a href="/tags/Openshift/" style="font-size: 10.77px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 11.54px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 10.77px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 12.31px;">SQL</a> <a href="/tags/Scrum/" style="font-size: 16.92px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 10.77px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TDD/" style="font-size: 16.15px;">TDD</a> <a href="/tags/Testing/" style="font-size: 13.85px;">Testing</a> <a href="/tags/Thread/" style="font-size: 10.77px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 13.85px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 19.23px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 10.77px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 20px;">實作筆記</a> <a href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" style="font-size: 10.77px;">時間管理</a> <a href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" style="font-size: 12.31px;">活動筆記</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" style="font-size: 13.85px;">生活筆記</a> <a href="/tags/%E8%A8%98%E9%8C%84/" style="font-size: 11.54px;">記錄</a> <a href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" style="font-size: 13.08px;">踩雷筆記</a> <a href="/tags/%E9%87%8D%E6%A7%8B/" style="font-size: 12.31px;">重構</a> <a href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" style="font-size: 18.46px;">閱讀筆記</a>
+      <a href="/tags/Net-Framework/" style="font-size: 15.38px;">.Net Framework</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/API/" style="font-size: 11.54px;">API</a> <a href="/tags/AWS/" style="font-size: 14.62px;">AWS</a> <a href="/tags/Agile/" style="font-size: 17.69px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 10px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 15.38px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 12.31px;">Container</a> <a href="/tags/Database/" style="font-size: 13.85px;">Database</a> <a href="/tags/Design-Pattern/" style="font-size: 10.77px;">Design Pattern</a> <a href="/tags/Docker/" style="font-size: 12.31px;">Docker</a> <a href="/tags/Entity-Framework/" style="font-size: 10.77px;">Entity Framework</a> <a href="/tags/Git/" style="font-size: 10.77px;">Git</a> <a href="/tags/Google/" style="font-size: 11.54px;">Google</a> <a href="/tags/GulpJs/" style="font-size: 10.77px;">GulpJs</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 10.77px;">Hexo</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 11.54px;">Integrated Testing</a> <a href="/tags/JQuery/" style="font-size: 10px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 12.31px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 10.77px;">Linux</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 11.54px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Testing/" style="font-size: 10px;">Mutation Testing</a> <a href="/tags/NPM/" style="font-size: 10.77px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 14.62px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/OOP/" style="font-size: 11.54px;">OOP</a> <a href="/tags/Openshift/" style="font-size: 10.77px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 11.54px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 10.77px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 12.31px;">SQL</a> <a href="/tags/Scrum/" style="font-size: 16.92px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 10.77px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TDD/" style="font-size: 16.15px;">TDD</a> <a href="/tags/Testing/" style="font-size: 13.85px;">Testing</a> <a href="/tags/Thread/" style="font-size: 10.77px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 13.85px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 19.23px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 10.77px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 20px;">實作筆記</a> <a href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" style="font-size: 10.77px;">時間管理</a> <a href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" style="font-size: 13.08px;">活動筆記</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" style="font-size: 13.85px;">生活筆記</a> <a href="/tags/%E8%A8%98%E9%8C%84/" style="font-size: 11.54px;">記錄</a> <a href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" style="font-size: 13.08px;">踩雷筆記</a> <a href="/tags/%E9%87%8D%E6%A7%8B/" style="font-size: 12.31px;">重構</a> <a href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" style="font-size: 18.46px;">閱讀筆記</a>
     </div>
   </div>
 
@@ -1338,7 +1189,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">標籤</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Design-Pattern/" rel="tag">Design Pattern</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GulpJs/" rel="tag">GulpJs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Testing/" rel="tag">Mutation Testing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">40</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" rel="tag">活動筆記</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" rel="tag">生活筆記</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">15</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Design-Pattern/" rel="tag">Design Pattern</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GulpJs/" rel="tag">GulpJs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Testing/" rel="tag">Mutation Testing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">40</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" rel="tag">活動筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" rel="tag">生活筆記</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">15</span></li></ul>
     </div>
   </div>
 
@@ -1358,7 +1209,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
     <h3 class="widget-title">BADGES</h3>
     <div class="widget">
-        <a href="https://bcert.me/bc/html/show-badge.html?b=uufxvngl" target="_blank" rel="noopener">
+        <a target="_blank" rel="noopener" href="https://bcert.me/bc/html/show-badge.html?b=uufxvngl">
             <img src="/images/2018/csm/seal-csm.png" alt="Certified ScrumMaster®">
         </a>
     </div>
@@ -1419,7 +1270,7 @@ ga('send', 'pageview');
 
 
 <script>  
-  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain"];
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain","不要停止懷疑，不要停止信仰"];
 </script>
   
 

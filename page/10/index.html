@@ -40,7 +40,7 @@ ga('send', 'pageview');
 
 
   <meta property ="og:image" content="https://avatars1.githubusercontent.com/u/4269720?s=460&v=4" /> 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 5.3.0"></head>
 
 <body>
   <div id="container">
@@ -82,6 +82,86 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2018/where_is_specrun" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/27/2018/where_is_specrun/" class="article-date">
+  <time datetime="2018-08-27T10:42:16.000Z" itemprop="datePublished">2018-08-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/27/2018/where_is_specrun/">[踩雷筆記] .Net專案升級 SpecRun.Runner 與調整 CI </a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><ul>
+<li>專案使用 Specflow 寫 BDD</li>
+<li>Visual Stuio 找不到測試所以才升級 SpecRun 與 Specflow</li>
+<li>Visual Studio 2017 升級到 15.8.1 後突然無法正常搜尋到測試</li>
+<li>SpecRun.Runner 升級(1.2 → 1.8.2)</li>
+</ul>
+<p>去年12月跟 Visual Studio 折騰了許久，才讓專案的<a href="https://blog.marsen.me/2017/12/11/test_learn/vs2017_mstest_with_nuget/">測試項目重見光明</a>，<br>在今年與其它專案合併後，測試又從我們團隊的眼前消失了。</p>
+<h2 id="調整項目"><a href="#調整項目" class="headerlink" title="調整項目"></a>調整項目</h2><p>升級 Specflow 與 SpecRun 相關套件<br><img src="https://i.imgur.com/nwl6xFp.jpg" alt="升級 Specflow 與 SpecRun 相關套件"></p>
+<p>取得 SpecRun 位於專案的 <code>packages</code> 資料夾中。<br><img src="https://i.imgur.com/EyaFEFI.jpg" alt="取得 SpecRun 位於專案的 `packages` 資料夾中。"></p>
+<h2 id="設定-CI"><a href="#設定-CI" class="headerlink" title="設定 CI"></a>設定 CI</h2><p>由於 SpecRun 版本不符會導致 CI Job Error , 需要設定以新的 SpecRun 執行 CI</p>
+<blockquote>
+<p>D:\SpecRun.Runner.1.8.2\tools\SpecRun.exe run D:\Project\Core.Test\bin\Debug\Core.Test.dll /baseFolder:Core.Test\bin\Prod /toolIntegration:vs201 0 /reportFile:Core.Test.TestResult.html</p>
+</blockquote>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><p>VS2017的測試總管找不到測試項目，或僅有部分資料<br>說明：Something changed in the NUnit and XUnit Test Adapter.<br>But I am not sure, if it really worked before the Visual Studio update.<br>I think I saw this behavior already in earlier versions of Visual Studio and NUnit3/XUnit2. (此原因尚未被實證)</p>
+<ul>
+<li>解法1(暫解)：<pre><code>工具&gt;擴充功能和更新&gt;停用&quot;Dotnet Extensions for Test Explorer&quot;</code></pre></li>
+<li>解法2(暫解):<pre><code>改用VS2015</code></pre></li>
+<li>參考:<ul>
+<li><a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/content/problem/158160/unable-to-fetch-source-information-for-test-method.html">Unable to fetch source Information for test method</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://github.com/techtalk/SpecFlow/issues/990">Open SpecFlow test from Text Explorer goes to the feature class file not the feature file #990</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>We could not find a data exchange file at the path System.ArgumentNullException</p>
+<ul>
+<li>說明: 聽說SpecFlow 2.2 fixed</li>
+<li>解法(暫解): Tools &gt; Options &gt; SpecFlow &gt;Data Exchange Path，隨便設定一個路徑去 overwrite the default value</li>
+<li>參考:<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/techtalk/SpecFlow/issues/1234">Build fails: We could not find a data exchange file</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/techtalk/SpecFlow/issues/857">Visual Studio 2017 Generation error: Could not load file or assembly ‘Microsoft.Build.Framework, Version=15.1.0.0</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/techtalk/SpecFlow/issues/896">Visual Studio Plugin for VS2017 does not always use Specflow Generator 2.2.0.0</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/techtalk/SpecFlow/issues/639">SpecFlow with SpecRun and NUnit fails with ArgumentNullException #639</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2018/08/27/2018/where_is_specrun/" data-id="ckk532ni0003qu4ug96d49hkb" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2018/08/27/2018/where_is_specrun/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2018/package-lock_modify_after_npm_install" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/30/2018/package-lock_modify_after_npm_install/" class="article-date">
@@ -96,7 +176,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/30/2018/package-lock_modify_after_npm_install/">[踩雷筆記]誰改了我的 package-lock.json ?</a>
+      <a class="article-title" href="/2018/07/30/2018/package-lock_modify_after_npm_install/">[踩雷筆記] 誰改了我的 package-lock.json ?</a>
     </h1>
   
 
@@ -105,14 +185,14 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h2><p>OS Windows 10<br>npm v6.2.0<br>node v8.11.1</p>
-<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><p>承上篇<a href="https://blog.marsen.me/2018/07/29/2018/node_set_registry/">[實作筆記]設定 NPM Registry</a>，<br>後續發生的一些問題，<br>每當我執行 <code>npm install</code> 的時候都會異動到 <code>package-lock.json</code> 檔;<br>異動這個檔案並不意外，可以參考<a href="https://docs.npmjs.com/files/package-lock.json" target="_blank" rel="noopener">官方文件</a>的說法。  </p>
+<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><p>承上篇<a href="https://blog.marsen.me/2018/07/29/2018/node_set_registry/">[實作筆記] 設定 NPM Registry</a>，<br>後續發生的一些問題，<br>每當我執行 <code>npm install</code> 的時候都會異動到 <code>package-lock.json</code> 檔;<br>異動這個檔案並不意外，可以參考<a target="_blank" rel="noopener" href="https://docs.npmjs.com/files/package-lock.json">官方文件</a>的說法。  </p>
 <p>奇怪的點是，異動竟然包含 Registry !?<br>全部都被置換成公司的 Domain , WTF ?</p>
 <p><img src="https://i.imgur.com/KwwUqPV.jpg" alt="公司的 Domain "></p>
 <h2 id="原因與坑"><a href="#原因與坑" class="headerlink" title="原因與坑"></a>原因與坑</h2><p>當執行 <code>npm install</code> 的時候，<br>node 會去檢查你實際安裝的 node_modules，<br>並產生 <code>package-lock.json</code> 檔。<br>可以把 <code>package-lock.json</code> 想像成 node_modules 的映射。<br>而恰巧之前所安裝過的檔案，是在 Registry 為 <code>npm.mycompany</code> 時下載的;<br>這導致產生 <code>package-lock.json</code> 的時候會映射出 <code>npm.mycompany</code> 的資訊。</p>
 <p>小心有坑!!<br>即使刪除了 node_modules 再重新 <code>npm install</code>，<br>仍然會產生錯誤的 <code>package-lock.json</code>;<br>這個原因是 npm 會有 <code>npm-cache</code>;<br>這個資料夾位在 <code>%Users%\AppData\Roaming</code>。  </p>
 <h2 id="解決方法"><a href="#解決方法" class="headerlink" title="解決方法"></a>解決方法</h2><ol>
 <li>設定 npm registry  <blockquote>
-<p>npm set registry <a href="https://registry.npmjs.org" target="_blank" rel="noopener">https://registry.npmjs.org</a>  </p>
+<p>npm set registry <a target="_blank" rel="noopener" href="https://registry.npmjs.org">https://registry.npmjs.org</a>  </p>
 </blockquote>
 </li>
 <li>刪除專案底下的 node_modules 資料夾</li>
@@ -152,7 +232,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/29/2018/node_set_registry/">[實作筆記]設定 NPM Registry</a>
+      <a class="article-title" href="/2018/07/29/2018/node_set_registry/">[實作筆記] 設定 NPM Registry</a>
     </h1>
   
 
@@ -160,12 +240,10 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>最近換了新電腦，在家工作時發生了 npm install Error;<br>錯誤訊息如下，明顯看到 npm 嚐試去連線 <code>http://npm.mycompany.io</code><br><a href="http://npm.mycompany.io" target="_blank" rel="noopener">http://npm.mycompany.io</a> 是公司內部的私有網路;<br>印象中沒有特別設定，可能是公司內的預設安裝設定的。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PS D:\Repo\Marsen\Marsen.Node.Express&gt; npm i -g gulp</span><br><span class="line">npm ERR! code ETIMEDOUT</span><br><span class="line">npm ERR! errno ETIMEDOUT</span><br><span class="line">npm ERR! network request to http://npm.mycompany.io/gulp failed, reason: connect ETIMEDOUT ***.***.***.***:80</span><br><span class="line">npm ERR! network This is a problem related to network connectivity.</span><br><span class="line">npm ERR! network In most cases you are behind a proxy or have bad network settings.</span><br><span class="line">npm ERR! network</span><br><span class="line">npm ERR! network If you are behind a proxy, please make sure that the</span><br><span class="line">npm ERR! network 'proxy' config is set properly.  See: 'npm help config'</span><br><span class="line"></span><br><span class="line">npm ERR! A complete log of this run can be found in:</span><br><span class="line">npm ERR!     C:\Users\Mark Lin\AppData\Roaming\npm-cache\_logs\2018-07-29T07_17_25_263Z-debug.log</span><br></pre></td></tr></table></figure>
-
+        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>最近換了新電腦，在家工作時發生了 npm install Error;<br>錯誤訊息如下，明顯看到 npm 嚐試去連線 <code>http://npm.mycompany.io</code><br><a target="_blank" rel="noopener" href="http://npm.mycompany.io">http://npm.mycompany.io</a> 是公司內部的私有網路;<br>印象中沒有特別設定，可能是公司內的預設安裝設定的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PS D:\Repo\Marsen\Marsen.Node.Express&gt; npm i -g gulp</span><br><span class="line">npm ERR! code ETIMEDOUT</span><br><span class="line">npm ERR! errno ETIMEDOUT</span><br><span class="line">npm ERR! network request to http://npm.mycompany.io/gulp failed, reason: connect ETIMEDOUT ***.***.***.***:80</span><br><span class="line">npm ERR! network This is a problem related to network connectivity.</span><br><span class="line">npm ERR! network In most cases you are behind a proxy or have bad network settings.</span><br><span class="line">npm ERR! network</span><br><span class="line">npm ERR! network If you are behind a proxy, please make sure that the</span><br><span class="line">npm ERR! network &#x27;proxy&#x27; config is set properly.  See: &#x27;npm help config&#x27;</span><br><span class="line"></span><br><span class="line">npm ERR! A complete log of this run can be found in:</span><br><span class="line">npm ERR!     C:\Users\Mark Lin\AppData\Roaming\npm-cache\_logs\2018-07-29T07_17_25_263Z-debug.log</span><br></pre></td></tr></table></figure>
 <h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>一個簡單的方法是 VPN 回公司內部網路;<br>另一個方法是重新設定，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> npm get registry</span></span><br><span class="line">http://npm.mycompany.io</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> npm <span class="built_in">set</span> registry https://registry.npmjs.org</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> npm get registry</span></span><br><span class="line">https://registry.npmjs.org</span><br></pre></td></tr></table></figure>
-
 <p>(fin)</p>
 
       
@@ -199,7 +277,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/25/2018/books/book_the_great_scurm_master_ch2/">[閱讀筆記]The Great Scrum Master 第二章</a>
+      <a class="article-title" href="/2018/07/25/2018/books/book_the_great_scurm_master_ch2/">[閱讀筆記] The Great Scrum Master 第二章</a>
     </h1>
   
 
@@ -219,22 +297,20 @@ ga('send', 'pageview');
 </ul>
 <h3 id="教導和輔導"><a href="#教導和輔導" class="headerlink" title="教導和輔導"></a>教導和輔導</h3><p>初期需要一再解釋為什麼要實施 Scrum 和 Agile 方法和如何運作，<br>團隊成熟後，共享經驗，並且更多的實踐</p>
 <h3 id="移除障礙"><a href="#移除障礙" class="headerlink" title="移除障礙"></a>移除障礙</h3><p>排除團隊的障礙，是將<strong>責任、活動和所有權</strong>都下放給團隊，讓團隊可以自行解決問題</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">實務上資安、權限和風險上的控管似乎不可行?</span><br><span class="line">雖然說信任團隊，但是上述的角度來看，這些限制是必要之惡。</span><br><span class="line">新創團隊怎麼作 ? 規模擴大後的團隊又該怎麼作 ? </span><br><span class="line">系統思考?</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">實務上資安、權限和風險上的控管似乎不可行?</span><br><span class="line">雖然說信任團隊，但是上述的角度來看，這些限制是必要之惡。</span><br><span class="line">新創團隊怎麼作 ? 規模擴大後的團隊又該怎麼作 ? </span><br><span class="line">系統思考?</span><br></pre></td></tr></table></figure>
 <h3 id="引導"><a href="#引導" class="headerlink" title="引導"></a>引導</h3><p>確保會議有效率，使每次談話有目標/結果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">開會前確認討論的主題與範圍，</span><br><span class="line">開會中確保有效討論與時間控制; </span><br><span class="line">開會完產出相對的決定&#x2F;行為&#x2F;文件。</span><br><span class="line">其中以行為最為重要，也是所謂的action item</span><br><span class="line">或是下一步清單。</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">開會前確認討論的主題與範圍，</span><br><span class="line">開會中確保有效討論與時間控制; </span><br><span class="line">開會完產出相對的決定/行為/文件。</span><br><span class="line">其中以行為最為重要，也是所謂的action item</span><br><span class="line">或是下一步清單。</span><br></pre></td></tr></table></figure>
 <ul>
-<li><a href="http://www.cheers.com.tw/blog/blogTopic.action?id=662&nid=10065" target="_blank" rel="noopener">無效會議的3種狀況：會而不議、議而不決、決而不行</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cheers.com.tw/blog/blogTopic.action?id=662&nid=10065">無效會議的3種狀況：會而不議、議而不決、決而不行</a></li>
 </ul>
 <h3 id="教練"><a href="#教練" class="headerlink" title="教練"></a>教練</h3><p>Scrum Master 最重要技能之一，關注個人成長也關注團隊自組織、責任感與所有權</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">不知道這本書在供三小，知道的人請告訴我</span><br><span class="line">我比較推薦以下這篇的說法，教導是單向的，教練則是的迴圈</span><br><span class="line">教導比較像是說明、講解、指示;或許有點像上課、聽演講或是看一本書</span><br><span class="line">教練比較有互動性，除了上述所說也包含了給予回饋、示範與局部修正</span><br><span class="line">指導者與被指導者都會參與其中。</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">不知道這本書在供三小，知道的人請告訴我</span><br><span class="line">我比較推薦以下這篇的說法，教導是單向的，教練則是的迴圈</span><br><span class="line">教導比較像是說明、講解、指示;或許有點像上課、聽演講或是看一本書</span><br><span class="line">教練比較有互動性，除了上述所說也包含了給予回饋、示範與局部修正</span><br><span class="line">指導者與被指導者都會參與其中。</span><br></pre></td></tr></table></figure>
 <ul>
-<li><a href="https://www.projectidealism.com/posts/2010/03/difference-between-teaching-and.html" target="_blank" rel="noopener">The difference between teaching and coaching</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.projectidealism.com/posts/2010/03/difference-between-teaching-and.html">The difference between teaching and coaching</a></li>
 </ul>
 <h3 id="觀察"><a href="#觀察" class="headerlink" title="觀察"></a>觀察</h3><p>觀察、聆聽而不是干預;保持耐心再採取行動。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">20180724讀書會回饋:</span><br><span class="line">1. Scrum Master 要有意識的不作為(Actively Doing Nothing)</span><br><span class="line">2. 移除障礙:還是先觀察，讓團隊自行解決問題，個人的問題或許不是團隊的問題; </span><br><span class="line">    站立會議是個人尋求團隊意見的好時機。</span><br><span class="line">3. 引導的方法就是問問題與對話。</span><br><span class="line">4. 引導分為個人與團隊</span><br><span class="line">    - 個人</span><br><span class="line">        引導作對方想作或是 Scrum Master 想作的事 </span><br><span class="line">    - 團隊</span><br><span class="line">        尋找一個目標，發散 → 收斂 → 執行</span><br><span class="line">        再找下一個目標，發散 → 收斂 → 執行</span><br><span class="line">        持續這樣的步驟，並隨時回頭看看效果如何，</span><br><span class="line">        有些想法或許會被錯過</span><br></pre></td></tr></table></figure>
-
-<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><h3 id="教練的實例"><a href="#教練的實例" class="headerlink" title="教練的實例"></a>教練的實例</h3><p>提問篇<br><a href="https://www.youtube.com/watch?v=ucSdnwSTJSo" target="_blank" rel="noopener">https://www.youtube.com/watch?v=ucSdnwSTJSo</a><br>解答篇<br><a href="https://www.youtube.com/watch?v=gJRMatocP7o" target="_blank" rel="noopener">https://www.youtube.com/watch?v=gJRMatocP7o</a><br>Coaching example : Kasatkina<br><a href="https://www.facebook.com/NextGenTPE/videos/450757555322367/" target="_blank" rel="noopener">https://www.facebook.com/NextGenTPE/videos/450757555322367/</a><br>Coaching example : 跆拳道<br><a href="https://www.youtube.com/watch?v=zcCm9QichHk" target="_blank" rel="noopener">https://www.youtube.com/watch?v=zcCm9QichHk</a><br>Coaching example : 空手道<br><a href="https://youtu.be/ooAOc9Fwg0U" target="_blank" rel="noopener">https://youtu.be/ooAOc9Fwg0U</a></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">20180724讀書會回饋:</span><br><span class="line">1. Scrum Master 要有意識的不作為(Actively Doing Nothing)</span><br><span class="line">2. 移除障礙:還是先觀察，讓團隊自行解決問題，個人的問題或許不是團隊的問題; </span><br><span class="line">    站立會議是個人尋求團隊意見的好時機。</span><br><span class="line">3. 引導的方法就是問問題與對話。</span><br><span class="line">4. 引導分為個人與團隊</span><br><span class="line">    - 個人</span><br><span class="line">        引導作對方想作或是 Scrum Master 想作的事 </span><br><span class="line">    - 團隊</span><br><span class="line">        尋找一個目標，發散 → 收斂 → 執行</span><br><span class="line">        再找下一個目標，發散 → 收斂 → 執行</span><br><span class="line">        持續這樣的步驟，並隨時回頭看看效果如何，</span><br><span class="line">        有些想法或許會被錯過</span><br></pre></td></tr></table></figure>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><h3 id="教練的實例"><a href="#教練的實例" class="headerlink" title="教練的實例"></a>教練的實例</h3><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=ucSdnwSTJSo">提問篇</a><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gJRMatocP7o">解答篇</a><br><a target="_blank" rel="noopener" href="https://www.facebook.com/NextGenTPE/videos/450757555322367/">Coaching example : Kasatkina</a><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=zcCm9QichHk">Coaching example : 跆拳道</a><br><a target="_blank" rel="noopener" href="https://youtu.be/ooAOc9Fwg0U">Coaching example : 空手道</a></p>
 <p>(fin)</p>
 
       
@@ -278,8 +354,7 @@ ga('send', 'pageview');
       
         <h6 id="ScrumMasterWay"><a href="#ScrumMasterWay" class="headerlink" title="#ScrumMasterWay"></a>#ScrumMasterWay</h6><h2 id="第一個層次-—-我的團隊"><a href="#第一個層次-—-我的團隊" class="headerlink" title="第一個層次 — 我的團隊"></a>第一個層次 — 我的團隊</h2><p>Scrum Master 只對開發團隊負責，<br><strong>「如何讓自已每天都發揮作用?」</strong><br>建立具有敏捷思維與 Scrum 價值觀的自組織團隊是個長期活動。<br>第一步是觀察，並抑制親力親為的衝動(具體建議/親自排解障礙)，</p>
 <p>可能的問題在於，團隊缺乏理解、所有權、責任感與經驗;<br>或是團隊的抵制。  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">回饋:</span><br><span class="line">沒有主管並不會讓團隊自組織！給團隊解決不能只靠再想想</span><br><span class="line">https:&#x2F;&#x2F;www.facebook.com&#x2F;91agile&#x2F;posts&#x2F;986977734810178</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">回饋:</span><br><span class="line">沒有主管並不會讓團隊自組織！給團隊解決不能只靠再想想</span><br><span class="line">https://www.facebook.com/91agile/posts/986977734810178</span><br></pre></td></tr></table></figure>
 <h3 id="Scrum-的價值觀"><a href="#Scrum-的價值觀" class="headerlink" title="Scrum 的價值觀"></a>Scrum 的價值觀</h3><ul>
 <li>承諾、專注、開放、尊重、勇氣</li>
 <li>– ScrumAlliance 《Scaling Lean &amp; Agile Development》</li>
@@ -304,18 +379,16 @@ ga('send', 'pageview');
 <p>這需要 Scrum Master 對 Scrum 定義、理解與解釋的能力，<br>不只是會議/角色或產出物，而是從文化、價值觀與思維方式對 Scrum 的內化。<br>在這層次下，需要建立靈活的虛擬團隊擁有所有權，承擔某些責任，<br>有些團隊在解決問題後就可以淡出，有的要維持一段時間。</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">開發團隊與 Scrum 團隊不是組織中唯一的團隊 ?</span><br><span class="line">持續存在的團隊 ? 專案團隊 ? DevOps ? </span><br><span class="line">短暫存在的團隊 ? 救火團 ? 跨專案團隊 ? </span><br><span class="line">這些團隊的資源從何而來 ?</span><br><span class="line">持續存在又特殊的團隊? 維運?</span><br><span class="line">花很多時間釐清問題，卻沒有辦法解決問題?</span><br><span class="line">受限於什麼原因 ? </span><br><span class="line">技術不足 ? 沒有人領導 ? 沒有所有權 ? 風險導向 ? 不受重視 ?</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">開發團隊與 Scrum 團隊不是組織中唯一的團隊 ?</span><br><span class="line">持續存在的團隊 ? 專案團隊 ? DevOps ? </span><br><span class="line">短暫存在的團隊 ? 救火團 ? 跨專案團隊 ? </span><br><span class="line">這些團隊的資源從何而來 ?</span><br><span class="line">持續存在又特殊的團隊? 維運?</span><br><span class="line">花很多時間釐清問題，卻沒有辦法解決問題?</span><br><span class="line">受限於什麼原因 ? </span><br><span class="line">技術不足 ? 沒有人領導 ? 沒有所有權 ? 風險導向 ? 不受重視 ?</span><br></pre></td></tr></table></figure>
 <h2 id="第三個層次—整個系統"><a href="#第三個層次—整個系統" class="headerlink" title="第三個層次—整個系統"></a>第三個層次—整個系統</h2><p>Scrum 是「一種生活方式」，成為生活哲學的一部份，改造整個系統(世界)。</p>
 <h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><ul>
 <li>先觀察</li>
 <li>幫助團隊，讓團隊移除障礙</li>
 <li>引導不是讀一本書或上一次課</li>
-<li>教練法是提出問題的能力(<a href="http://www.books.com.tw/products/0010478689" target="_blank" rel="noopener">你會問問題嗎?</a>)</li>
+<li>教練法是提出問題的能力(<a target="_blank" rel="noopener" href="http://www.books.com.tw/products/0010478689">你會問問題嗎?</a>)</li>
 <li>不要停留在開發層次，融入工作生活之中</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">太高大上了，跟不上…</span><br><span class="line">問個問題，如果障礙是組織內的要員或大主管呢 ?</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">太高大上了，跟不上…</span><br><span class="line">問個問題，如果障礙是組織內的要員或大主管呢 ? </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h2 id="Scrum-Master-小組"><a href="#Scrum-Master-小組" class="headerlink" title="Scrum Master 小組"></a>Scrum Master 小組</h2><p>如果要讓組織敏捷，核心是一個強大的 Scrum Master 小組。<br>如果組織在「第一個層次 — 我的團隊」中擁有一個強大的 Scrum Master 小組，<br>那麼 Scrum Master 只需要完善團隊就好了;<br>比起單獨創立完善一個 Scrum Team 或是依賴 Agile Couch，<br>Scrum Master 小組是改變組織最好的起點。  </p>
 <h3 id="Scrum-Master-小組的目標"><a href="#Scrum-Master-小組的目標" class="headerlink" title="Scrum Master 小組的目標"></a>Scrum Master 小組的目標</h3><ul>
 <li>替其它人作好系統層次的準備</li>
@@ -368,19 +441,16 @@ ga('send', 'pageview');
 <li>Complex : 風險控管多種理由不準上線</li>
 <li>Chaotic : 上線後引發 SQL 問題當下是混亂的</li>
 </ol>
-<h2 id="回饋"><a href="#回饋" class="headerlink" title="回饋"></a>回饋</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.</span><br><span class="line">組織或團隊會抗拒改變;</span><br><span class="line">又或者組識本身的價值觀與 Scrum 有所抵觸。</span><br><span class="line">以這個層面來說 Scrum Master 能作得很有限，</span><br><span class="line">所以又有 Agile Coach 的產生 ? → 說穿了就是顧問 ?</span><br><span class="line">第一現場的工作者給的問題，如果不虛心接受</span><br><span class="line">以現場角度思考，全盤歸疚於心態問題，是在逃避問題</span><br><span class="line">抱著過往成功不放，不願具體改變或聆聽異議，  </span><br><span class="line">由上而下獨幹而非由下而上改變，喊喊口號「速度感起來了!」  </span><br><span class="line">敏捷淪為口號，實踐就成了宗教儀式。</span><br><span class="line">不論是 Scrum Master 或是 Agile Coach 都是觀察者&#x2F;顧問的角色，</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">轉型的路上我質疑一切</span><br><span class="line">質疑主管、質疑公司、質疑理論、質疑作法; </span><br><span class="line">甚至質疑我自已，然後我的心態還不能崩了，</span><br><span class="line">真是有病…</span><br><span class="line">要正心，保持陽光。</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Unit Tests Team ?</span><br><span class="line">為什麼有這樣的想法 ? 單元測試很重要，卻沒有人寫。</span><br><span class="line">原因1. 沒有時間</span><br><span class="line">原因2. 流程內未包含寫單元測試與執行單元測試，</span><br><span class="line">Scrum 的 User Story 或 Task 也不會包含，驗收條件也不包含 Unit Tests。</span><br><span class="line">原因3. 責任規屬不明? QA Team 專心作測試，RD Team 專心作開發</span><br><span class="line">沒有一個團隊專門來處理單元測試</span><br><span class="line">原因4. 導入失敗 </span><br><span class="line"> - 跨領域 BeckEnd、F2E、IOS、Android 缺乏足夠知識</span><br><span class="line"> - 跨專案開發資源就不夠了，怎麼寫測試 ?</span><br><span class="line"> - 遺留代碼難以開發，技術水平不夠，缺乏領頭羊。</span><br><span class="line"> - 讀書會成為逆向宣傳。</span><br><span class="line"> - 沒有人專職導入，導入船過水無痕。</span><br></pre></td></tr></table></figure>
-
+<h2 id="回饋"><a href="#回饋" class="headerlink" title="回饋"></a>回饋</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.</span><br><span class="line">組織或團隊會抗拒改變;</span><br><span class="line">又或者組識本身的價值觀與 Scrum 有所抵觸。</span><br><span class="line">以這個層面來說 Scrum Master 能作得很有限，</span><br><span class="line">所以又有 Agile Coach 的產生 ? → 說穿了就是顧問 ?</span><br><span class="line">第一現場的工作者給的問題，如果不虛心接受</span><br><span class="line">以現場角度思考，全盤歸疚於心態問題，是在逃避問題</span><br><span class="line">抱著過往成功不放，不願具體改變或聆聽異議，  </span><br><span class="line">由上而下獨幹而非由下而上改變，喊喊口號「速度感起來了!」  </span><br><span class="line">敏捷淪為口號，實踐就成了宗教儀式。</span><br><span class="line">不論是 Scrum Master 或是 Agile Coach 都是觀察者/顧問的角色，</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">轉型的路上我質疑一切</span><br><span class="line">質疑主管、質疑公司、質疑理論、質疑作法; </span><br><span class="line">甚至質疑我自已，然後我的心態還不能崩了，</span><br><span class="line">真是有病…</span><br><span class="line">要正心，保持陽光。</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Unit Tests Team ?</span><br><span class="line">為什麼有這樣的想法 ? 單元測試很重要，卻沒有人寫。</span><br><span class="line">原因1. 沒有時間</span><br><span class="line">原因2. 流程內未包含寫單元測試與執行單元測試，</span><br><span class="line">Scrum 的 User Story 或 Task 也不會包含，驗收條件也不包含 Unit Tests。</span><br><span class="line">原因3. 責任規屬不明? QA Team 專心作測試，RD Team 專心作開發</span><br><span class="line">沒有一個團隊專門來處理單元測試</span><br><span class="line">原因4. 導入失敗 </span><br><span class="line"> - 跨領域 BeckEnd、F2E、IOS、Android 缺乏足夠知識</span><br><span class="line"> - 跨專案開發資源就不夠了，怎麼寫測試 ?</span><br><span class="line"> - 遺留代碼難以開發，技術水平不夠，缺乏領頭羊。</span><br><span class="line"> - 讀書會成為逆向宣傳。</span><br><span class="line"> - 沒有人專職導入，導入船過水無痕。 </span><br></pre></td></tr></table></figure>
 <p><img src="https://i.imgur.com/151g6vV.jpg" alt="Unit Tests Team ?"></p>
 <h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a href="https://ruddyblog.wordpress.com/tag/scrum價值觀/" target="_blank" rel="noopener">Scrum的價值觀</a></li>
-<li><a href="https://www.jianshu.com/p/1293bfe84446" target="_blank" rel="noopener">Scrum價值觀問題溯源</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Cynefin_framework" target="_blank" rel="noopener">Cynefin 框架</a></li>
-<li><a href="https://www.hbrtaiwan.com/article_content_AR0000595.html" target="_blank" rel="noopener">決策於渾沌之中</a></li>
-<li><a href="https://www.jianshu.com/p/a17aaadb4d80" target="_blank" rel="noopener">Stacey Matrix and Cynefin framework</a> </li>
+<li><a target="_blank" rel="noopener" href="https://ruddyblog.wordpress.com/tag/scrum價值觀/">Scrum的價值觀</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1293bfe84446">Scrum價值觀問題溯源</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cynefin_framework">Cynefin 框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.hbrtaiwan.com/article_content_AR0000595.html">決策於渾沌之中</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a17aaadb4d80">Stacey Matrix and Cynefin framework</a></li>
 </ul>
 <p>(fin)</p>
 
@@ -415,7 +485,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/15/2018/books/book_the_great_scurm_master_ch1/">[閱讀筆記]The Great Scrum Master 第一章</a>
+      <a class="article-title" href="/2018/07/15/2018/books/book_the_great_scurm_master_ch1/">[閱讀筆記] The Great Scrum Master 第一章</a>
     </h1>
   
 
@@ -423,8 +493,7 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#ScrumMasterWay</p>
-<h2 id="大綱"><a href="#大綱" class="headerlink" title="大綱"></a>大綱</h2><ul>
+        <h2 id="ScrumMasterWay"><a href="#ScrumMasterWay" class="headerlink" title="ScrumMasterWay"></a>ScrumMasterWay</h2><h3 id="大綱"><a href="#大綱" class="headerlink" title="大綱"></a>大綱</h3><ul>
 <li>Scrum Master 的角色與責任<ul>
 <li>自組織</li>
 <li>Scrum Master 的目標</li>
@@ -442,13 +511,13 @@ ga('send', 'pageview');
 </ul>
 </li>
 </ul>
-<h2 id="CH1-Scrum-Master-的角色與責任"><a href="#CH1-Scrum-Master-的角色與責任" class="headerlink" title="CH1 Scrum Master 的角色與責任"></a>CH1 Scrum Master 的角色與責任</h2><ul>
+<h3 id="CH1-Scrum-Master-的角色與責任"><a href="#CH1-Scrum-Master-的角色與責任" class="headerlink" title="CH1 Scrum Master 的角色與責任"></a>CH1 Scrum Master 的角色與責任</h3><ul>
 <li>不是團隊的祕書</li>
 <li>不是額外的開銷</li>
 <li>負責創造高績效團隊</li>
 <li>Agile 與 Scrum 思想的專家(信徒)</li>
 </ul>
-<h6 id="質疑"><a href="#質疑" class="headerlink" title="質疑:"></a>質疑:</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">我一直認為盲信是相當危險的，這個世界與其說*沒有銀子彈*，</span><br><span class="line">不如說沒有狼人，或是說你面對的永遠不只是狼人，而是未知。</span><br><span class="line">現場看到太多的 Scrum But(我比較喜歡叫 Scrum Buffet 或敏捷自助餐)</span><br><span class="line">當人人都說「敏捷大法好」的時候，我分不清邪教大典&#x2F;直銷與敏捷的差別了…</span><br><span class="line">還是鬼島就是神祕力量能將好東西質變成孬東西呢？</span><br></pre></td></tr></table></figure>
+<h4 id="質疑"><a href="#質疑" class="headerlink" title="質疑"></a>質疑</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">我一直認為盲信是相當危險的，這個世界與其說*沒有銀子彈*，</span><br><span class="line">不如說沒有狼人，或是說你面對的永遠不只是狼人，而是未知。</span><br><span class="line">現場看到太多的 Scrum But(我比較喜歡叫 Scrum Buffet 或敏捷自助餐)</span><br><span class="line">當人人都說「敏捷大法好」的時候，我分不清邪教大典/直銷與敏捷的差別了…</span><br><span class="line">還是鬼島就是神祕力量能將好東西質變成孬東西呢？</span><br></pre></td></tr></table></figure>
 <h3 id="自組織"><a href="#自組織" class="headerlink" title="自組織"></a>自組織</h3><p><strong>我們應該如何組織我們自已，達成目標?</strong></p>
 <ul>
 <li>決定誰作什麼</li>
@@ -479,14 +548,13 @@ ga('send', 'pageview');
 </li>
 <li>result<ul>
 <li>Scrum Master 角色被邊緣化</li>
-<li>Scrum Master 變成團隊助理或無事可作 </li>
+<li>Scrum Master 變成團隊助理或無事可作</li>
 </ul>
 </li>
 </ul>
 <h4 id="Scrum-Master-是-Product-Owner"><a href="#Scrum-Master-是-Product-Owner" class="headerlink" title="Scrum Master 是 Product Owner"></a>Scrum Master 是 Product Owner</h4><ul>
 <li>con<ul>
 <li>角色本身會互相衝突</li>
-<li></li>
 </ul>
 </li>
 <li>pro<ul>
@@ -503,7 +571,7 @@ ga('send', 'pageview');
 <h4 id="Scrum-Master-是人事經理"><a href="#Scrum-Master-是人事經理" class="headerlink" title="Scrum Master 是人事經理"></a>Scrum Master 是人事經理</h4><ul>
 <li>con<ul>
 <li>團隊對 Scrum Master 缺乏信任</li>
-<li>往往變成下命令，教導而非輔導    </li>
+<li>往往變成下命令，教導而非輔導</li>
 </ul>
 </li>
 <li>pro<ul>
@@ -517,29 +585,25 @@ ga('send', 'pageview');
 </li>
 </ul>
 <h4 id="Scrum-Master-兼任多支團隊"><a href="#Scrum-Master-兼任多支團隊" class="headerlink" title="Scrum Master 兼任多支團隊"></a>Scrum Master 兼任多支團隊</h4><ul>
-<li><p>con</p>
-<ul>
+<li>con<ul>
 <li>Scrum Master 缺乏時間</li>
 <li>不同團隊同時發生問題時無法即時引導</li>
 <li>通常兼任超過三支團隊會缺乏足夠訊息</li>
 </ul>
 </li>
-<li><p>pro</p>
-<ul>
+<li>pro<ul>
 <li>Scrum Master 能快速學習</li>
 <li>較能了解不同團隊有不同文化</li>
 </ul>
 </li>
-<li><p>result</p>
-<ul>
+<li>result<ul>
 <li>Scrum Master 能累積更多經驗</li>
 <li>Scrum Master 在系統思考上表現較好</li>
 <li>更有可能將 Scrum 應用於整個組織</li>
 </ul>
 </li>
 </ul>
-<h6 id="回饋"><a href="#回饋" class="headerlink" title="回饋"></a>回饋</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">20180717 讀書會</span><br><span class="line">Q:Scrum Master 應該先成為觀察者的角色，</span><br><span class="line">再進一步作引導或指導，兼任多支團隊的情況下，</span><br><span class="line">可能會受限於環境，導致無法作第一線的觀察，而導致效果不佳。</span><br><span class="line">A:較成熟的團隊可以稍微放一下，多參與初心團隊，</span><br><span class="line">自組織的成熟團隊就不必要每件事。</span><br><span class="line">feedback:</span><br><span class="line">1. 不成熟的 Scrum Mater 應該跟著成熟的 Scrum Master 共事。</span><br><span class="line">2. 不成熟的團隊應由成熟的 Scrum Mater 帶領。</span><br><span class="line">3. 成熟的團隊 Scrum Mater 的角色仍在，但是可以淡出。</span><br></pre></td></tr></table></figure>
-
+<h5 id="回饋"><a href="#回饋" class="headerlink" title="回饋"></a>回饋</h5><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">20180717 讀書會</span><br><span class="line">Q:Scrum Master 應該先成為觀察者的角色，</span><br><span class="line">再進一步作引導或指導，兼任多支團隊的情況下，</span><br><span class="line">可能會受限於環境，導致無法作第一線的觀察，而導致效果不佳。</span><br><span class="line">A:較成熟的團隊可以稍微放一下，多參與初心團隊，</span><br><span class="line">自組織的成熟團隊就不必要每件事。</span><br><span class="line">feedback:</span><br><span class="line">1. 不成熟的 Scrum Mater 應該跟著成熟的 Scrum Master 共事。</span><br><span class="line">2. 不成熟的團隊應由成熟的 Scrum Mater 帶領。</span><br><span class="line">3. 成熟的團隊 Scrum Mater 的角色仍在，但是可以淡出。 </span><br></pre></td></tr></table></figure>
 <h3 id="Scrum-Master-領導"><a href="#Scrum-Master-領導" class="headerlink" title="Scrum Master 領導"></a>Scrum Master 領導</h3><ul>
 <li>Scrum Master要注重整個組織，非單一支 Scrum 團隊，</li>
 <li>關心長期目標與策略。</li>
@@ -664,7 +728,6 @@ ga('send', 'pageview');
         <h2 id="下玉山"><a href="#下玉山" class="headerlink" title="下玉山"></a>下玉山</h2><p>登玉山是我的年度計劃之一，至少已經規劃 3 年了<br>過程也是一波三折，如果不是身體發生的狀況<br>現在這篇文章應該是登玉山的甘苦談了，<br>簡單的說一下原因，我是帶著落枕上山的，<br>爬山的過程中，身體為了保護脖子，不自然的動作導致了肩膀也傷痛<br>目前還在復健中，這跟後來的病痛有沒有關係，我就不知道了</p>
 <h2 id="5月9日晚上"><a href="#5月9日晚上" class="headerlink" title="5月9日晚上"></a>5月9日晚上</h2><p>當天晚上的計劃是閱讀<strong>單元測試的藝術</strong>，<br>這是在公司參加的讀書會，剛好下山後的那個禮拜就是我負責的章節，<br>因為身體還在很疲累的狀態，所以我只打算在床上稍作閱讀，<br>沒有計劃要刻 Code 。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">程式相關的書跟其它書籍最大的不同是，</span><br><span class="line">如果裡面有程式碼，你很容易去實踐書裡面的內容，</span><br><span class="line">有好有壞，它不像一些高大上的東西，說得到作不到(光說不練)(就是幹話)  </span><br><span class="line">程式寫下來，跑一下就可以很清楚作者要表達的東西。</span><br></pre></td></tr></table></figure>
-
 <h3 id="症狀"><a href="#症狀" class="headerlink" title="症狀"></a>症狀</h3><p>一開始是看不清楚一兩個字，單純以為是眼花了而已。<br>隨即發現這跟平常的眼花並不一樣，左邊的視野完全消失了，<br>當下立即對自我作了一下檢查，不論是左眼右眼看到的東西是相同的，<br>就是左邊的視野是糢糊不清。<br><img src="https://i.imgur.com/czkqPZE.jpg" alt=""></p>
 <p>當下時間已經是凌晨 1:00 多了，從來沒有這樣的症狀，<br>很害怕是視網膜剝離或是急性青光眼之類的，<br>真的是有想到各種失去視力的恐怖想像，<br>不過症狀卻隨著我到達醫院消失了，</p>
 <p>當下醫生也只有量血壓，看起來也正常，<br>也沒有其它症狀，就被趕回家了……</p>
@@ -714,7 +777,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/02/2018/mit_job_event_log/">[活動筆記]有關海外工作的大小事</a>
+      <a class="article-title" href="/2018/06/02/2018/mit_job_event_log/">[活動筆記] 有關海外工作的大小事</a>
     </h1>
   
 
@@ -781,7 +844,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/29/2018/books/the_silo_effect_7/">[閱讀筆記]穀倉效應 </a>
+      <a class="article-title" href="/2018/05/29/2018/books/the_silo_effect_7/">[閱讀筆記] 穀倉效應 </a>
     </h1>
   
 
@@ -796,7 +859,7 @@ ga('send', 'pageview');
 <p>二次大戰後,克里夫蘭城市開始走下坡,<br>但靠著創意和明星醫師成功擴張醫院。</p>
 <p>二十世紀末,員工成長至4萬人,穀倉與官僚問題漸增,</p>
 <p>透過<strong>空橋/電子系統/地道系統/機器人</strong>等設施…,<br>致力追求無縫連接。</p>
-<p><strong>隱憂: 技術與組織變得愈來愈複雜,反而是一種穀倉</strong></p>
+<p><strong>隱憂: 技術與組織變得愈來愈複雜,反而是一種穀倉:</strong></p>
 <h3 id="醫生的故事"><a href="#醫生的故事" class="headerlink" title="醫生的故事"></a>醫生的故事</h3><p>寇斯巴洛夫有閱讀障礙,所以成績不好;</p>
 <p>用圖像式記憶法才完成學業;</p>
 <p>但是在實務層面卻大放異彩;<br>當上了克里夫蘭臨床醫學中心執行長。</p>
@@ -804,13 +867,14 @@ ga('send', 'pageview');
 <p>所以加入了克里夫蘭臨床醫學中心。</p>
 <p>結合縫紉發展改良了心臟手術。<br><strong>創新就是要挑戰既有界線</strong></p>
 <h3 id="改革"><a href="#改革" class="headerlink" title="改革"></a>改革</h3><ol>
-<li>拿掉醫師與護士的界線<br><code>(Front-Backend?DevOps?Sales/BD/PD/RD?)</code></li>
-</ol>
-<p>以患者與疾病為核心;<br>不以醫界既有科別區分,成立新部門</p>
-<p>比如說,脊椎病症:<br>神經內科/心理科/生醫影像科/整型外科 more …<br><del><code>→ 大馬: rd1/rd2/.../Rd5/app/f2e/ait/PD</code></del></p>
-<p>特殊規劃小組,制定改革時間表<br><del><code>One Team ? SRG ?</code></del></p>
-<ol start="2">
-<li><p>外部體系(保險公司/醫療協會)仍是專門分科,<br>所以又成立影子部門</p>
+<li><p>拿掉醫師與護士的界線</p>
+<p> <code>(Front-Backend?DevOps?Sales/BD/PD/RD?)</code></p>
+<p> 以患者與疾病為核心;<br> 不以醫界既有科別區分,成立新部門</p>
+<p> 比如說,脊椎病症:<br> 神經內科/心理科/生醫影像科/整型外科 more …<br> <del><code>→ 大馬: rd1/rd2/.../Rd5/app/f2e/ait/PD</code></del></p>
+<p> 特殊規劃小組,制定改革時間表<br> <del><code>One Team ? SRG ?</code></del></p>
+</li>
+<li><p>外部體系(保險公司/醫療協會)仍是專門分科  </p>
+<p> 所以又成立影子部門</p>
 </li>
 <li><p>改善空間,不只是功能性,鼓勵逗留與聊天</p>
 </li>
@@ -854,104 +918,6 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2018/windows_with_sass" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/04/26/2018/windows_with_sass/" class="article-date">
-  <time datetime="2018-04-26T06:16:34.000Z" itemprop="datePublished">2018-04-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/26/2018/windows_with_sass/">[實作筆記]在 Windows 環境編輯 SCSS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li><p>安裝 Windows 套件管理工具 Chocolatey</p>
-<ul>
-<li><a href="https://chocolatey.org" target="_blank" rel="noopener">https://chocolatey.org</a></li>
-</ul>
-</li>
-<li><p>安裝 Node.js®</p>
-<ul>
-<li><p><a href="https://chocolatey.org/packages/nodejs" target="_blank" rel="noopener">https://chocolatey.org/packages/nodejs</a></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install nodejs -y</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>註冊公司內部 NPM Server</p>
-<ul>
-<li><p><a href="http://company.npm.server" target="_blank" rel="noopener">http://company.npm.server</a></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="built_in">set</span> registry http://company.npm.server</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>安裝 RUBY</p>
-<ul>
-<li><p><a href="https://chocolatey.org/packages/ruby/2.5.1.1" target="_blank" rel="noopener">https://chocolatey.org/packages/ruby/2.5.1.1</a></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install ruby -y</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>下載 RubyGems</p>
-<ul>
-<li><a href="https://rubygems.org/pages/download#formats" target="_blank" rel="noopener">https://rubygems.org/pages/download#formats</a></li>
-<li>Download from above</li>
-<li>Unpack into a directory and cd there</li>
-<li>Install with: ruby setup.rb (you may need admin/root privilege)</li>
-</ul>
-</li>
-<li><p>安裝 compass</p>
-<ul>
-<li><p><a href="https://rubygems.org/gems/compass/versions/1.0.3" target="_blank" rel="noopener">https://rubygems.org/gems/compass/versions/1.0.3</a></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install compass</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>檢查 PATH</p>
-</li>
-<li><p>重啟 CMD 與 Visual Studio 2017</p>
-</li>
-<li><p>執行 compass</p>
-<ul>
-<li><p>使用 Command Line</p>
-  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp compass</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用工作執行器總管</p>
-<p>  <img src="https://i.imgur.com/2sEzAx5.jpg" alt="工作執行器總管"></p>
-</li>
-</ul>
-</li>
-</ol>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2018/04/26/2018/windows_with_sass/" data-id="ckk532ni1003vu4ug2g7g7nh8" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2018/04/26/2018/windows_with_sass/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows/" rel="tag">Windows</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -966,6 +932,10 @@ ga('send', 'pageview');
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/02/03/2021/update_sonarcloud_workflow/">[實作筆記] SonarCloud Move analysis to Java 11 更新 Github Action</a>
+          </li>
         
           <li>
             <a href="/2021/01/22/2021/role-expectations-matrix/">[活動筆記] Role Expectations Matrix 角色期望矩陣</a>
@@ -983,10 +953,6 @@ ga('send', 'pageview');
             <a href="/2021/01/11/2021/legacy_code_with_unit_test/">[上課筆記] 針對遺留代碼加入單元測試的藝術 </a>
           </li>
         
-          <li>
-            <a href="/2021/01/11/2021/about_unit_test/">[生活筆記] 有關單元測試的一些反思</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -996,7 +962,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -1006,7 +972,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">標籤雲</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Net-Framework/" style="font-size: 15.38px;">.Net Framework</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/API/" style="font-size: 11.54px;">API</a> <a href="/tags/AWS/" style="font-size: 14.62px;">AWS</a> <a href="/tags/Agile/" style="font-size: 17.69px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 10.77px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 15.38px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 12.31px;">Container</a> <a href="/tags/Database/" style="font-size: 13.85px;">Database</a> <a href="/tags/Design-Pattern/" style="font-size: 10.77px;">Design Pattern</a> <a href="/tags/Docker/" style="font-size: 12.31px;">Docker</a> <a href="/tags/Entity-Framework/" style="font-size: 10.77px;">Entity Framework</a> <a href="/tags/Git/" style="font-size: 10.77px;">Git</a> <a href="/tags/Google/" style="font-size: 11.54px;">Google</a> <a href="/tags/GulpJs/" style="font-size: 10.77px;">GulpJs</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 10.77px;">Hexo</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 11.54px;">Integrated Testing</a> <a href="/tags/JQuery/" style="font-size: 10.77px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 12.31px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 10.77px;">Linux</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 11.54px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Testing/" style="font-size: 10px;">Mutation Testing</a> <a href="/tags/NPM/" style="font-size: 10.77px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 14.62px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/OOP/" style="font-size: 11.54px;">OOP</a> <a href="/tags/Openshift/" style="font-size: 10.77px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 11.54px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 10.77px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 12.31px;">SQL</a> <a href="/tags/Scrum/" style="font-size: 16.92px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 10.77px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TDD/" style="font-size: 16.15px;">TDD</a> <a href="/tags/Testing/" style="font-size: 13.85px;">Testing</a> <a href="/tags/Thread/" style="font-size: 10.77px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 13.85px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 19.23px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 10.77px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 20px;">實作筆記</a> <a href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" style="font-size: 10.77px;">時間管理</a> <a href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" style="font-size: 12.31px;">活動筆記</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" style="font-size: 13.85px;">生活筆記</a> <a href="/tags/%E8%A8%98%E9%8C%84/" style="font-size: 11.54px;">記錄</a> <a href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" style="font-size: 13.08px;">踩雷筆記</a> <a href="/tags/%E9%87%8D%E6%A7%8B/" style="font-size: 12.31px;">重構</a> <a href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" style="font-size: 18.46px;">閱讀筆記</a>
+      <a href="/tags/Net-Framework/" style="font-size: 15.38px;">.Net Framework</a> <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/API/" style="font-size: 11.54px;">API</a> <a href="/tags/AWS/" style="font-size: 14.62px;">AWS</a> <a href="/tags/Agile/" style="font-size: 17.69px;">Agile</a> <a href="/tags/BootStrap/" style="font-size: 10px;">BootStrap</a> <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/CI-CD/" style="font-size: 15.38px;">CI/CD</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Coding-Standard/" style="font-size: 10px;">Coding Standard</a> <a href="/tags/Container/" style="font-size: 12.31px;">Container</a> <a href="/tags/Database/" style="font-size: 13.85px;">Database</a> <a href="/tags/Design-Pattern/" style="font-size: 10.77px;">Design Pattern</a> <a href="/tags/Docker/" style="font-size: 12.31px;">Docker</a> <a href="/tags/Entity-Framework/" style="font-size: 10.77px;">Entity Framework</a> <a href="/tags/Git/" style="font-size: 10.77px;">Git</a> <a href="/tags/Google/" style="font-size: 11.54px;">Google</a> <a href="/tags/GulpJs/" style="font-size: 10.77px;">GulpJs</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Hexo/" style="font-size: 10.77px;">Hexo</a> <a href="/tags/IIS/" style="font-size: 10px;">IIS</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Integrated-Testing/" style="font-size: 11.54px;">Integrated Testing</a> <a href="/tags/JQuery/" style="font-size: 10px;">JQuery</a> <a href="/tags/Jenkins/" style="font-size: 12.31px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 10.77px;">Linux</a> <a href="/tags/Mongodb/" style="font-size: 10px;">Mongodb</a> <a href="/tags/MsSQL/" style="font-size: 11.54px;">MsSQL</a> <a href="/tags/MsTest/" style="font-size: 10px;">MsTest</a> <a href="/tags/Mutation-Testing/" style="font-size: 10px;">Mutation Testing</a> <a href="/tags/NPM/" style="font-size: 10.77px;">NPM</a> <a href="/tags/Node-js/" style="font-size: 14.62px;">Node.js</a> <a href="/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/tags/OOP/" style="font-size: 11.54px;">OOP</a> <a href="/tags/Openshift/" style="font-size: 10.77px;">Openshift</a> <a href="/tags/PowerShell/" style="font-size: 11.54px;">PowerShell</a> <a href="/tags/Redis/" style="font-size: 10.77px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SCSS/" style="font-size: 10px;">SCSS</a> <a href="/tags/SQL/" style="font-size: 12.31px;">SQL</a> <a href="/tags/Scrum/" style="font-size: 16.92px;">Scrum</a> <a href="/tags/Shell/" style="font-size: 10.77px;">Shell</a> <a href="/tags/Specflow/" style="font-size: 10px;">Specflow</a> <a href="/tags/StyleCop/" style="font-size: 10px;">StyleCop</a> <a href="/tags/TDD/" style="font-size: 16.15px;">TDD</a> <a href="/tags/Testing/" style="font-size: 13.85px;">Testing</a> <a href="/tags/Thread/" style="font-size: 10.77px;">Thread</a> <a href="/tags/Trello/" style="font-size: 10px;">Trello</a> <a href="/tags/TypeScript/" style="font-size: 13.85px;">TypeScript</a> <a href="/tags/Unit-Testing/" style="font-size: 19.23px;">Unit Testing</a> <a href="/tags/Unix/" style="font-size: 10.77px;">Unix</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/post/" style="font-size: 10px;">post</a> <a href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" style="font-size: 20px;">實作筆記</a> <a href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" style="font-size: 10.77px;">時間管理</a> <a href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" style="font-size: 13.08px;">活動筆記</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" style="font-size: 13.85px;">生活筆記</a> <a href="/tags/%E8%A8%98%E9%8C%84/" style="font-size: 11.54px;">記錄</a> <a href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" style="font-size: 13.08px;">踩雷筆記</a> <a href="/tags/%E9%87%8D%E6%A7%8B/" style="font-size: 12.31px;">重構</a> <a href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" style="font-size: 18.46px;">閱讀筆記</a>
     </div>
   </div>
 
@@ -1015,7 +981,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">標籤</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Design-Pattern/" rel="tag">Design Pattern</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GulpJs/" rel="tag">GulpJs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Testing/" rel="tag">Mutation Testing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">40</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" rel="tag">活動筆記</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" rel="tag">生活筆記</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">15</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Design-Pattern/" rel="tag">Design Pattern</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GulpJs/" rel="tag">GulpJs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Testing/" rel="tag">Mutation Testing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">40</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" rel="tag">活動筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" rel="tag">生活筆記</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">15</span></li></ul>
     </div>
   </div>
 
@@ -1035,7 +1001,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
     <h3 class="widget-title">BADGES</h3>
     <div class="widget">
-        <a href="https://bcert.me/bc/html/show-badge.html?b=uufxvngl" target="_blank" rel="noopener">
+        <a target="_blank" rel="noopener" href="https://bcert.me/bc/html/show-badge.html?b=uufxvngl">
             <img src="/images/2018/csm/seal-csm.png" alt="Certified ScrumMaster®">
         </a>
     </div>
@@ -1096,7 +1062,7 @@ ga('send', 'pageview');
 
 
 <script>  
-  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain"];
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain","不要停止懷疑，不要停止信仰"];
 </script>
   
 
