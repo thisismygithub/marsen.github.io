@@ -307,6 +307,7 @@ body {
 .widget dt {
   font-weight: bold;
 }
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap");
 #header {
   height: 300px;
   position: relative;
@@ -365,7 +366,7 @@ body {
 #logo,
 #subtitle {
   text-decoration: none;
-  color: #fff;
+  color: #5a340e;
   font-weight: 300;
   text-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
@@ -375,6 +376,7 @@ body {
   letter-spacing: 2px;
 }
 #subtitle {
+  font-family: 'Noto Sans TC', sans-serif;
   font-size: 16px;
   line-height: 16px;
   letter-spacing: 1px;
@@ -389,7 +391,7 @@ body {
 .nav-icon,
 .main-nav-link {
   float: left;
-  color: #fff;
+  color: #5a340e;
   opacity: 0.6;
   text-decoration: none;
   text-shadow: 0 1px rgba(0,0,0,0.2);

@@ -18,8 +18,9 @@
   
     <link rel="icon" href="/favicon.ico">
   
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+      
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap" rel="stylesheet">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -81,6 +82,510 @@ ga('send', 'pageview');
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-2020/unittest_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/19/2020/unittest_1/" class="article-date">
+  <time datetime="2020-10-19T07:59:51.000Z" itemprop="datePublished">2020-10-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/19/2020/unittest_1/">單元測試分享(一) --- Why ? How ? What ?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>目前參加的讀書會有點進入了倦怠期，<br>參加的人數出席不穩定，會議過程有點感覺像是在照本宣科。<br>所以我們安排每隔幾周，由不同分享一下個人工作上不同的經驗。<br>讓負責分享章節的人可以有更多時間準備，<br>同時也可以讓聽者換換口味同時喘口氣。  </p>
+<p>對於我來說，可以重新整理一下過往的經驗。<br>試著能不能更有組織的分享單元測試這個工具與知識。<br>同時，因為是線上分享會的形式，當我無法觀察觀眾的表情時，<br><strong>遠端會議應該怎麼進行才能更有效呢?</strong>  </p>
+<p><img src="/images/2020/10/video_phone_conversation.jpg" alt="遠端協作的 Conversation Cost 仍然相當高"></p>
+<h3 id="進行方式"><a href="#進行方式" class="headerlink" title="進行方式"></a>進行方式</h3><ul>
+<li>先問為什麼?</li>
+<li>輪流發表一下想法(TimeBox:60s)</li>
+<li><del>Live Coding</del> (如果是現場分享，我會希望多一點實作)</li>
+</ul>
+<h3 id="思考問題"><a href="#思考問題" class="headerlink" title="思考問題"></a>思考問題</h3><ol>
+<li>(單元)測試是什麼呢 ?</li>
+<li>為什麼要寫(單元)測試 ?</li>
+<li>什麼樣的情境需要(單元)測試?</li>
+</ol>
+<p>這裡的設計是 What、Why、When，我覺得改成 What、When→How、Why 會更好。<br>主要的目的是引導聽眾思考 Why，這裡我的受眾應該為開發人員，<br>實務上還有可能會是 QA(測試人員)、產品經理(PM/PO*)、維運人員、<br>營運部門甚至是老闆或客戶。</p>
+<p>舉例情境如下:</p>
+<p>問:單元測試或是測試是什麼呢?<br>答:是一種自動化的對程式的方法進行驗証 blab blab ….</p>
+<p>捕捉到關鍵字 <code>自動化</code> <code>方法</code>…可以延伸提問</p>
+<ul>
+<li>測試不一定要<code>自動化</code>，但是單元測試建議要作到<strong>一鍵測試(半自動)</strong></li>
+<li>單元不一定是<code>方法</code>，但我們可以以<code>方法</code>當作最小粒度來討論，<br>後續的分享會對粒度再作討論，但重要的是<strong>團隊的認知要一致</strong></li>
+</ul>
+<p>進一步提問<strong>什麼樣的情境需要(單元)測試?</strong>，<br>如果現場乾掉了，可以改成以下的提問:</p>
+<ul>
+<li>上 Prod 前要不要測試?<ul>
+<li>那上 QA/Stage 要不要測試?</li>
+</ul>
+</li>
+<li>開發新功能要不要測試 ?<ul>
+<li>那 HotFix 要不要測試 ?</li>
+</ul>
+</li>
+<li>拿到一份全新沒看過的 Source Code 要不要測試 ?</li>
+</ul>
+<p>你會發現測試無所不在，那我們為什麼(Why)要測試啊?<br>我的回答，(單元)測試是品質保証的一種手段，  </p>
+<p>如果上線前，(單元)測試全過，<br>我就對被測試保護的方法(情境)有信心不會壞。<br>同樣的，在部署到其它環境時測試通過，我對品質信也就會跟著提昇。<br>換句話說，<strong>測試是品質的可量化指標。</strong></p>
+<blockquote>
+<p>可能的問題:測試全過，上線還是有可能會壞掉啊<br>回答: 壞掉是什麼樣的情境 ? 是不是一種沒有被測試保護到的情境 ?<br>是的話只要加上情境即可，一般來說我們應該可以作到 96 % 以上的常態情境<br>剩下考慮發生機率與重要性，應該加上測試就加測試保護，<br>這裡不限定單元測試也包含整合/端到端/手動等其它測試。</p>
+</blockquote>
+<p>另一個情境是開發新功能，<br>任何<strong>功能都是方法與流程的組合</strong>，<br>當你在開發新方法或新功能時，如果能同時寫好測試<em>，<br>那你就會有*</em>一份具備可量化品質的代碼**，<br>同時還可以帶來的額外好處是，當有一個新人拿到你的代碼時，<br>他會有一份測試可以當作規格書來閱讀。  </p>
+<blockquote>
+<p>注意:這裡可以代入很多其它相關的概念<br>比如說:TDD、Code Review、可讀性、Pair Programming</p>
+</blockquote>
+<p>理解方法與流程是最耗時的一件事，<br>如果有測試可以節省相當多的時間，<br>但要注意測試也是人寫的，如果為了寫而寫，很容易寫出垃圾測試，<br>試著在開發流程上引入 Pair Programming、Code Review、Pull Request 等…機制<br>另外當代碼成長到一定程度時，<br>如果需要重構，測試將提供一定的保護網(看覆蓋率多少)。<br>但要小心實務上不應該過度追求覆蓋率。</p>
+<blockquote>
+<p>這裡提供一個觀念，不要為了 Design Pattern 而 Design Pattern<br>但是即有的代碼需要重構之時，Design Pattern 可以提供像是燈塔般的指引作用<br>只要巧妙的設計測試案例，走向目標。</p>
+</blockquote>
+<p>此外，當代碼有了單元測試的保護，<br>在開發日常的除錯作業將會有很大的幫助，<br>測試可以幫你快速的定位錯誤。<br>即使測試並未攔截到錯誤的話，那也表示你發現了一個前所未有的情境，<br>而只要加上這個測試情境，再修改代碼，未來這個情境將不會再有錯誤。</p>
+<h3 id="經典書籍對單元測試的定義"><a href="#經典書籍對單元測試的定義" class="headerlink" title="經典書籍對單元測試的定義"></a>經典書籍對單元測試的定義</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">一個單元測試是一段自動化的程式碼，這段程式會呼叫被測試的工作單元，</span><br><span class="line">之後對這個單元的單一最終結果的某些假設或期望進行驗証。</span><br><span class="line">單元測試幾乎都是可以使用單元測試框架進行撰寫的。</span><br><span class="line">撰寫單元測試很容易，執行起來快速。單元測試可靠，易讀，並且很容易維護。</span><br><span class="line">只要要產品不發生改化，單元測試執行結果是穩定一致的。</span><br><span class="line"></span><br><span class="line">--- &lt;&lt;單元測試的藝術2nd&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="F-I-R-S-T-Principles"><a href="#F-I-R-S-T-Principles" class="headerlink" title="F.I.R.S.T Principles"></a>F.I.R.S.T Principles</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- Fast : 快速→不夠快就不會被頻繁執行</span><br><span class="line">- Independent :獨立→互相依賴的測試，會讓除錯變得困難</span><br><span class="line">- Repeatable : 可重複→在任何環境下執行都有相同的結果(EX:時間／網路)</span><br><span class="line">- Self-Validating : 自我驗証→測試是否通過，不需額外的判斷與操作</span><br><span class="line">- Timely : 即時→產品代碼前不久先寫測試</span><br><span class="line"></span><br><span class="line">---&lt;&lt;Clean Code&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h3><p>上面提到很多工程面的實踐，<br>也不僅限於單元測試，更多的是測試與品質的關係。<br>一再強調的觀念是:</p>
+<p><strong>測試是品質的可量化指標。</strong><br><strong>測試是品質的可量化指標。</strong><br><strong>測試是品質的可量化指標。</strong></p>
+<p>而回到工程面上來說，作為第一線的品質把關，<br>開發人員本來就應該對自已的代碼提供單元測試，<br>而 TDD、Test As Document、Refactoring、Design Pattern 等…是環環相扣的工程實踐，<br>Pair Programming、Code Review、Pull Request 等…是工程流程的實踐<br>單元測試正是那個將各種實踐結合在一起的一種工具。</p>
+<p><img src="/images/2020/10/unit_test_is_basic_tool.jpg" alt="Unit Test is basic tool"></p>
+<p>在心法上，要將單元測試視作工具，而非聖盃，<br><code>TDD</code> 或是<code>覆蓋率</code>也是同樣的道理，御物而不御於物。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">可用的軟體 重於 詳盡的文件</span><br><span class="line">&lt;&lt;敏捷軟體開發宣言&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>引用一下敏捷宣言:<br>可用的軟體 重於 100%覆蓋率的代碼<br>可用的軟體 重於 測試全過的代碼<br>右側項目雖然有其價值，但我們更重視左側項目。</p>
+<p>而這裡<strong>可用的最低標準，我認為是符合品質期待</strong>。</p>
+<h2 id="First-Test"><a href="#First-Test" class="headerlink" title="First Test"></a>First Test</h2><h3 id="第一個單元測試，加法計算器"><a href="#第一個單元測試，加法計算器" class="headerlink" title="第一個單元測試，加法計算器"></a>第一個單元測試，加法計算器</h3><h4 id="Case-Add-1-1-2"><a href="#Case-Add-1-1-2" class="headerlink" title="Case:Add(+) : 1 + 1 = 2"></a>Case:Add(+) : 1 + 1 = 2</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Add_1_1_is_2</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> target = <span class="keyword">new</span> Calculator();</span><br><span class="line">    Assert.Equal(<span class="number">2</span>, target.Add(<span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>Production 代碼</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Calculator</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">int</span> <span class="title">Add</span>(<span class="params"><span class="built_in">int</span> first, <span class="built_in">int</span> second</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Next-Case"><a href="#Next-Case" class="headerlink" title="Next Case"></a>Next Case</h4><p>用 Test Case 逼出邏輯，用最簡單的方法實踐</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Add_2_1_is_3</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> target = <span class="keyword">new</span> Calculator();</span><br><span class="line">    Assert.Equal(<span class="number">3</span>, target.Add(<span class="number">2</span>, <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Calculator</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">int</span> <span class="title">Add</span>(<span class="params"><span class="built_in">int</span> first, <span class="built_in">int</span> second</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> first + second;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3A-原則"><a href="#3A-原則" class="headerlink" title="3A 原則"></a>3A 原則</h4><ul>
+<li><p>Arrange(準備、初始化)<br>如果 Arrange 過長會是一個壞味道，<br>表示這方法相依太多參數、服務或模組<br>範例:</p>
+<ul>
+<li><code>target = new Calculator();</code></li>
+<li>first number is <code>2</code></li>
+<li>second number is <code>1</code></li>
+</ul>
+</li>
+<li><p>Act(執行/呼叫受測行為)</p>
+<ul>
+<li><code>target.Add(2, 1)</code></li>
+</ul>
+</li>
+<li><p>Assert(驗証)</p>
+<ul>
+<li>`Assert.Equal(3, acted result);</li>
+</ul>
+</li>
+</ul>
+<p>不要過度追求可讀性，而將測試程式變得難以理解，<br>可以使用測試驗証框架(ex:Fluent Assertions)，<br>或是抽出方法來增加可讀性，但比起可讀，更重要是可理解。</p>
+<h2 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h2><p>後續的 Live Coding 會讓參加者完成後續的方法測試，<br>加法、減法、乘法、除法…<br>特別計算到除法的除零邏輯時，應該拋出錯誤。<br>趁這個機會可以介紹如何驗証 Exception。</p>
+<blockquote>
+<p>進一步可以介紹如何使用 <code>fluentassertions</code>。</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Fact</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Divide_7_0_is_Exception</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Func&lt;<span class="built_in">int</span>&gt; act = () =&gt; _target.Divide(<span class="number">7</span>, <span class="number">0</span>);</span><br><span class="line">    act.Should().Throw&lt;DivideByZeroException&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/10/19/2020/unittest_1/" data-id="ckne1131u0060xsugbsayeoae" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/10/19/2020/unittest_1/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2020/after_try_tutoring_app" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/03/2020/after_try_tutoring_app/" class="article-date">
+  <time datetime="2020-10-03T15:34:53.000Z" itemprop="datePublished">2020-10-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/03/2020/after_try_tutoring_app/">[生活筆記] TUTORING APP 多特英 第四屆體驗大使 --- 心得篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>直接連結<a href="https://blog.marsen.me/2020/09/09/2020/before_try_tutoring_app/">前篇</a> 吧。<br><a target="_blank" rel="noopener" href="https://bit.ly/3dJk4Sr">APP 下載連結</a>我也不囉唆，直接給。</p>
+<h2 id="使用記錄"><a href="#使用記錄" class="headerlink" title="使用記錄"></a>使用記錄</h2><p>我在使用前就知道接下來兩個禮拜並不輕鬆，<br>除了一些平日的課程之外，還有排舞與游泳的練習與它牌的英語課。<br>所以我計劃第一周上 4 次課(80分鐘)，<br>第二周上 5 次課(100分鐘)。</p>
+<p>我原本的想法是這個 app 應該可以用一些空閒時間來填補，<br>但是實際上真的沒有那麼簡單。</p>
+<h3 id="心態面"><a href="#心態面" class="headerlink" title="心態面"></a>心態面</h3><p>畢竟這是一個跟真人對話的英文口說 APP ，同時要使用你並不擅常的語言。<br>以我來說並不是那麼容易的東西，通常老師也會跟你作一小段的開場白，<br>問問你今天過得好嗎，或是簡單的自我介紹，身為內向者其實要保留一點心力來回答。</p>
+<h3 id="環境面"><a href="#環境面" class="headerlink" title="環境面"></a>環境面</h3><p>一開始我認為我可以中午午休在咖啡廳/樓梯間/公園之類的地方進行，<br>實際上沒那麼容易，一方面是心態上面的問題，<br>如同上面所說，開始的時候需要一點心理建議，需要一點儀式感，<br>在公眾場合會讓困難度倍增，有陌生人在旁邊，即使有使用耳機，<br>但恥度不夠仍然無開始課程。<br>另一方面，在公眾場合有較高的機率發生未逾期的狀況，所以可能會導致課程被中斷。</p>
+<p>我自已經驗是，有一次我跟一個老師通話，才開始 5 分鐘，<br>家裡就有人回來，然後敲我的門，被迫中斷了課程，<br>雖然我有跟老師說我馬上回來，但是不知何種原故，我回來時老師已經中斷課程，<br>並且離線了。</p>
+<h3 id="師資面"><a href="#師資面" class="headerlink" title="師資面"></a>師資面</h3><p>這次體驗老師都是國際老師，我的經驗是大多是菲律賓老師，<br>只有一位應該是韓國老師，希望有機會在平台上看到台灣老師唷<br>然後有部份的老師我上課起來仍然是有一些環境音的，<br>影不影響，我覺得就看個人，是可以跟老師溝通一下。</p>
+<p>未來有機會的話，我可能還是會試試母語老師，不過沒有上過也很難比較就是了。<br>這次的 9 堂課就老師我來說，覺得都是很 OK 的唷。</p>
+<h3 id="課程面"><a href="#課程面" class="headerlink" title="課程面"></a>課程面</h3><p>對我來說理想的上課時間可能至少 40 分鐘一次比較能有完整的對話。<br>但是 20 分鐘以目前的課程來說，其實也是夠了。<br>它內部推薦給我的課程等級是 <code>Int. Low</code> 大概還在講解基本的時態，<br>這個評分我相信是準確的，但是課程仍是有些無聊，比起課程的理論，<br>也許我需要更多的實際應用，能在對話上實際演練。</p>
+<h3 id="APP-面"><a href="#APP-面" class="headerlink" title="APP 面"></a>APP 面</h3><p>主要的操作是蠻簡單的，也算好理解，<br>不懂的地方也可以問老師，但是我不確定是不是安卓與 iOS 的差異，<br>我之前問的一些按鈕的位置，老師的說明跟我實際上看到並不一樣，<br>所幸我很快就有找到，不然蠻浪費時間在這裡的。</p>
+<p>說明一下課程中，你會看到教材頁，老師在滑動時，你的教材也會連動，<br>另外還有對話頁，可以在這些透過打字跟老師溝通。<br>我是使用 iPhone 7 ，在課程中老師有時候會傳訊息給你，<br>當我切到對話頁，想再切換回教材頁時，常常會反應不良，<br>我不確定是延遲或是觸發區太小我按不到，但是的確是一個困擾。  </p>
+<p>還有的時候教材連動會斷掉，不確定機制為何。<br>但是對我來說不影響，只要問一下在第幾頁就好了。</p>
+<h2 id="心得與題外話"><a href="#心得與題外話" class="headerlink" title="心得與題外話"></a>心得與題外話</h2><p>我在上面說到，我本來打算第一周上 4 堂課，第二周上 5 堂課的，<br>但是我真的是在第二周忙到爆炸了，所以我在最後的一天的晚上 10 點鐘，<br>一口氣上完了 5 堂課。</p>
+<p>唯一的問題大概就是太晚了找不太到老師(因為大多為菲律賓老師，而時區與台灣相同)，<br>另外中間還有發生跟老師有誤會導致課程中斷的事。<br>所以整體而言，跟我原先的預期大概只完成了 87 % 左右。</p>
+<p>不過三更半夜的在 2 個小時內找到 4 個老師上課，這就是現實生活中難以實現的事吧。<br>多虧了網路的無遠弗界，再加上 TUTORING APP 這樣的線上英文學習媒合才辦得到吧，<br>當然希望未來有更多時區的老師可以選擇囉。</p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/post/3797354">價格介紹文章</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/post/12459416">TUTORING客服</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/post/7117913-app%e4%bd%bf%e7%94%a8%e4%bb%8b%e7%b4%b9%ef%bd%9c%e5%a6%82%e4%bd%95%e7%8d%b2%e5%be%97%e5%85%8d%e8%b2%bb%e6%b0%b4%e5%b9%b3%e6%b8%ac%e8%a9%a6%e5%88%b8%ef%bc%9f%ef%bd%9ctut">獲得免費水平測試</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/category/270020">使用FAQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/category/219587">用戶反饋</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/category/214517">外師推薦</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/10/03/2020/after_try_tutoring_app/" data-id="ckne113160041xsug4gcv4bht" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/10/03/2020/after_try_tutoring_app/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2020/aha_programing" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/30/2020/aha_programing/" class="article-date">
+  <time datetime="2020-09-30T06:44:53.000Z" itemprop="datePublished">2020-09-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/30/2020/aha_programing/">[翻譯] AHA Programming 💡</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The dangers of DRY, the web of WET, the awesomeness of AHA.</p>
+<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>為什麼我要翻譯 ? 練習英文，同時學習程式開發的原則 。<br>程式開發原則其實超級多，稍稍整理一下。</p>
+<h3 id="物件導向程式設計的-SOLID-原則"><a href="#物件導向程式設計的-SOLID-原則" class="headerlink" title="物件導向程式設計的 SOLID 原則"></a>物件導向程式設計的 SOLID 原則</h3><p>這五個知名的原則，可以一言以蔽之 — 高內聚、低耦合。<br>而我自已更喜歡 <a target="_blank" rel="noopener" href="http://teddy-chen-tw.blogspot.com/2014/04/solid.html">Teddy 老師的五則皆變:「面對原始碼改變的五種不同策略」</a></p>
+<h4 id="SRP-Single-Responsibility-Principle-單一職責原則"><a href="#SRP-Single-Responsibility-Principle-單一職責原則" class="headerlink" title="SRP(Single Responsibility Principle) 單一職責原則"></a>SRP(Single Responsibility Principle) 單一職責原則</h4><p>A class should have only one reason to change<br>以一個類別來說，應該只有一個引起它變化的原因。  </p>
+<p>舉個實務上在改動代碼的例子:<br>線上回報了一個購物車的問題，<br>你去追查發現購物車保含禮品與折價券的情境下，才會發生問題，<br>同時主管要求你，這段代碼發生異常時加上 Log 並發 Email 通知。  </p>
+<p>你會怎麼改呢 ? 加個 if 判斷購物車/禮品/折價券之間的對應關係 ?<br>使用 Try Catch 補捉異常，記錄 Log 並發送 Email ?<br>那麼這些邏輯應該被加到哪些類別呢 ?<br>請思考一下<br>在這個原則底下，應該考慮 if 的邏輯屬於購物車/禮品/折價券中的哪一類 ?<br>而三個商務邏輯如何互動，當前的設計也是要注意的方向。<br>Log / Email 也是同樣的，是否也應該隸屬獨立類別呢。<br>請思考一下，請思考一下。  </p>
+<p>這遵循這個原則的程式設計下，可以有效減少單一類別被改變的機會。<br>以上面情境為例，Log / Email / if 的邏輯都是不同的職責，<br>如果設計得當，一個職責需要異動時只會修改到一個類別。</p>
+<h4 id="OCP-Open-Closed-Principle-開閉原則"><a href="#OCP-Open-Closed-Principle-開閉原則" class="headerlink" title="OCP(Open Closed Principle) 開閉原則"></a>OCP(Open Closed Principle) 開閉原則</h4><p>software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification<br>軟體實體(類別,模組,函式等等) 應該是可以擴展的，但不能被修改</p>
+<p>同上的情境，遵循 OCP 在面對新增需求的時候，可以單純透過新增類別或方法來達成需求。</p>
+<h4 id="LSP-Liskov-Substitution-Principle-里氏替換原則"><a href="#LSP-Liskov-Substitution-Principle-里氏替換原則" class="headerlink" title="LSP(Liskov Substitution Principle) 里氏替換原則"></a>LSP(Liskov Substitution Principle) 里氏替換原則</h4><p>Subtypes must be substitutable for their base types.<br>基底類別應該要能夠被他的衍生類別給替代而不影響原本的功能</p>
+<p>這裡提到的原則，其實是對繼承的限制，在強型別語言都已經有這方面的實作了。<br>以上述的例子來說，Log/Email 的實作至少應該有一層的抽象隔離，<br>並以繼承抽象的實作來，<br>也就是說實際上如何 Log 可以是 files、DB、Cloud 或任何其它的東西。  </p>
+<p>這裡也跟下面的 ISP 相呼應。</p>
+<h4 id="ISP-Interface-Segregation-Principles-介面隔離原則"><a href="#ISP-Interface-Segregation-Principles-介面隔離原則" class="headerlink" title="ISP(Interface Segregation Principles) 介面隔離原則"></a>ISP(Interface Segregation Principles) 介面隔離原則</h4><p>No client should be forced to depend on methods it does not use.<br>不應該讓使用者去依賴他根本不會使用到的東西</p>
+<p>介面是方法的抽象，所以我認為當一個介面有超過一個方法時，<br>就應該思考一下有沒有違背這個原則。<br>實務上會有許多的同類型的介面應該被歸屬到同一類之中，<br>簡單可行的方法是當你實作一個介面時，會不會要跟著實作許多用不到的方法呢?<br>如果有的話，試著將它們拆分成不同的介面吧。</p>
+<h4 id="DIP-Dependency-Inversion-Principle-依賴反轉原則"><a href="#DIP-Dependency-Inversion-Principle-依賴反轉原則" class="headerlink" title="DIP(Dependency Inversion Principle) 依賴反轉原則"></a>DIP(Dependency Inversion Principle) 依賴反轉原則</h4><p>High-level modules should not depend on low-level modules. Both should depend on abstractions (e.g. interfaces).<br>高層模組不應該依賴於低層模組。兩者皆應該依賴抽象。</p>
+<p>Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.<br>抽象不應該依賴細節。細節應該依賴抽象<br>DRY(an acronym for “”)</p>
+<p><img src="https://i.imgur.com/pI1bZ7h.png" alt="DRY"></p>
+<p>直接透過 wiki 的圖片來說明上面的例子。<br>想像 Object A 是購物車 Object B 是 Logger,<br>Figure 1 顯示的就是直接相依的情境，而如果我們可以透過一個 ILogger 的介面就可以反轉相依，<br>使得購物車與 Logger 都相依與介面，<br>現行主流的程式也都有提供對應的 DI Framework 或 Library，<br>只要好好使用，這個原則並不難實踐了。</p>
+<h3 id="小記"><a href="#小記" class="headerlink" title="小記"></a>小記</h3><p>說得有點太多了，以上的部份未來另外抽成相關的文章吧。</p>
+<h2 id="主文"><a href="#主文" class="headerlink" title="主文"></a>主文</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/wuVy7rwkCfc" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+
+<h3 id="DRY"><a href="#DRY" class="headerlink" title="DRY"></a>DRY</h3><p>DRY(Don’t Repeat Yourself 的縮寫，不要重複你自已)，一個古老的軟體原則，<br>在維基百科的定義如下:</p>
+<blockquote>
+<p>Every piece of knowledge must have a single,<br>unambiguous, authoritative representation within a system<br>每一項知識都必須在系統中具有單一，明確，權威的表示形式</p>
+</blockquote>
+<p>儘管實務上比定義更為寬鬆，我仍然認為這個一個好習慣。<br>使用 Copy/Paste 最大的問題是，當某處發現了一個錯誤，<br>我會意識到其它複製貼上的地方也有相同的錯誤，並且需要被修正。</p>
+<p>我曾經接手了一份代碼，有著大量重複代碼，為了修正一個 Bug 我需要修改 8 個地方!<br>抽像化這部份的代碼成為一個隨處可呼叫 function 將有很大的幫助。</p>
+<h3 id="WET"><a href="#WET" class="headerlink" title="WET"></a>WET</h3><p>另一個概念是<code>WET(Write Everything Twice)</code></p>
+<blockquote>
+<p>You can ask yourself “Haven’t I written this before?”<br>two times, but never three</p>
+<p>你可以問自己 “我以前沒有寫過這個嗎？” 兩次，但從來沒有三次</p>
+</blockquote>
+<p>在上面的例子中，有時候過度抽像比重複更有害。<br>那是一份 AngularJS 代碼與一些 AngularJS controller，<br>這份代碼傳遞 <code>this</code> 給一個猴子補丁(Monkey Patch)方法(註:一種在runtime時動態修改代碼的技巧)，<br>這個方法會用某種方式提供 controller 額外的能力。<br>但是這超級讓人困惑，而讓人害怕修改。</p>
+<p>這個代碼在三個以上的地方重複使用，但是抽象性很差，我寧可代碼重複。</p>
+<h3 id="AHA"><a href="#AHA" class="headerlink" title="AHA"></a>AHA</h3><blockquote>
+<p>Avoid Hasty Abstractions<br>避免草率抽象<br>prefer duplication over the wrong abstraction<br>寧可重複也不要錯誤抽像<br>Optimize for change first<br>為改變而優化</p>
+</blockquote>
+<p>關鍵是我們不會知道代碼的未來。<br>我們無法確認，我們能確認的只有改變可能會發生，<br>如果沒有發生，為什麼要修改代碼 ?</p>
+<p>注意以下事實:</p>
+<ul>
+<li>不要介意重複，直到你對重複代碼的用例有信心為止</li>
+<li>代碼有差異的部份，是否可以抽出參數提供給你的方法</li>
+<li>逐步執行的過程，可以抽象共用的部份將會躍來而上</li>
+<li>不用擔心何時該對重複代碼進行抽象，直到你接觸到他</li>
+</ul>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>不用擔心何時該對重複代碼進行抽象，<br>這不是一個硬性規定，也是為什麼我更喜歡 AHA 勝於 DRY 或 WET.  </p>
+<h2 id="相關文章"><a href="#相關文章" class="headerlink" title="相關文章"></a>相關文章</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Duplicate_code">Code Duplicate</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.to/wuz/stop-trying-to-be-so-dry-instead-write-everything-twice-wet-5g33">WET</a></li>
+<li><a target="_blank" rel="noopener" href="http://teddy-chen-tw.blogspot.com/2014/04/solid.html">五則皆變</a></li>
+<li><a href="https://blog.marsen.me/2020/07/27/2020/oop_experience/">[閱讀筆記] 物件導向的心得與隨筆</a></li>
+<li><a target="_blank" rel="noopener" href="https://ihower.tw/blog/archives/7181">Kent Beck 的四個簡單程式設計原則</a></li>
+<li><a target="_blank" rel="noopener" href="https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/410455/">九大設計原則</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.to/wuz/stop-trying-to-be-so-dry-instead-write-everything-twice-wet-5g33">Stop trying to be so DRY, instead Write Everything Twice (WET)</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/09/30/2020/aha_programing/" data-id="ckne113170043xsug287p8vvc" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/09/30/2020/aha_programing/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2020/talk_career_with_l" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/22/2020/talk_career_with_l/" class="article-date">
+  <time datetime="2020-09-22T04:54:51.000Z" itemprop="datePublished">2020-09-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/22/2020/talk_career_with_l/">[生活筆記] L 的轉職閒聊與問題</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>朋友想轉職，隨便尬聊了一下，有談到自已的職涯，<br>還有我對軟體產業的一些看法。</p>
+<h2 id="自我解析"><a href="#自我解析" class="headerlink" title="自我解析"></a>自我解析</h2><p>資策會對我的意義，系統的整理學習程式的概念，<br>在 2008 年找不到工作時，透過它成為就業的門檻。<br>薪資的成長 N → O 我大概花了 10 年。</p>
+<ul>
+<li>N,N+5,N+7,N+10…</li>
+<li>M,M+1,M+2…</li>
+<li>O…</li>
+</ul>
+<h2 id="軟體"><a href="#軟體" class="headerlink" title="軟體"></a>軟體</h2><ul>
+<li>軟體工程師機會仍然很多，但薪資在掉，整體趨勢有偏向 M 型化。</li>
+<li>第一份工作用來洗經歷<ul>
+<li>挑一下薪水(起薪不要太低)</li>
+<li>找能加分與學到東西的公司/產業/新創 =&gt; 可以透過社群的聯結去尋找，facebook 也找得到</li>
+<li>前期要不恥下問，閒聊去建立聯結，有機會可以找到好公司(有大神的公司)</li>
+<li>這個技能很百搭，其實會走各自的路</li>
+</ul>
+</li>
+<li>1~2 年跳回到 6 萬 =&gt; 一直跳槽就有機會，不要騎驢找馬但是要建立連結。</li>
+<li>為何不換公司而要換產業 ?</li>
+<li>程式 &amp; 英文 是百搭的必修技能</li>
+<li>無人車/電動車/人臉辨識</li>
+<li>寫程式也有很高壓的環境，也會作假，也會有不合理的要求</li>
+<li>新創公司大多要年輕人，30 歲以上會嫌老，但頂薪有限</li>
+<li>中大型公司大多要穩定，結婚生子會加分，</li>
+<li>這個產業要賺錢的話跳槽可能最快</li>
+<li>理想加薪路徑<ul>
+<li>4x up 第一份工作，每半年 Promo 自已一次</li>
+<li>一年後至少上 50k 繼續每半年 Promo 自已一次(包含社群分享之類的…)</li>
+<li>靠跳槽與 Promo 自已，兩年後上 60 k …</li>
+<li>時間是理想值(實際上，3~6 我大約花了 5 年，有很多人是比我快的)</li>
+<li>6~10 應該都還有上升空間，應該可以到 120 ~ 150 / year</li>
+<li>再往上應該要跨管理</li>
+</ul>
+</li>
+<li>薪水不會比時間重要</li>
+<li>我們的好處是可以接案(但是也要花時間)</li>
+</ul>
+<h2 id="資策會的課程設計-AIoT"><a href="#資策會的課程設計-AIoT" class="headerlink" title="資策會的課程設計(AIoT)"></a>資策會的課程設計(AIoT)</h2><h3 id="資料庫"><a href="#資料庫" class="headerlink" title="資料庫"></a>資料庫</h3><ul>
+<li>MySQL<ul>
+<li>PostgreSql</li>
+<li>MsSQL</li>
+</ul>
+</li>
+</ul>
+<p>用來有系統有結構性的儲存資料。<br>主要先掌握關聯性資料庫的概念就好，<br>如果要專精這塊未來主要會效能調校(需要理解資料庫的底層設計才能作到又快又好，不同牌的資料庫多少會有不同)</p>
+<ul>
+<li>NoSQL<ul>
+<li>MongoDB</li>
+<li>其它</li>
+</ul>
+</li>
+</ul>
+<h3 id="後端"><a href="#後端" class="headerlink" title="後端"></a>後端</h3><p>主要的商業邏輯的程式部份，學好 Java 才是課程主體。<br>可以考慮學習其它的語言。</p>
+<ul>
+<li>Java to DB</li>
+<li>Java</li>
+<li>Java to Web</li>
+</ul>
+<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>HTML、CSS、JavaScript 是前端工程師的必須項目，<br>門檻也不高但是 JavaScript 會有很多特異的行為要注意。<br>學好後再學主流的 Framework(Angular、Vue 或 React)。  </p>
+<ul>
+<li>Html &amp; Css</li>
+<li>JavaScript</li>
+<li>JQuery(不要拿來跟 Angular、Vue 或 React 比較，它的存在有歷史因素，現在學的 CP 值比較低，直接學好 JavaScript 為主)</li>
+</ul>
+<h2 id="主流程式開發-Web-amp-App-之路"><a href="#主流程式開發-Web-amp-App-之路" class="headerlink" title="主流程式開發(Web &amp; App)之路"></a>主流程式開發(Web &amp; App)之路</h2><p><img src="https://i.imgur.com/ME75oy1.png" alt="Before"></p>
+<p>F2E</p>
+<p><img src="https://i.imgur.com/OtC8yoW.png" alt="F2E"></p>
+<p>Back-end<br><img src="https://i.imgur.com/KYi08LU.png" alt="Back-end"></p>
+<p>DevOps<br><img src="https://i.imgur.com/ftRylxZ.png" alt="DevOps"></p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/kamranahmedse/developer-roadmap">https://github.com/kamranahmedse/developer-roadmap</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/09/22/2020/talk_career_with_l/" data-id="ckne1131p005jxsuggaiy6ups" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/09/22/2020/talk_career_with_l/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" rel="tag">生活筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2020/young_marvel_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/21/2020/young_marvel_1/" class="article-date">
+  <time datetime="2020-09-21T06:51:17.000Z" itemprop="datePublished">2020-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/21/2020/young_marvel_1/">[生活筆記] Young Marvel 1.0 小結 --- 需改善消化系統</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有些事情一時間我沒辦法說得清楚，<br>總要一些沉澱…  </p>
+<p>這個課程也算是跌跌撞撞的完成了。<br>中間卡了個中共肺炎，又遇上炎熱的夏天，<br>練習室的冷氣顯示好像是我殘餘的血量而不是希望的溫度。  </p>
+<p>消失了兩個教室，但是人都還在，沒事、沒事。<br>肺炎的關係室外的 Social 沒有了，<br>淹水的關係地下室也沒有了，<br>上課 Follower 總是少幾個，但也不是大問題;<br>資深的 Leader 沒有走到最後，其實對我也還好。<br>沒事、沒事…吧。  </p>
+<p>喜歡兩個人的 Solo 再結合的橋段，<br>喜歡聽著音樂即興發揮，雖然我常常是即興發呆，<br>開始會注意到 Routine 之中的 And 拍。<br>試著 6+2 或是 2+6 甚至是 2+4+2 的方式打散固定的東西。  </p>
+<p>但是老實說，我還是覺得沒有進步。<br>總歸一句，吸收與消化能力太差，<br>從生物的例子來說，我缺乏分解肉的酶。<br>花再多時間啃頂級的牛排也得不到養份，<br>小藍莓雖然好消化，但是沒有蛋白質。  </p>
+<p>下個問題是…如何產生酶 ?<br>太大哉問了，好難回答。  </p>
+<p>其它零碎的想法:<br>風城的熱情大過天龍，是因為取之不易，所以珍惜 ?<br>如果斷掉了，黏了幾次還是好不了就放棄了吧 。<br>停損很重要、退場很重要，理財如此、工作如此、生活如此。<br>點頭之交仍然是最好的狀態，再熟一點就會開始莫名奇妙的要求。</p>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/09/21/2020/young_marvel_1/" data-id="ckne1131v0063xsug9fhgbnyr" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/09/21/2020/young_marvel_1/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" rel="tag">生活筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2020/before_try_tutoring_app" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/09/2020/before_try_tutoring_app/" class="article-date">
+  <time datetime="2020-09-09T06:53:03.000Z" itemprop="datePublished">2020-09-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/09/2020/before_try_tutoring_app/">[生活筆記] TUTORING APP 多特英 第四屆體驗大使</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>學英文一直以來都是我的硬傷，<br>而且不論是補習、聽歌、看美劇各種方法我都試過，<br>也不能說沒有效，就是無法持續且無法應用在生活上，<br>所以有什機會能夠讓自已更進步我都會想試試看。</p>
+<p>這篇文章可能有點微工商，<br>總之前幾天我滑到這個廣告，  </p>
+<p><a target="_blank" rel="noopener" href="https://www.facebook.com/TutoringApp/posts/645426629424215?__cft__[0]=AZWZ8RmP2GoiGK3qd63VguoGdXajn0Xsaj8ZPBzO7H_XUKKw2gpBqpPWDip9Ei_XQA2Ac4AOOmvnp6_XzdYSKZDA_PmSFiQdUzq2UKUbZylDsFQhrCya_gsvDFOWG5dyRZoemH7m0pzswr08rfBYX2dTbfLiWBSpjR4pX-TIPCUj7g&__tn__=%2CO%2CP-R"><img src="https://i.imgur.com/KaAdrTh.png" alt="看到這個廣告"></a></p>
+<p>我只是一個小小工程師，<br>不是網紅應該沒什麼流量(應該是我在蹭 TUTORING APP 的流量 XD)，<br>竟然也能錄取，真的覺得很開心呢，<br>這也是這篇文章誕生的原因啦。</p>
+<p>同時，這個兩禮拜我剛好特別忙(應該會忙到 10 月初)，<br>工作之外還有表演的排練、教學課程的準備以及一場讀書會的發表。<br>我本來應該拒絕，但是我還是想挑戰看看，<br>首先是 9 堂課其實只有 180 分鐘(9x20)而已，應該不是難到無法克服程度。<br>再來是 TUTORING APP 其實很方便，我想試試是否能隨時找到安靜的角落，<br>就能夠完成一次英文對話(比起上課我更想閒聊啦)。<br>最後是我原本就有打算要寫一篇 Blog 來記錄這件事，<br>那就順水推舟一下，讓這篇文章誕生啦。</p>
+<h2 id="參加-TUTORING-兩週學習挑戰的動機-原因"><a href="#參加-TUTORING-兩週學習挑戰的動機-原因" class="headerlink" title="參加 TUTORING 兩週學習挑戰的動機/原因"></a>參加 TUTORING 兩週學習挑戰的動機/原因</h2><p>在今年初，肺炎還沒有在世界上造成大流行，可以出國趴趴造的一月，<br>就曾經試用過這個 APP，當時我在上面臨時找了一個菲律賓老師，<br>選擇了一個簡單的課程，體驗的時間很短，應該不到一小時，<br>但是給我留下很好的印象，時間超彈性，找到老師到上課大概花不到 1 分鐘。<br>這對我來說很方便。</p>
+<p>APP 的操作也很直覺順手，當時其實有想要再體驗幾次，<br>可惜那時候工作比較忙錄的情況下，<br>一不小心就過期了(還是次數用完 ? 我忘了)  </p>
+<p>其實我比較希望由母語教師來教，但是上了那堂課後的確讓我改觀，<br>TUTORING APP 其實也是有母語教師的，但是好的老師就是好的老師，是不分國籍與母語的。<br>所以可以看一下老師的簡介與評分，也可以聽聽發音，<br>可能我聽多了印度英文(線上程式課)，我反而覺得英國腔有點不習慣XD，<br>但那次上課的菲律賓老師，咬字與發音真的都很好，完全不比母語老師差，人也很有耐心。  </p>
+<p>網路上有很多的英文教材，台灣也有很多英語學習的管道與廣告，<br>為什麼 TUTORING APP 會吸引我呢 ?<br>不是因為他的圖示很可愛，而<strong>是不用留電話</strong>這一點，<br>蠻多英文教學的課程廣告都會要求留電話，<br>為了你留電話，會打折會送測試送體驗，但是<strong>千萬不要留電話</strong>。<br>除非你想要有接不完的銷售電話…<br>一直約課程、約實體見面，甚至催你買課…。<br>而我追求的是時間彈性，空間彈性的上課方式，<br>明明有類似 TUTORING APP 的服務(真人線上英文學習一對一家教)，<br>我就不懂為什麼要留言電話，電訪行銷不是 1980 年代的東西了嗎 ?<br>另外一方面，我會參加一些語言交換的聚會，<br>不過目前程度還是太差，所以聊得很乾(其實我用母語聊天一樣乾…)，<br>有一個教材讓我跟著學習反而是比較輕鬆的方式練習英文口說，當然我也是會繼續參加線下活動。<br>多認識一下外國的朋友:)。</p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://bit.ly/3dJk4Sr">TUTORING APP 下載</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/post/3797354">價格介紹文章</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/post/12459416">TUTORING客服</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/post/7117913-app%e4%bd%bf%e7%94%a8%e4%bb%8b%e7%b4%b9%ef%bd%9c%e5%a6%82%e4%bd%95%e7%8d%b2%e5%be%97%e5%85%8d%e8%b2%bb%e6%b0%b4%e5%b9%b3%e6%b8%ac%e8%a9%a6%e5%88%b8%ef%bc%9f%ef%bd%9ctut">獲得免費水平測試</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/category/270020">使用FAQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/category/219587">用戶反饋</a></li>
+<li><a target="_blank" rel="noopener" href="https://tutoring.pixnet.net/blog/category/214517">外師推薦</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/09/09/2020/before_try_tutoring_app/" data-id="ckne113190046xsugaon86875" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/09/09/2020/before_try_tutoring_app/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-2020/does_a_scrum_team_need_a_retrospective_every_sprint" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -154,7 +659,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/09/07/2020/does_a_scrum_team_need_a_retrospective_every_sprint/" data-id="ckk532nij005lu4ug9tr1cjgc" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2020/09/07/2020/does_a_scrum_team_need_a_retrospective_every_sprint/" data-id="ckne1131a004bxsugc2edc0vk" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2020/09/07/2020/does_a_scrum_team_need_a_retrospective_every_sprint/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -247,7 +752,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/08/29/2020/coupon_on_f2e/" data-id="ckk532nii005iu4ug210o1aes" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2020/08/29/2020/coupon_on_f2e/" data-id="ckne113190048xsugajq6ebif" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2020/08/29/2020/coupon_on_f2e/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -350,7 +855,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/08/12/2020/book/talk_DP_bridge_pattern/" data-id="ckk532nkv00g3u4ug7jamg1wy" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2020/08/12/2020/book/talk_DP_bridge_pattern/" data-id="ckne11334009zxsug3x4jfjd3" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2020/08/12/2020/book/talk_DP_bridge_pattern/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -432,581 +937,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/07/27/2020/oop_experience/" data-id="ckk532nir006cu4ugdxfnggnx" class="article-share-link">Share</a>
+      <a data-url="https://blog.marsen.me/2020/07/27/2020/oop_experience/" data-id="ckne1131i004zxsug8w164odz" class="article-share-link">Share</a>
       
         <a href="https://blog.marsen.me/2020/07/27/2020/oop_experience/#disqus_thread" class="article-comment-link">留言</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2020/tennis_kata_to_state_pattern" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/21/2020/tennis_kata_to_state_pattern/" class="article-date">
-  <time datetime="2020-07-21T00:16:27.000Z" itemprop="datePublished">2020-07-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/21/2020/tennis_kata_to_state_pattern/">[實作筆記] Tennis KATA 與 State Pattern </a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>Tennis Kata 是我最常練習的一個題目，<br>就我個人而言，這個題目源起 91 大的極速開發，<br>目前最快只有在 17 分左右，使用 Rider with Mac 的話可能還會再慢一些。<br>我很熟悉，所以很少作需求分析，Test Case 也大多有即定的寫法。<br>手動得很快，腦卻不怎麼動了，明明這是一個相當經典的題目，<br>不過我卻被定錨了。</p>
-<p>今年 5 月上了「測試驅動開發與持續重構」，<br>第一天 91 大也有透過 Tennis Kata 展示了一下火力，<br>那個時候又有提到可以使用 State Pattern 來實作，<br>最近工作上又恰巧有使用到 State Pattern。<br>於是我便決定要試著用 State Pattern 來進行 Tennis Kata 。  </p>
-<p>有兩種方法，一種是無到有的 Kata，<br>一種是將現有 Tennis Production Code，<br>透過重構轉換成 State Pattern，<br>這次我選擇從無到有。</p>
-<h2 id="第一次失敗"><a href="#第一次失敗" class="headerlink" title="第一次失敗"></a>第一次失敗</h2><p>總歸來說，需求分析作得不夠徹底，<br>Test Case 設計不良，所以很難自然而然的讓 State 產生</p>
-<p><img src="/images/2020/7/tennis_kata_to_state_pattern_00.jpg" alt="第一次失敗"></p>
-<p>上圖是我第一次畫的 State ，<br>現在回過頭來想想，圖型上其實可以很明顯看出重複的壞味道。<br>但是我當下完全沒有「覺察」，明明是想要消除 if else，<br>卻在 State 裡面產生了大量的 if else。  </p>
-<h2 id="第二次不成功"><a href="#第二次不成功" class="headerlink" title="第二次不成功"></a>第二次不成功</h2><p>總而言之是作完了，但是不是很順暢。<br><img src="/images/2020/7/tennis_kata_to_state_pattern_01.jpg" alt="第二次不成功"></p>
-<p>如上圖，我蠻粗暴的將所有比分轉換成可能的 State，<br>一樣我沒有注意到重複，但是比較起第一次的失敗，<br>這次的狀態機是將所有可能的狀態攤平，<br>這樣作是為了符合 Tennis 的規則。</p>
-<h3 id="Test-Cases"><a href="#Test-Cases" class="headerlink" title="Test Cases"></a>Test Cases</h3><ul>
-<li>LoveAll<ul>
-<li>產生 Context 類別與 Score 方法</li>
-<li>產生 LoveAll State</li>
-<li>產生 IState 介面，包含 Score方法，讓 LoveAllState 實作 IState 介面</li>
-</ul>
-</li>
-<li>FifteenLove<ul>
-<li>產生 ServerScore 方法</li>
-<li>產生 FifteenLove State</li>
-<li>產生 SetContext 方法</li>
-<li>產生 ChangeState 方法</li>
-<li>轉換 IState 介面成為 State 抽象類別</li>
-</ul>
-</li>
-<li>LoveFifteen<ul>
-<li>產生 ReceiverScore 方法</li>
-<li>產生 LoveFifteen State</li>
-</ul>
-</li>
-<li>LoveThirty<ul>
-<li>產生 LoveThirty State</li>
-</ul>
-</li>
-<li>LoveForty<ul>
-<li>產生 LoveForty State</li>
-</ul>
-</li>
-<li>FifteenAll<ul>
-<li>產生 FifteenAll State<br>略…</li>
-</ul>
-</li>
-<li><strong>覺察重複，重構</strong><ul>
-<li>產生 NormalState</li>
-<li>產生 ServerPoint  </li>
-<li>產生 ReceiverPoint  </li>
-<li>使用 Dictionary 消除 if else</li>
-<li>產生 SameState</li>
-</ul>
-</li>
-<li>Deuce<ul>
-<li>產生 DeuceState<br>以下略…</li>
-</ul>
-</li>
-</ul>
-<p><img src="/images/2020/7/tennis_kata_to_state_pattern_02.jpg" alt="Final State"></p>
-<p>最後的狀態會如上圖，當大量的 State 產生之時，心裡真的有點慌慌的，<br>這次的 TDD 仍然不算順暢成功，設計階段就可以在腦中模擬的問題，<br>我拖到了開發階段，雖然後來收斂成 <code>NormalState</code> 時頗有一回事，<br>但如果在實務上，這段不確定且發散的時間仍然是太長。</p>
-<h2 id="第三次成功，仍然不足夠"><a href="#第三次成功，仍然不足夠" class="headerlink" title="第三次成功，仍然不足夠"></a>第三次成功，仍然不足夠</h2><p>參考第二次所作的 State Diagram。<br>可以看到缺少了 Normal to Normal 的線條。<br>第三次將它補上了。<br><img src="/images/2020/7/tennis_kata_to_state_pattern_03.jpg" alt="Final State"></p>
-<table>
-<thead>
-<tr>
-<th>States</th>
-<th>Sample</th>
-<th>Next States</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Same</td>
-<td>0-0,1-1,2-2</td>
-<td>Normal</td>
-</tr>
-<tr>
-<td>Normal</td>
-<td>0-1,0-2,1-2,1-3</td>
-<td>Same、Normal、Deuce、Win</td>
-</tr>
-<tr>
-<td>Deuce</td>
-<td>3-3,4-4,5-5</td>
-<td>Advantage</td>
-</tr>
-<tr>
-<td>Advantage</td>
-<td>3-4,5-6</td>
-<td>Deuce、Win</td>
-</tr>
-<tr>
-<td>Win</td>
-<td>5-3,5-7</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>參考上表製作測試案例，<br>這裡我想強調的是狀態改變的動線，<br>狀態由 <code>SameState</code> 開始。</p>
-<p>簡單筆記一下測試與重構的幾個亮點<br>完整的 commit 可以從 <a target="_blank" rel="noopener" href="https://github.com/marsen/Marsen.NetCore.Dojo/commits/Kata/TennisWithStatePattern2?before=af1303f38d61abc0dba0a965e5dfadf55bc08ccd+105">d792b2e</a>開始看</p>
-<h3 id="Highlight-Test-Cases"><a href="#Highlight-Test-Cases" class="headerlink" title="Highlight Test Cases"></a>Highlight Test Cases</h3><p>測試的案例的設計會依 State Diagram 的箭頭來設計，<br>也就是狀態的改變，<strong>初始狀態為 <code>SameState</code> 比分為 0 - 0</strong> ，<br>並將 Design Pattern 作為指引重構出 <code>SameState</code> 。</p>
-<p><strong>第二個測試案例</strong>也很簡單，<br>因為 <code>SameState</code> 只會往 <code>NormalState</code> 移動，<br>所以只要使用 1 - 0 或是 0 - 1 這個案例，我就可以建立出 <code>NormalState</code> 類別。<br>並且可以觀察到兩個 State 的共通性，這個時候就會重構出 <code>IState</code> 介面。</p>
-<p>一樣看圖開發，<br><code>NormalState</code> 是最為複雜的一個狀態，他的狀態可能為  </p>
-<ul>
-<li>保持原樣 : <code>NormalState</code></li>
-<li>退回平手 : <code>SameState</code></li>
-<li>進入決勝 : <code>DeuceState</code></li>
-<li>直接獲勝 : <code>WinState</code></li>
-</ul>
-<p>而剩下的狀態都算是相當簡單，<br><code>WinState</code> 的狀態不會再改變，<br><code>DeuceState</code> 只會往 <code>AdvState</code> 狀態前進，<br><code>AdvState</code> 是相對複雜的狀態，可能變成 <code>WinState</code> 也可能降回 <code>DeuceState</code> ，<br>與 <code>NormalState</code> 並沒有直接的關聯路徑，所以在案例設計上，應該放比較後面。</p>
-<p><strong>第三個案例</strong>，我會讓 <code>NormalState</code> 變回 <code>SameState</code>，除了可以完成一條狀態改變的路徑外，<br>好處是我不用新增類別，作到最小異動。<br>一開始我的邏輯會放在 GameContext 之中，但是不論是依循著 Design Pattern 的設計，<br>或是單純考量職責，很自然地將這裡的邏輯移至 <code>NormalState</code> 之中。<br><strong>這裡案例會選用 1-1</strong> 。</p>
-<p>但是要將邏輯移到 <code>NormalState</code> 之中時，會面臨一個問題。<br><code>NormalState</code> 之中，為了判斷是否會回到 <code>SameState</code>，<br>需要知道 GameContext 的資訊 ( ServerPoint 與 ReceiverPoint )，<br>依循 Design Pattern 的指引，<br>將會在 <code>IState</code> 之中建立 SetContext 方法。<br>儘管 <code>SameState</code> 其實不用 ServerPoint 或 ReceiverPoint 的資訊。<br>但是因為我們相依於介面 <code>IState</code> 之上，導致 <code>NormalState</code> 或 <code>SameState</code> 都要實作 SetContext 方法。</p>
-<p>再進一步，SetContext 在不同的 State 實作上是不會有變化的，<br>所以我會轉換 <code>IState</code> 為抽像類別 <code>State</code>。<br>而我也需要在比賽初始時呼蹈後 SetContext 並將初始狀態設為 <code>SameState</code></p>
-<p><strong>案例 4、5、6 我選擇了 0-1 、0-2 、0-3 等案例</strong>，<br>這裡實作的是 Normal to Normal 的狀態改變(其實是沒變)，透過 Dictionary 消除 if 的手法就略過不提。<br>但是也許下次我不會急著完成 <code>NormalState</code> 而是先完成 <code>WinState</code> 與 <code>DeuceState</code> 。</p>
-<p><strong>接下來讓 3-3 這個案例，帶我們走到 <code>DeuceState</code></strong>，<br>稍微繞了一點路作 4-4 這個案例，雖然一樣是 <code>DeuceState</code>，<br>我一開始的設計案例上並沒有考量清楚，從 3-3 走到 4-4 必須經過 <code>AdvState</code>，<br>下次應該先選擇 <strong>3-4 或 4-3 的案例</strong>，<br>再透過 <strong>4-4 的案例</strong>實作 <code>AdvState</code> 回到 <code>DeuceState</code> 的這條路徑。<br>最後再將透過<strong>案例 5-3 讓 <code>AdvState</code> 走到 <code>WinState</code></strong> 與 <strong>案例 4-1 讓 <code>NormalState</code> 走到 Win</strong> 就可以結束主要的流程了。</p>
-<p>收官的部份就是簡單的重構，與補足一些特殊比分的案例，<br>特別要注意的是 <code>NormalState</code> 的 Score 仍然有許多的 if 讓我想重構移除，<br>目前暫時沒有想法。<br>此外，實際上 Tennis 會特別重視得分的順序，<br>比如說 <strong>100-100 Deuce 這種極端案例</strong>，交互得分的情況應忠實呈現在測試之中。<br>所以在寫測試時，就要特別注意得分的順序性。</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>這次還是有用到一些常用的重構套路，<br>比如說，用 Dictionary 消除 if else 的手段。<br>另一個則是 <code>Template Method Pattern</code>，<br>讓我們看看以下的 commit  </p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/marsen/Marsen.NetCore.Dojo/commit/e8ddf89fdee94d6a82115f4449e213a4874269f8">e8ddf8</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/marsen/Marsen.NetCore.Dojo/commit/145d3cb408ed5b39a729c4a9b22fb6744b62c48f">145d3c</a></li>
-</ul>
-<p>以 <code>ServerScore</code> 方法為例，<br>本來是在定義在 Abstract Class State 之中的抽像方法，<br>由各個 State (Normal、Same、Deuce、Adv 與 Win)實作，<br>但是我們可以明顯發現， <code>Context.ServerPoint++</code> 是重複的，<br>而 <code>ChangeState</code> 才是真正抽像的地方，<br>所以我們可以在 Abstract Class State 加入以下的方法與抽像方法，  </p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ServerScore</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Context.ServerPoint++;</span><br><span class="line">    ChangeState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">ChangeState</span>(<span class="params"></span>)</span>;</span><br></pre></td></tr></table></figure>
-<p>這不就恰巧是 <code>Template Method Pattern</code> 嗎 ?<br>同樣的手段可以放在 <code>ReceiverScore</code> 方法再重構一次。  </p>
-<p>實務上 Design Pattern 本來就應該星月交輝，而非千里獨行。<br>在學習 Design Pattern 的路上，不是硬套，而是找出適用場景。  </p>
-<p>也是我比較建議的作法，透過重構自然走向 Pattern，<br>透過限制改變來提昇品質，首先要有測試保護，再找尋套路或壞味道重構，<br>最後讓 Design Pattern 成為指引，讓代碼自動躍然而上。</p>
-<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://refactoring.guru/design-patterns/state">State Pattern</a></li>
-<li><a target="_blank" rel="noopener" href="https://refactoring.guru/design-patterns/template-method">Template Method Pattern</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.rulesofsport.com/sports/tennis.html">Tennis Rules</a></li>
-<li><a target="_blank" rel="noopener" href="http://teddy-chen-tw.blogspot.com/2014/04/solid.html">SOLID 五則皆變</a></li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/07/21/2020/tennis_kata_to_state_pattern/" data-id="ckk532nix0073u4ugcmzi2jgj" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2020/07/21/2020/tennis_kata_to_state_pattern/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design-Pattern/" rel="tag">Design Pattern</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TDD/" rel="tag">TDD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2020/kata_in_dojo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/20/2020/kata_in_dojo/" class="article-date">
-  <time datetime="2020-07-20T06:27:03.000Z" itemprop="datePublished">2020-07-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/20/2020/kata_in_dojo/">[A社筆記] KATA 跟本是個屁，練不出什麼鬼東西，不服來戰</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>前幾天有個小朋友問我說<br>「想問問 Tennis KATA 練習的重點是重構嗎<br>有沒有什麼重構的目標 ?」  </p>
-<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>這讓我想起一年前寫的文章，<a href="https://blog.marsen.me/2019/01/30/2019/coding_dojo_in_company/">[N社筆記] 在公司小規模玩 Coding Dojo</a><br>順便記錄一下後續，那個實驗大概在三月隨著參與的人員忙碌而停止了，<br>然後在後續有再重啟一次，那次是使用 Production Code 進行，<br>有多一些新的成員，但是也是隨著「忙碌」與「沒時間」而停止，<br>雖然我心裡比較想直接譙那些不出席又不出聲的人渣一些髒話，<br>不過我想這就是現實吧。這也引發我後續對 <a href="https://blog.marsen.me/2020/01/28/2020/book/better_by_atul_gawande/">TDD 產鉗的反思</a>。  </p>
-<h2 id="回答"><a href="#回答" class="headerlink" title="回答"></a>回答</h2><h3 id="簡答版"><a href="#簡答版" class="headerlink" title="簡答版"></a>簡答版</h3><p>Kata 可以幫助你學習到。</p>
-<ul>
-<li>需求分析</li>
-<li>寫測試案例</li>
-<li>TDD 與 Unit Test</li>
-<li>找到壞味道與重構</li>
-<li>Design Pattern</li>
-</ul>
-<h3 id="詳答版"><a href="#詳答版" class="headerlink" title="詳答版"></a>詳答版</h3><p>Kata 就是一個簡單的需求，當需求來的時候<br>你必需先作需求分析，透過需求分析找到測試案例。<br>如果你想學習 TDD 你可以試著讓每個測試案例趨動你的代碼生成。<br>也就是說分析測試案例的時候，你要考慮案例的順序與帶來代碼的改變。  </p>
-<p>試著遵守 TDD 的 紅-綠-重構 準則，<br>重構包含「測試代碼」與「產品代碼」，<br>如果是 OO 語言試著去遵循「SOLID原則」，<br>試著自已隨著 Kata 的過程流動可以看到代碼的變化。  </p>
-<p>Design Patten 可以當作目標或指引去重構代碼。<br>不過以 Design Patten 為目標的話，<br>有兩種可能:</p>
-<ol>
-<li>在「需求分析」階段覺察適合的 Patten 透過設計案例來趨動</li>
-<li>在已完成的代碼中覺察適合的 Patten 在不破壞測試的情況下重構(也有可能需要加測試案例)</li>
-</ol>
-<h4 id="原始回答"><a href="#原始回答" class="headerlink" title="原始回答"></a>原始回答</h4><p><img src="/images/2020/7/kata_in_dojo.jpg" alt="原始回答"></p>
-<h2 id="新的問題"><a href="#新的問題" class="headerlink" title="新的問題"></a>新的問題</h2><p>要花多少時間才能培育一個懂「OO、TDD、Refactoring、DP」的工程師 ?<br>這個性價比符合商業利益嗎 ? 職涯規劃上值得嗎 ?<br>業界真的有需求嗎 ? 還是只要會剪下貼上就好 ?<br>真正的大公司是這樣開發的嗎 ? 業界很多公司不這樣作不也活得好好的 ?<br>目前的趨勢會更加的專業分工，這些準繩依舊適用嗎 ?</p>
-<p><strong>我還沒有答案，但我還在路上。</strong></p>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/07/20/2020/kata_in_dojo/" data-id="ckk532nip0067u4ug4h6qcr2q" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2020/07/20/2020/kata_in_dojo/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2020/yuubuke_talk_about_scrum" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/30/2020/yuubuke_talk_about_scrum/" class="article-date">
-  <time datetime="2020-06-30T09:51:03.000Z" itemprop="datePublished">2020-06-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/30/2020/yuubuke_talk_about_scrum/">[閱讀筆記] 回饋隨筆—《SCRUM敏捷實戰手冊》</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>朋友在一個知識型部落客的團隊中工作，<br>作了一個有關 Scrum 的影片，<br>恰巧我最近的工作與 Scrum 的導入有比較深的關係，<br>影片我也蠻喜歡的，就稍微作個筆記當作回饋。</p>
-<h2 id="回饋隨筆"><a href="#回饋隨筆" class="headerlink" title="回饋隨筆"></a>回饋隨筆</h2><p>第一點，讓我可以看到非業界人員初探 Scrum 的角度，<br>我第一次「知道」Scrum 已經是在 C 社的事了。<br>有點忘了第一次接觸的「初心」，台灣非軟體人說這方面的非常稀少。<br>能夠提供不同視角是很重要的。  </p>
-<p>橄欖球列陣這部份我蠻喜歡的; 雖然直譯就知道 Scrum 原本的意思，<br>但是離「光速蒙面俠」太遠，已經有點忘了那些規則，<br>現在對比起來真的很像，為了一次的達陣，你需要多少衝刺 ?<br>戰術又該怎麼選擇 ? 球員平時的訓練與臨場反應是不是也可以映射到這個業界呢 ?  </p>
-<p>整個影片很淺顯易懂，口齒清晰即使放到 1.5 倍速還是聽得清楚，<br>可惜的是汽車廠 5 年轉型的故事我想知道更多細節或出處，<br>不是很喜歡「一半的時間，作兩倍的工作」的結論，<br>我覺得是書商的行銷手段，不是 Scrum 的目標與強項。<br>產能的提昇不過是個結果，重點是三大支柱對團隊帶來的效應。<br>沒提到透明性、檢視性與調適性我覺得蠻可惜的，  </p>
-<p>另外個人的工作流程我不覺得需要跑 Scrum ，<br>可以試試 GTD 或 PDCA ，而且你會發現很多類似的觀念與原則。<br>Scrum 設計上是適合小型團隊的，業界說法是 3~9 人，不含 PO 與 SM<br>多人的公司也有很多別的方法論(EX: LeSS or SAFe)，這裡我不多開戰線，敏捷無它「務實」而已。<br>方法沒有不好，只有適不適合。</p>
-<h2 id="差異"><a href="#差異" class="headerlink" title="差異"></a>差異</h2><p>有些用字跟業界不太一樣有點可惜，硬要翻譯不如保留英文或是業界常用翻譯。<br>Scrum 跟規格固定應該沒有什麼關係，不過工程上的確這樣作會帶來一些好處。<br>Scrum 跟 Agile 本質上還是有些不同， Agile 比較像願景、原則比較抽象的層次。<br>複習一下 Agile 的宣言</p>
-<ul>
-<li>Individuals and interactions over processes and tools</li>
-<li>Working software over comprehensive documentation</li>
-<li>Customer collaboration over contract negotiation</li>
-<li>Responding to change over following a plan</li>
-</ul>
-<p>Scrum 是業界較常見的框架而且與其它工作法相容性非常的高，<br>就我個人而言擷取過 XP、GTD、番茄鐘、ORID 與 ToC 等方法。<br>作為一個框架，有彈性的包容各種方法是它如此廣佈的原因之一。</p>
-<p>最後 Scrum 無法擺脫加班、Scrum 無法擺脫加班、Scrum 無法擺脫加班<br>不要盲從，Google 是先成為 google 才有導入 Scrum，你導入 Scrum 也不會成為 Google。<br>丟書前多想 3 秒鐘，丟桌上不如丟臉上，丟書不如丟辭呈。</p>
-<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://william-yeh.net/post/2018/11/why-safe-over-less/">為什麼 LeSS 這麼迷人，可是總是輸給 SAFe？</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dzu9yYgmO6s">影片無法嵌入，改分享連結</a></li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/06/30/2020/yuubuke_talk_about_scrum/" data-id="ckk532nj1007iu4uggnlxf19m" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2020/06/30/2020/yuubuke_talk_about_scrum/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2020/unit_test_introduce_on_a_taipei_1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/11/2020/unit_test_introduce_on_a_taipei_1/" class="article-date">
-  <time datetime="2020-06-11T09:03:11.000Z" itemprop="datePublished">2020-06-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/11/2020/unit_test_introduce_on_a_taipei_1/">[A社筆記] Introduce Unit Test --- 心法篇</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Why-Unit-Test-心法篇"><a href="#Why-Unit-Test-心法篇" class="headerlink" title="Why Unit Test 心法篇"></a>Why Unit Test 心法篇</h2><p>網路上很多，自已找(兇)。</p>
-<h3 id="我的想法-about-Unit-Test"><a href="#我的想法-about-Unit-Test" class="headerlink" title="我的想法 about Unit Test"></a>我的想法 about Unit Test</h3><h4 id="點"><a href="#點" class="headerlink" title="點"></a>點</h4><ul>
-<li>有驗收才有品質，所以我需要測試<ul>
-<li>黑箱</li>
-<li>白箱</li>
-<li>整合</li>
-<li>單元</li>
-</ul>
-</li>
-<li>UT 不過是驗收的最基本的單位。</li>
-<li>開發人員一定會測試的，不論用何種方法<ul>
-<li>Debug</li>
-<li>Console Output</li>
-<li>Break Point</li>
-</ul>
-</li>
-<li>程式人員的好品德<ul>
-<li>Laziness</li>
-<li>Impatience</li>
-<li>Hubris</li>
-</ul>
-</li>
-<li>程式是照你寫的跑，而不是照你想的跑</li>
-</ul>
-<h4 id="線"><a href="#線" class="headerlink" title="線"></a>線</h4><ul>
-<li>既然你會測試，那麼為什麼不讓它可以[重複/一鍵]被執行</li>
-</ul>
-<h4 id="面"><a href="#面" class="headerlink" title="面"></a>面</h4><ul>
-<li>只是為了重複執行，何不使用現有的測試框架與工具?</li>
-</ul>
-<h4 id="體"><a href="#體" class="headerlink" title="體"></a>體</h4><p>先訂驗收標準，再進行開發是正常不過的作法，<br>只不過你太聰明而在腦中測試過了。<br>但是<strong>程式是照你寫的跑，而不是照你想的跑</strong>。<br>不如先寫下驗收標準(測試左移/DoD/TDD),再進行開發。<br>錦上添花的話，就透過工具讓「執行測試」可以快速重複。<br>剩下的問題是，這些驗收標準寫到多「鉅細靡遺」?<br>有沒有什麼方式可以提昇我撰寫的速度 ?</p>
-<p>假設我有了測試保護，那麼重構將是一件安全的事。<br>壞味道可以給我提示，而 Design Pattern 可以是改善程式的一個指引。</p>
-<h2 id="Unit-Test"><a href="#Unit-Test" class="headerlink" title="Unit Test"></a>Unit Test</h2><h3 id="3A"><a href="#3A" class="headerlink" title="3A"></a>3A</h3><p>程式寫的是 AAA (正序)心裡想的是AAA(逆序)</p>
-<ul>
-<li>Arrange</li>
-<li>Act</li>
-<li>Asset</li>
-</ul>
-<h3 id="紅、綠、重構"><a href="#紅、綠、重構" class="headerlink" title="紅、綠、重構"></a>紅、綠、重構</h3><p>如果以 TDD 開發，寫完新的測試後，得到的一個「綠燈」反而是一個壞味道。</p>
-<h2 id="第一天分享"><a href="#第一天分享" class="headerlink" title="第一天分享"></a>第一天分享</h2><p>pair programming 30 min，QA 約 20分鐘。<br>先請同事實作 1+1 的 Unit Test 看一下他對測試的理解。</p>
-<ul>
-<li><p>建立測試專案，可以選用 xUnit</p>
-  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">不選 MsTest 的理由是，我比較喜歡建構子與解構子的寫法，  </span><br><span class="line">勝過 TestInitialize/TestCleanup 的 Attribute 的寫法</span><br></pre></td></tr></table></figure></li>
-<li><p>引導由測試寫出方法。</p>
-  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">logic → function → class method  </span><br><span class="line">透過寫測試讓 Production 在思考中產生</span><br><span class="line">引導的沒有很成功</span><br></pre></td></tr></table></figure></li>
-<li><p>3A 的寫法，未來會介紹沒有 3A 的寫法(為了更好的理解)</p>
-</li>
-<li><p><del>方法</del>測試案例的命名</p>
-</li>
-<li><p>介紹 Assert.Equal 取代 Debug.Assert</p>
-</li>
-<li><p>簡單提到三種邏輯，回傳值、改變值、互動。</p>
-</li>
-<li><p>為什麼我討厭 Static</p>
-</li>
-</ul>
-<h3 id="未排序-預計要講的題目"><a href="#未排序-預計要講的題目" class="headerlink" title="[未排序]預計要講的題目"></a>[未排序]預計要講的題目</h3><ul>
-<li>範例是否為偶數 → 牛奶是否過期 → 如何透過一些手法，控制不可控的類別</li>
-<li>怎麼對 Legacy Code 作解耦 ?</li>
-<li>介紹 Mock Framework</li>
-<li>怎麼寫出好理解的 Assertion ?</li>
-<li>介紹 Assert Framework</li>
-<li>建立 A 社的道場 Repo</li>
-<li>more …</li>
-</ul>
-<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><ul>
-<li>開發<del>完</del>後，自已會完全不自已測試就丟給 QA 或客戶嗎 ?</li>
-<li>什麼是 Dojo ?<ul>
-<li>日文的道場，把寫程式想像成是在練功，建立一個練功的環境。  </li>
-</ul>
-</li>
-<li>什麼是 Kata ?<ul>
-<li>日文的形，或是可以說是套路/招式，一樣透過練習招式來強化自已的能力。</li>
-</ul>
-</li>
-</ul>
-<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.facebook.com/notes/kent-beck/rip-tdd/750840194948847/">RIP TDD</a></li>
-<li><a target="_blank" rel="noopener" href="https://wiki.c2.com/?LazinessImpatienceHubris">Laziness Impatience Hubris</a></li>
-<li><a target="_blank" rel="noopener" href="http://otischou.tw/2019/08/02/unit-test.html">瞭解單元測試</a></li>
-<li><a target="_blank" rel="noopener" href="https://softchris.github.io/pages/dotnet-di.html">How YOU can Learn Dependency Injection in .NET Core and C#</a></li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/06/11/2020/unit_test_introduce_on_a_taipei_1/" data-id="ckk532niz007bu4ug9k127fz9" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2020/06/11/2020/unit_test_introduce_on_a_taipei_1/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2020/elasticsearch_with_dotnet" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/03/2020/elasticsearch_with_dotnet/" class="article-date">
-  <time datetime="2020-06-03T02:11:06.000Z" itemprop="datePublished">2020-06-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/03/2020/elasticsearch_with_dotnet/">[實作筆記] Elasticsearch Insert Data with .Net  </a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://blog.marsen.me/2020/05/13/2020/dotnet_logger_with_elasticsearch_kibana/">前篇</a></p>
-<p>上次使用 Nlog 直接與 ElasticSearch 作結合，<br>這次來看看怎麼賽入資料給 ElasticSearch 。</p>
-<h2 id="NEST"><a href="#NEST" class="headerlink" title="NEST"></a>NEST</h2><p>一般來說，ElasticSearch 只要透過呼叫 API 就可<br>但是我將使用 C# 的 Nuget 套件 <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/client/net-api/current/introduction.html">NEST</a> 來簡化呼叫 API 的行為。</p>
-<h2 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h2><h3 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package NEST</span><br></pre></td></tr></table></figure>
-<h3 id="建立連線"><a href="#建立連線" class="headerlink" title="建立連線"></a>建立連線</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> node = <span class="keyword">new</span> Uri(<span class="string">&quot;http://localhost:9200&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> settings = <span class="keyword">new</span> ConnectionSettings(node);</span><br><span class="line"><span class="keyword">var</span> client = <span class="keyword">new</span> ElasticClient(settings);</span><br></pre></td></tr></table></figure>
-<h3 id="寫入資料"><a href="#寫入資料" class="headerlink" title="寫入資料"></a>寫入資料</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> json = <span class="keyword">new</span></span><br><span class="line">&#123;</span><br><span class="line">    name = <span class="string">&quot;test name&quot;</span>,</span><br><span class="line">    timestamp = DateTime.Now.ToString(<span class="string">&quot;yyyy-MM-ddTHH:mm:ss.fffffffK&quot;</span>)</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">string</span> indexName = <span class="string">$&quot;test-index-<span class="subst">&#123;DateTime.Now:yyyy.MM.dd&#125;</span>&quot;</span>;</span><br><span class="line">client.Index(json, idx =&gt; idx.Index(indexName));</span><br></pre></td></tr></table></figure>
-<h3 id="Create-Index-Pattern"><a href="#Create-Index-Pattern" class="headerlink" title="Create Index Pattern"></a>Create Index Pattern</h3><p>連線進入 Kibana (<a target="_blank" rel="noopener" href="http://localhost:5601/">http://localhost:5601/</a>),  </p>
-<p>Setting &gt; Kibana &gt; Index patterns &gt; Create index pattern  </p>
-<p>Step 1 of 2: Define index pattern<br>輸入 <code>test-index-*</code>  </p>
-<p>Step 2 of 2: Configure settings<br>記得選取時間軸(x軸)為 <code>timestamp</code>，這裡會透過 automap 對應欄位，<br>故在產生測試資料時，記得先產出時間資料，<br>這個範例我使用的格式為</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DateTime.Now.ToString(<span class="string">&quot;yyyy-MM-ddTHH:mm:ss.fffffffK&quot;</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="設計共用型別"><a href="#設計共用型別" class="headerlink" title="設計共用型別"></a>設計共用型別</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Record</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> DateTime Created &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Type &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> Object Record &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>想法是通用類別，或許用抽像類別繼承也可以 ?<br>Created 欄位用來記錄資料產生時間，<br>Type 用來記錄 Record 的型別，<br>Record 用來記錄實際的資料。</p>
-<p>預計未來可能會需要取出 Json 資料再轉成物件操作。</p>
-<p>大概就醬。</p>
-<h3 id="6-8-補充-Net-Logger-分級"><a href="#6-8-補充-Net-Logger-分級" class="headerlink" title="6/8 補充 .Net Logger 分級"></a>6/8 補充 .Net Logger 分級</h3><table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Trace</td>
-<td>0</td>
-<td>包含最詳細訊息的記錄。 這些訊息可能包含敏感性應用程式資料。 這些訊息預設會停用，且永遠不應在生產環境中啟用。</td>
-</tr>
-<tr>
-<td>Debug</td>
-<td>1</td>
-<td>開發期間用於互動式調查的記錄。 這些記錄主要應包含適用於偵錯的資訊，且不具備任何長期價值。</td>
-</tr>
-<tr>
-<td>Information</td>
-<td>2</td>
-<td>追蹤應用程式一般流程的記錄。 這些記錄應具備長期值。</td>
-</tr>
-<tr>
-<td>Warning</td>
-<td>3</td>
-<td>醒目提示應用程式流程中異常或未預期事件的記錄，這些異常或未預期事件不會造成應用程式執行停止。</td>
-</tr>
-<tr>
-<td>Error</td>
-<td>4</td>
-<td>在目前執行流程因失敗而停止時進行醒目提示的記錄。 這些記錄應指出目前活動中的失敗，而非整個應用程式的失敗。</td>
-</tr>
-<tr>
-<td>Critical</td>
-<td>5</td>
-<td>描述無法復原的應用程式或系統損毀，或需要立即注意重大失敗的記錄。</td>
-</tr>
-<tr>
-<td>None</td>
-<td>6</td>
-<td>不會用來寫入記錄訊息。 指定記錄類別不應寫入任何訊息。</td>
-</tr>
-</tbody></table>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/06/03/2020/elasticsearch_with_dotnet/" data-id="ckk532nim005su4ug0n151837" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2020/06/03/2020/elasticsearch_with_dotnet/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2020/productbacklog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/28/2020/productbacklog/" class="article-date">
-  <time datetime="2020-05-28T07:06:02.000Z" itemprop="datePublished">2020-05-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/28/2020/productbacklog/">[A社筆記] 閒聊 Product Backlog </a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>Although implementing only parts of Scrum is possible, the result is not Scrum.</p>
-<blockquote>
-</blockquote>
-<p>雖然實施部分的 Scrum 是可能的，但結果並不是 Scrum 《Scrum Guide》</p>
-</blockquote>
-<p>之所以在文章一開頭就引述這段文字，是因為世界上太多 <code>Scrum But</code> 了;<br>而我下文所敘的則是 <code>Not Scrum</code>。<br>未來有機會再深入討論兩者的差異，對我來說主要是心態上的差異。</p>
-<p>我們透明、檢核、調試，我們擁抱改變，我們有所堅持，我們有理想但我們也務實。<br>好啦，說不定只有你自已。  </p>
-<p>在 A 社的導入的過程中，我開場白通常會說「這不是 Scrum」然後開始拿 Scrum 的東西說嘴。<br>至少對我來說，這比那些號稱「我們跑 Scrum」「But #^%!~…」要好得多，<br>與其讓你難以分辨斷句在哪，或是誤會怎麼 Scrum 這麼糞，不如讓我明確的告訴你「這不是 Scrum」。  </p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>蠻小巧的團隊，小到我覺得也許不用任何「敏捷」<br>分為兩個組成 QA 部門與 RD 部門，遠端工作的 RD 主管兼職 PM<br>QA 團隊的主管除了目前這個團隊，也要兼者作其它團隊的測試，<br>此外還有一個大主管，在國外有時差，每周固定會與成員們開 3 次的會。<br>RD 團隊成為會有一個 Daily Sync 的會議，每天約 5~10 分鐘。<br>整個團隊有使用 Azure DevOps 的看板，但是 QA 只會用來開 Bug。<br>但不知道什麼時候 Bug 才會被修復。</p>
-<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><h3 id="Azure-DevOps-BackLogs-太像文件"><a href="#Azure-DevOps-BackLogs-太像文件" class="headerlink" title="Azure DevOps BackLogs 太像文件"></a>Azure DevOps BackLogs 太像文件</h3><p>Azure DevOps 的 BackLogs 放著許多 Feature ，<br>依據不同的功能，再將每個 Sprint 的 User Story 放進去<br>這些 Feature 永遠不會被作完，隨著時間過去，<br>儘管完成了許多 User Story ，但是也會有新的 User Story 被加進去。<br>而作為文件，他的巢狀結構又不足以面對複雜的需求內容，<br>分散式存儲對於維護與修改上也是相同不便。</p>
-<h3 id="Bug-隨時蹦出"><a href="#Bug-隨時蹦出" class="headerlink" title="Bug 隨時蹦出"></a>Bug 隨時蹦出</h3><p>QA 的工作就是不斷的測試，一有發現問題就開立 Bug，<br>RD 有空就會去領來作，有時候也會有 RD 主管確認過後再分配給 RD<br>這導致不同面向的問題，RD 自領的情況可能會無序的作，<br>導致真正有價值的 Bug 無法第一時間被修正。<br>而如果每件事情都要 RD 主管確認後再進行動作，<br>RD 主管恐怕會變成瓶頸所在。</p>
-<h2 id="BackLogs-簡介"><a href="#BackLogs-簡介" class="headerlink" title="BackLogs 簡介"></a>BackLogs 簡介</h2><p>下面是我在向團隊介紹 Backlogs 後的筆記。</p>
-<p>在 Azure DevOps 上會有 BackLogs 與 Sprints &gt; Backlog。<br>恰巧與 Scrum 的 Product BackLogs 與 Sprints Backlog 可以一一對應。<br>如果以 XP 來說，可以投射到發佈計劃會議與迭代計劃會議中討論的「用戶故事清單」。<br>如果以 GTD 的方法論來說 BackLogs 可以當作收集一切事務的 Inbox，<br>而 Sprints &gt; Backlog 可以視作專案裡面的工作項目。</p>
-<p>總的來說，這些方法論的名詞故有所不同，但本質上卻是非常接近的事務。<br>我們總是有許多新的想法，但是沒有足夠的時間作所有的事。<br>所以我們必須補捉這些想法，放入 BackLogs 之中<br>補捉了之後，必須排序，這裡的概念有「重要且緊急」先作 ( 參考 Eisenhower Matrix )，<br>或是「價值高」的先作，或是有影響力的先作 ( 參考 Impact Mapping )。<br>GTD 的概念是 5 分鐘能完成的想法，立刻去作不然就丟到 BackLogs ( Inbox ) 之中，<br>我認為團隊不適合這樣作，畢竟 GTD 是針對個人的工作法。<br>團隊反而要刻意不作為，才能讓真正重要的事情浮現，而不是被一堆雜訊 DDos，<br>所有想法我的建議是「丟到 Backlogs 之中」，然後定期梳理吧。</p>
-<p>理論上大部份事情會由模糊到清晰，這是個過程，之後才會進入到一個可以被執行的階段。<br>在 Scrum 之中，常用「遠光燈」作例子，我個人比較喜歡用「通勤」舉例。</p>
-<p>留個問題給你，誰來衡量 ? 團隊 ? PO ? 客戶 ?</p>
-<p>想像一下你要上班了，在家裡你對公司的方向與位置其實有個大概的想法，<br>要走過哪些路口，經過某個大樓，穿越了一座橋後你需要待轉，<br>再過幾個紅綠燈，看到速食店後就可以開始找車位了。<br>實際上路後，也許路上施工，你必需繞個路，或是運氣很好一路綠燈。<br>哦，不!! 你的車拋錨了，你必須改搭公車，而它的路線是……  </p>
-<p>有個大方向就是你的目標，路口、橋、大樓，就是你的每個迭代，<br>每次的煞車、轉彎或催油門就是再被細分下來的工作項目，<br>紅燈、拋錨、下雨天就是你真實上路後才會體驗到的事。<br>有個概念「Road Map」其實也是在說差不多的事。  </p>
-<p>回到 Product BackLogs 與 Sprints Backlog ，<br>我們也就是不斷的細化這些項目，一直到可執行然後被執行為止。  </p>
-<p>至於怎麼變快呢 ?<br>也許你要選一條最優路線，最短的距離最少的車流，沒有紅綠燈之類的，<br>也許你要有最棒的工具，最好的機車、定期保養之類的，<br>也許你要改變的開車習慣，不要危險駕駛、不任意切換車道等等…  </p>
-<p>透過的調整工作順序、找尋最佳工具輔助與保持正確心態，是我目前的答案。  </p>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2020/05/28/2020/productbacklog/" data-id="ckk532nir006fu4ug5nf16cw2" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2020/05/28/2020/productbacklog/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agile/" rel="tag">Agile</a></li></ul>
 
     </footer>
   </div>
@@ -1031,23 +967,23 @@ ga('send', 'pageview');
       <ul>
         
           <li>
-            <a href="/2021/02/03/2021/update_sonarcloud_workflow/">[實作筆記] SonarCloud Move analysis to Java 11 更新 Github Action</a>
+            <a href="/2021/04/14/2021/aglie_larp/">[活動筆記] 令人失望的敏捷劇本殺</a>
           </li>
         
           <li>
-            <a href="/2021/01/22/2021/role-expectations-matrix/">[活動筆記] Role Expectations Matrix 角色期望矩陣</a>
+            <a href="/2021/04/13/2021/simplefactory_and_factory_method/">[實作筆記] 簡單工廠與工廠方法</a>
           </li>
         
           <li>
-            <a href="/2021/01/19/2021/storybook_with_github_actions/">[實作筆記] Storybook CI 使用 Github Actions</a>
+            <a href="/2021/04/06/2021/create_404/">[實作筆記] 怎麼建立一個網站？(五) - Hexo 的 404 頁面</a>
           </li>
         
           <li>
-            <a href="/2021/01/18/2021/storybook_typescript/">[實作筆記] React 與 Storybook 開發</a>
+            <a href="/2021/03/22/2021/next_bank_update/">[生活筆記] 將來銀行與純網銀一些有的沒的</a>
           </li>
         
           <li>
-            <a href="/2021/01/11/2021/legacy_code_with_unit_test/">[上課筆記] 針對遺留代碼加入單元測試的藝術 </a>
+            <a href="/2021/03/17/2021/sudo_E/">[A 社筆記] Sudo 與環境變數</a>
           </li>
         
       </ul>
@@ -1059,7 +995,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -1078,7 +1014,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">標籤</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Design-Pattern/" rel="tag">Design Pattern</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GulpJs/" rel="tag">GulpJs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Testing/" rel="tag">Mutation Testing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">40</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" rel="tag">活動筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" rel="tag">生活筆記</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">15</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agile/" rel="tag">Agile</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BootStrap/" rel="tag">BootStrap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cache/" rel="tag">Cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coding-Standard/" rel="tag">Coding Standard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Container/" rel="tag">Container</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Database/" rel="tag">Database</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Design-Pattern/" rel="tag">Design Pattern</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GulpJs/" rel="tag">GulpJs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IIS/" rel="tag">IIS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/" rel="tag">IO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Integrated-Testing/" rel="tag">Integrated Testing</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JQuery/" rel="tag">JQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/" rel="tag">Mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MsTest/" rel="tag">MsTest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mutation-Testing/" rel="tag">Mutation Testing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NPM/" rel="tag">NPM</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/" rel="tag">OAuth</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Openshift/" rel="tag">Openshift</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PowerShell/" rel="tag">PowerShell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SCSS/" rel="tag">SCSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Specflow/" rel="tag">Specflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StyleCop/" rel="tag">StyleCop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TDD/" rel="tag">TDD</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Testing/" rel="tag">Testing</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/" rel="tag">Thread</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Trello/" rel="tag">Trello</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unix/" rel="tag">Unix</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Visual-Studio/" rel="tag">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/post/" rel="tag">post</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a><span class="tag-list-count">42</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86/" rel="tag">時間管理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%BB%E5%8B%95%E7%AD%86%E8%A8%98/" rel="tag">活動筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB%E7%AD%86%E8%A8%98/" rel="tag">生活筆記</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="tag">踩雷筆記</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E6%A7%8B/" rel="tag">重構</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a><span class="tag-list-count">15</span></li></ul>
     </div>
   </div>
 
@@ -1159,7 +1095,7 @@ ga('send', 'pageview');
 
 
 <script>  
-  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain","不要停止懷疑，不要停止信仰"];
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain","不要停止懷疑，不要停止信仰","你在我左邊，覺得我太右;我在你左邊，你覺得我太左。我不知道我在哪裡，世界是圓的，而你是中心。","Those who can, do, and those who can't, teach."];
 </script>
   
 
