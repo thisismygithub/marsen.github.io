@@ -83,6 +83,128 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2017/sql_ef6_dateInterceptor" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/24/2017/sql_ef6_dateInterceptor/" class="article-date">
+  <time datetime="2017-09-24T02:55:30.000Z" itemprop="datePublished">2017-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/24/2017/sql_ef6_dateInterceptor/">使用 DateInterceptor 攔截SQL 語法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在<a href="https://blog.marsen.me/2017/09/18/sql_compatibility_level_with_datetime2/">SQL Compatibility Level 對MsSQL時間查詢的影響</a>這篇文章裡,<br>遇到了一個令難以處理的問題, 簡單的複述一下,  </p>
+<ol>
+<li>我的資料表以一個 datetime 欄位當作 PK</li>
+<li>我的SQL DB版本為 2016 以上 (Compatibility Level預設值為130)</li>
+</ol>
+<p>這個時候我所有的 Entity Context 更新語法在呼叫 SaveChange 時會拋出錯誤;<br>原因在於 EF 所產生的 SQL Query 語法 , 會以 PK 值作為查詢條件,<br>而在這個時候 查詢時間的條件會精準到微秒(μs=1/1000000秒),<br>但是 datetime 欄位只會記錄到豪秒(ms=1/1000秒),<br>於是精準不足的部份就會補 0 ,<br>EX:<br><code>2017-09-24 11:55:35.3720000</code> 與 <code>2017-09-24 11:55:35.372</code><br>這會導致查無資料進而引發 <a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/system.data.entity.infrastructure.dbupdateconcurrencyexception(v=vs.103).aspx">dbupdateconcurrencyexception</a></p>
+<h2 id="解決方針"><a href="#解決方針" class="headerlink" title="解決方針"></a>解決方針</h2><h3 id="修改資料欄位"><a href="#修改資料欄位" class="headerlink" title="修改資料欄位"></a>修改資料欄位</h3><p> 將資料庫的欄位datatype datetime 改成 datetime2 ,<br> 這或許是最理想的解法了, 你不需要更動程式碼,<br> 而且會提昇你資料的時間精準度.<br> 不過實務上,你必須考慮到你是否有dba的權限與即有的資料量,<br> 當產品的核心功能依賴著這張表的時候且有巨量資料存在時,<br> 更新欄位的資料型態的衝擊與風險或許是難以承受的.<br> 更不用說還要考慮到整個 DB Server Cluster 的架構之類的問題.</p>
+<h3 id="修改-SQL-Server-Compatibility-Level-從-130-至-120"><a href="#修改-SQL-Server-Compatibility-Level-從-130-至-120" class="headerlink" title="修改 SQL Server Compatibility Level 從 130 至 120"></a>修改 SQL Server Compatibility Level 從 130 至 120</h3><p>非常不建議的作法, 除了要考慮上述權限、衝擊與風險的問題外,<br>如果降轉 Compatibility Level<br>或許會使得其他有使用到 datetime2 型態的資料欄位發生異常,<br>或是是失去原本精度的意義. </p>
+<h3 id="使用-DateInterceptor-攔截SQL-語法"><a href="#使用-DateInterceptor-攔截SQL-語法" class="headerlink" title="使用 DateInterceptor 攔截SQL 語法"></a>使用 DateInterceptor 攔截SQL 語法</h3><p>在考量上述兩種情況, 為了不增加<del>DBA的工作量</del>無謂的風險與權責問題,<br>(其實是實務上我沒有DB Server的異動權限),<br>我們可以透過 <a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/system.data.entity.infrastructure.interception.idbcommandinterceptor(v=vs.113).aspx">IDbInterceptor</a> 來欄截 Entity Framework 對DB 存取時執行的 Query</p>
+<p>以下是個簡單的範例,</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DateInterceptor</span> : <span class="title">IDbInterceptor</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ReaderExecuting</span>(<span class="params">DbCommand command,</span></span></span><br><span class="line"><span class="function"><span class="params">        DbCommandInterceptionContext&lt;DbDataReader&gt; interceptionContext</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> dateParameters = command.Parameters.OfType&lt;DbParameter&gt;()</span><br><span class="line">            .Where(p =&gt; p.DbType == DbType.DateTime2);</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> parameter <span class="keyword">in</span> dateParameters)</span><br><span class="line">        &#123;</span><br><span class="line">            parameter.DbType = DbType.DateTime;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我們實作了一個 IDbInterceptor 的類別,<br>用來將 datetime2 的資料型別轉型成 datetime,<br>接下要將它掛載在 Entity Context之中 </p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">EF6Entities</span> : <span class="title">DbContext</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EF6Entities</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        : <span class="title">base</span>(<span class="params"><span class="string">&quot;name=EF6Entities&quot;</span></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        DbInterception.Add(<span class="keyword">new</span> DateInterceptor());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnModelCreating</span>(<span class="params">DbModelBuilder modelBuilder</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnintentionalCodeFirstException();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> DbSet&lt;BatchUploadData&gt; BatchUploadData &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此一來就會以 datetime 的精準度產生 SQL Query</p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/marsen/EFDemo">程式碼</a></li>
+<li><a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/system.data.entity.infrastructure.interception.idbcommandinterceptor.aspx">IDbInterceptor</a></li>
+<li><a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/system.data.entity.infrastructure.interception.idbcommandinterceptor.aspx">IDbCommandInterceptor</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/46387565/how-to-change-how-entity-framework-generates-sql-precision-for-datetime">How to change how Entity Framework generates SQL precision for Datetime</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2017/09/24/2017/sql_ef6_dateInterceptor/" data-id="ckne1130g001txsugh5f14j5y" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2017/09/24/2017/sql_ef6_dateInterceptor/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Database/" rel="tag">Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2017/sql_compatibility_level_with_datetime2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/18/2017/sql_compatibility_level_with_datetime2/" class="article-date">
+  <time datetime="2017-09-18T03:30:13.000Z" itemprop="datePublished">2017-09-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/18/2017/sql_compatibility_level_with_datetime2/">SQL Compatibility Level 對MsSQL時間查詢的影響</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="大綱"><a href="#大綱" class="headerlink" title="大綱"></a>大綱</h2><p>這次透過Entity Framework(EF5)作了一個簡單的資料庫更新,<br>恰巧的是這次更新的Table因為某些需求,使用 datetime 作為 Key 值.<br>進而引發一連串的錯誤, 最後才找到 SQL Compatibility Level 對 MsSQL 時間查詢影響. </p>
+<h3 id="正式環境-SQL-版本-13-0-4422-0"><a href="#正式環境-SQL-版本-13-0-4422-0" class="headerlink" title="正式環境 SQL 版本 13.0.4422.0"></a>正式環境 SQL 版本 13.0.4422.0</h3><h3 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">UpdateBatchUploadData</span>(<span class="params">BatchUploadDataEntity batchUploadDataEntity</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> (WebStoreDBEntitiesV2 context = <span class="keyword">this</span>.LifetimeScope.Resolve&lt;WebStoreDBEntitiesV2&gt;())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> item = (<span class="keyword">from</span> batchUploadData <span class="keyword">in</span> context.BatchUploadData.Valids()</span><br><span class="line">                    <span class="keyword">where</span> batchUploadData.BatchUploadData_Id == batchUploadDataEntity.BatchUploadData_Id</span><br><span class="line">                    <span class="keyword">select</span> batchUploadData).FirstOrDefault();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.MapBatchUploadData(batchUploadDataEntity, item);</span><br><span class="line"></span><br><span class="line">        context.SaveChanges();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上面程式所示, <code>item</code> 是透過 Key 值 <code>BatchUploadData_Id</code> 取回來的物件.<br>而 <code>MapBatchUploadData</code> 是一段簡單的程式碼,<br>單純的將 <code>batchUploadDataEntity</code> 的值 mapping 到 item<br>再呼叫 SaveChanges , 卻引發了 <a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/system.data.entity.infrastructure.dbupdateconcurrencyexception(v=vs.103).aspx">dbupdateconcurrencyexception</a></p>
+<h3 id="錯誤畫面"><a href="#錯誤畫面" class="headerlink" title="錯誤畫面"></a>錯誤畫面</h3><p><img src="https://i.imgur.com/8kBIYRr.jpg" alt=""></p>
+<h3 id="錯誤訊息"><a href="#錯誤訊息" class="headerlink" title="錯誤訊息"></a>錯誤訊息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">存放區更新、插入或刪除陳述式影響到非預期數目的資料列 (0)。</span><br><span class="line">這些實體載入之後可能被修改或刪除了。請重新整理 ObjectStateManager 實體。</span><br></pre></td></tr></table></figure>
+
+<p>這一段訊息的意思就是: Entity Framework 預期更新了<code>0</code>筆資料，與它所預期的不符, 所以拋出錯誤。</p>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>透過用<strong>Sql Profiler</strong>我們錄製到了以下的SQL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> sp_executesql N<span class="string">&#x27;update [dbo].[BatchUploadData]</span></span><br><span class="line"><span class="string">set [BatchUploadData_StatusDef] = @0, [BatchUploadData_UpdatedTimes] = @1, [BatchUploadData_UpdatedDateTime] = @2</span></span><br><span class="line"><span class="string">where (([BatchUploadData_Id] = @3) and ([BatchUploadData_CreatedDateTime] = @4))</span></span><br><span class="line"><span class="string">select [BatchUploadData_Rowversion]</span></span><br><span class="line"><span class="string">from [dbo].[BatchUploadData]</span></span><br><span class="line"><span class="string">where @@ROWCOUNT &gt; 0 and [BatchUploadData_Id] = @3 and [BatchUploadData_CreatedDateTime] = @4&#x27;</span>,N<span class="string">&#x27;@0 varchar(30),@1 tinyint,@2 datetime2(7),@3 bigint,@4 datetime2(7)&#x27;</span>,<span class="variable">@0</span><span class="operator">=</span><span class="string">&#x27;ProcessFailed&#x27;</span>,<span class="variable">@1</span><span class="operator">=</span><span class="number">1</span>,<span class="variable">@2</span><span class="operator">=</span><span class="string">&#x27;2017-09-16 11:29:35.3720061&#x27;</span>,<span class="variable">@3</span><span class="operator">=</span><span class="number">52</span>,<span class="variable">@4</span><span class="operator">=</span><span class="string">&#x27;2017-09-05 18:53:36.3530000&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>請注意到 <strong>@4 datetime2(7) … @4=’2017-09-05 18:53:36.3530000’</strong><br>如果將 <code>datetime2(7)</code> 改為 <code>datetime</code>或是將查詢語句改為 <code>@4=&#39;2017-09-05 18:53:36.353</code> 就能正確更新資料.  </p>
+<p><img src="https://i.imgur.com/8pGTYL4.gif" alt=""></p>
+<h3 id="本機實測-SQL-版本-12-0-4459-0"><a href="#本機實測-SQL-版本-12-0-4459-0" class="headerlink" title="本機實測 (SQL 版本 12.0.4459.0)"></a>本機實測 (SQL 版本 12.0.4459.0)</h3><p>透過本機寫了一小段的SQL作測試,<br><img src="https://i.imgur.com/iJntV1i.gif" alt=""><br><strong>竟然不會有問題!!!</strong>  </p>
+<p>這跟 SQL Compatibility Level 有關,<br>mssql 2014 預設是 120, 2016 預設是130,<br>Datetime2 在 120 跟 130 的結果會不一樣.  </p>
+<h3 id="解決方法"><a href="#解決方法" class="headerlink" title="解決方法"></a>解決方法</h3><p>主要的查詢與更新 SQL 是 Entity Framework 產生的,<br>所以我無法透過修改 SQL 的方式解決這個問題,<br>而正式環境的 SQL Compatibility Level 調整將會牽一髮動全身<br>且基於版本演進, 往新的版本靠攏是合理的選擇<br>暫時的解法是透過修改 edmx ,<br>不讓 datetime 作為整個 table 的 Key值.<br>較好的解法是升級 Entity Framework<br>透過 Entity Framework 的機制, 指定查詢時間的精準度.<br>實作的部份未來再補上. </p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-database-transact-sql-compatibility-level">ALTER DATABASE (Transact-SQL) Compatibility</a></li>
+<li><a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/silverlight/en-US/de5dbf3e-8c95-40f4-9e31-b71f1f31983d/change-in-datetime2-implementation-in-sql-server-2016?forum=transactsql">Change in datetime2 implementation in SQL Server 2016</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-tw/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database">檢視或變更資料庫的相容性層級</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2017/09/18/2017/sql_compatibility_level_with_datetime2/" data-id="ckne1130h001wxsug6jhgcccm" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2017/09/18/2017/sql_compatibility_level_with_datetime2/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Database/" rel="tag">Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Entity-Framework/" rel="tag">Entity Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MsSQL/" rel="tag">MsSQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2016/express_with_typescript" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/16/2016/express_with_typescript/" class="article-date">
@@ -825,152 +947,6 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2017/aspdotnet_threadpool_monitor" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/28/2017/aspdotnet_threadpool_monitor/" class="article-date">
-  <time datetime="2017-01-28T12:46:49.000Z" itemprop="datePublished">2017-01-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/28/2017/aspdotnet_threadpool_monitor/">ASP.NET Thread Pool 監控</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p><a href="/2016/11/21/aspdotnet_threadpool_and_redis/">上一次</a>說明了 .NET Thread Pool 的機制如何影響 Redis,<br>.NET Thread Pool 的機制會貫穿任何與它互動的系統或服務,<br>所以這篇會簡單描述如何對 .NET Thread Pool <a target="_blank" rel="noopener" href="https://msdn.microsoft.com/zh-tw/library/ff650682.aspx">建立監控</a>。</p>
-<h2 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h2><ol>
-<li>建立監控記數器</li>
-<li>在系統寫入監控數值</li>
-<li>開啟效能計數器</li>
-</ol>
-<h2 id="建立監控記數器"><a href="#建立監控記數器" class="headerlink" title="建立監控記數器"></a>建立監控記數器</h2><table>
-<thead>
-<tr>
-<th>記數器</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Available Worker Threads</td>
-<td>目前在 thread-pool 可以使用的 worker threads</td>
-</tr>
-<tr>
-<td>Available IO Threads</td>
-<td>目前在 thread-pool 可以使用的 I/O threads</td>
-</tr>
-<tr>
-<td>Max Worker Threads</td>
-<td>最大可以建立的 worker threads 數量</td>
-</tr>
-<tr>
-<td>Max IO Threads</td>
-<td>最大可以建立的 I/O threads 數量</td>
-</tr>
-</tbody></table>
-<h3 id="建立一個-Console-應用程式"><a href="#建立一個-Console-應用程式" class="headerlink" title="建立一個 Console 應用程式"></a>建立一個 Console 應用程式</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Diagnostics;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">MyAspNetThreadCounters</span></span><br><span class="line">&#123;</span><br><span class="line">  [<span class="meta">STAThread</span>]</span><br><span class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    CreateCounters();</span><br><span class="line">    Console.WriteLine(<span class="string">&quot;MyAspNetThreadCounters performance counter category &quot;</span> +</span><br><span class="line">                      <span class="string">&quot;is created. [Press Enter]&quot;</span>);</span><br><span class="line">    Console.ReadLine();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">CreateCounters</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    CounterCreationDataCollection col =  </span><br><span class="line">      <span class="keyword">new</span> CounterCreationDataCollection();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create custom counter objects</span></span><br><span class="line">    CounterCreationData counter1 = <span class="keyword">new</span> CounterCreationData();</span><br><span class="line">    counter1.CounterName = <span class="string">&quot;Available Worker Threads&quot;</span>;</span><br><span class="line">    counter1.CounterHelp = <span class="string">&quot;The difference between the maximum number &quot;</span> +</span><br><span class="line">                           <span class="string">&quot;of thread pool worker threads and the &quot;</span> +</span><br><span class="line">                           <span class="string">&quot;number currently active.&quot;</span>;</span><br><span class="line">    counter1.CounterType = PerformanceCounterType.NumberOfItems32;</span><br><span class="line"></span><br><span class="line">    CounterCreationData counter2 = <span class="keyword">new</span> CounterCreationData();</span><br><span class="line">    counter2.CounterName = <span class="string">&quot;Available IO Threads&quot;</span>;</span><br><span class="line">    counter2.CounterHelp = <span class="string">&quot;The difference between the maximum number of &quot;</span> +</span><br><span class="line">                           <span class="string">&quot;thread pool IO threads and the number &quot;</span>+</span><br><span class="line">                           <span class="string">&quot;currently active.&quot;</span>;</span><br><span class="line">    counter2.CounterType = PerformanceCounterType.NumberOfItems32;</span><br><span class="line"></span><br><span class="line">    CounterCreationData counter3 = <span class="keyword">new</span> CounterCreationData();</span><br><span class="line">    counter3.CounterName = <span class="string">&quot;Max Worker Threads&quot;</span>;</span><br><span class="line">    counter3.CounterHelp = <span class="string">&quot;The number of requests to the thread pool &quot;</span>+</span><br><span class="line">                           <span class="string">&quot;that can be active concurrently. All &quot;</span>+  </span><br><span class="line">                           <span class="string">&quot;requests above that number remain queued until &quot;</span> +</span><br><span class="line">                           <span class="string">&quot;thread pool worker threads become available.&quot;</span>;</span><br><span class="line">    counter3.CounterType = PerformanceCounterType.NumberOfItems32;</span><br><span class="line"></span><br><span class="line">    CounterCreationData counter4 = <span class="keyword">new</span> CounterCreationData();</span><br><span class="line">    counter4.CounterName = <span class="string">&quot;Max IO Threads&quot;</span>;</span><br><span class="line">    counter4.CounterHelp = <span class="string">&quot;The number of requests to the thread pool &quot;</span> +</span><br><span class="line">                           <span class="string">&quot;that can be active concurrently. All &quot;</span>+  </span><br><span class="line">                           <span class="string">&quot;requests above that number remain queued until &quot;</span> +</span><br><span class="line">                           <span class="string">&quot;thread pool IO threads become available.&quot;</span>;</span><br><span class="line">    counter4.CounterType = PerformanceCounterType.NumberOfItems32;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom counter objects to CounterCreationDataCollection.</span></span><br><span class="line">    col.Add(counter1);</span><br><span class="line">    col.Add(counter2);</span><br><span class="line">    col.Add(counter3);</span><br><span class="line">    col.Add(counter4);</span><br><span class="line">    <span class="comment">// delete the category if it already exists</span></span><br><span class="line">    <span class="keyword">if</span>(PerformanceCounterCategory.Exists(<span class="string">&quot;MyAspNetThreadCounters&quot;</span>))</span><br><span class="line">    &#123;</span><br><span class="line">      PerformanceCounterCategory.Delete(<span class="string">&quot;MyAspNetThreadCounters&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// bind the counters to the PerformanceCounterCategory</span></span><br><span class="line">    PerformanceCounterCategory category =</span><br><span class="line">            PerformanceCounterCategory.Create(<span class="string">&quot;MyAspNetThreadCounters&quot;</span>,</span><br><span class="line">                                              <span class="string">&quot;&quot;</span>, col);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>編譯後並執行即可,<br>執行 <code>regedit</code> 開啟登錄編輯程式,<br>輸入機碼 <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services</code><br>將可以找到剛剛建立的 <code>MyAspNetThreadCounters</code> 記數器</p>
-<h2 id="在系統寫入監控數值"><a href="#在系統寫入監控數值" class="headerlink" title="在系統寫入監控數值"></a>在系統寫入監控數值</h2><p>在站台的 <code>Global.asax</code> 加入以下的程式碼</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">bool</span> MonitorThreadPoolEnabled = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params">Object sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadStart(RefreshCounters));</span><br><span class="line">  t.Start();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">RefreshCounters</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (MonitorThreadPoolEnabled)</span><br><span class="line">  &#123;</span><br><span class="line">    ASPNETThreadInfo t = GetThreadInfo();</span><br><span class="line">    ShowPerfCounters(t);</span><br><span class="line">    System.Threading.Thread.Sleep(<span class="number">500</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_End</span>(<span class="params">Object sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  MonitorThreadPoolEnabled = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> ASPNETThreadInfo</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">int</span> MaxWorkerThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">int</span> MaxIOThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">int</span> MinFreeThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">int</span> MinLocalRequestFreeThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">int</span> AvailableWorkerThreads;</span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">int</span> AvailableIOThreads;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">Equals</span>(<span class="params">ASPNETThreadInfo other</span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      MaxWorkerThreads == other.MaxWorkerThreads &amp;&amp;</span><br><span class="line">      MaxIOThreads == other.MaxIOThreads &amp;&amp;</span><br><span class="line">      MinFreeThreads == other.MinFreeThreads &amp;&amp;</span><br><span class="line">      MinLocalRequestFreeThreads == other.MinLocalRequestFreeThreads &amp;&amp;</span><br><span class="line">      AvailableWorkerThreads == other.AvailableWorkerThreads &amp;&amp;</span><br><span class="line">      AvailableIOThreads == other.AvailableIOThreads</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ASPNETThreadInfo <span class="title">GetThreadInfo</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// use ThreadPool to get the current status</span></span><br><span class="line">  <span class="built_in">int</span> availableWorker, availableIO;</span><br><span class="line">  <span class="built_in">int</span> maxWorker, maxIO;</span><br><span class="line"></span><br><span class="line">  ThreadPool.GetAvailableThreads( <span class="keyword">out</span> availableWorker, <span class="keyword">out</span> availableIO);</span><br><span class="line">  ThreadPool.GetMaxThreads(<span class="keyword">out</span> maxWorker, <span class="keyword">out</span> maxIO);</span><br><span class="line"></span><br><span class="line">  ASPNETThreadInfo threadInfo;</span><br><span class="line">  threadInfo.AvailableWorkerThreads = (Int16)availableWorker;</span><br><span class="line">  threadInfo.AvailableIOThreads = (Int16)availableIO;</span><br><span class="line">  threadInfo.MaxWorkerThreads = (Int16)maxWorker;</span><br><span class="line">  threadInfo.MaxIOThreads = (Int16)maxIO;</span><br><span class="line"> <span class="comment">// hard code for now; could get this from  machine.config</span></span><br><span class="line">  threadInfo.MinFreeThreads = <span class="number">8</span>;</span><br><span class="line">  threadInfo.MinLocalRequestFreeThreads = <span class="number">4</span>;</span><br><span class="line">  <span class="keyword">return</span> threadInfo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ShowPerfCounters</span>(<span class="params">ASPNETThreadInfo t</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// get an instance of our Available Worker Threads counter</span></span><br><span class="line">  PerformanceCounter counter1 = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">  counter1.CategoryName = <span class="string">&quot;MyAspNetThreadCounters&quot;</span>;</span><br><span class="line">  counter1.CounterName = <span class="string">&quot;Available Worker Threads&quot;</span>;</span><br><span class="line">  counter1.ReadOnly = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set the value of the counter</span></span><br><span class="line">  counter1.RawValue = t.AvailableWorkerThreads;</span><br><span class="line">  counter1.Close();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// repeat for other counters</span></span><br><span class="line"></span><br><span class="line">  PerformanceCounter counter2 = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">  counter2.CategoryName = <span class="string">&quot;MyAspNetThreadCounters&quot;</span>;</span><br><span class="line">  counter2.CounterName = <span class="string">&quot;Available IO Threads&quot;</span>;</span><br><span class="line">  counter2.ReadOnly = <span class="literal">false</span>;</span><br><span class="line">  counter2.RawValue = t.AvailableIOThreads;</span><br><span class="line">  counter2.Close();</span><br><span class="line"></span><br><span class="line">  PerformanceCounter counter3 = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">  counter3.CategoryName = <span class="string">&quot;MyAspNetThreadCounters&quot;</span>;</span><br><span class="line">  counter3.CounterName = <span class="string">&quot;Max Worker Threads&quot;</span>;</span><br><span class="line">  counter3.ReadOnly = <span class="literal">false</span>;</span><br><span class="line">  counter3.RawValue = t.MaxWorkerThreads;</span><br><span class="line">  counter3.Close();</span><br><span class="line"></span><br><span class="line">  PerformanceCounter counter4 = <span class="keyword">new</span> PerformanceCounter();</span><br><span class="line">  counter4.CategoryName = <span class="string">&quot;MyAspNetThreadCounters&quot;</span>;</span><br><span class="line">  counter4.CounterName = <span class="string">&quot;Max IO Threads&quot;</span>;</span><br><span class="line">  counter4.ReadOnly = <span class="literal">false</span>;</span><br><span class="line">  counter4.RawValue = t.MaxIOThreads;</span><br><span class="line">  counter4.Close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>當你的站台重新啟動後,<br>就會定期將 Worker Thread 與  I/O Threads 的監控數值傳遞給系統。  </p>
-<h3 id="開啟效能計數器"><a href="#開啟效能計數器" class="headerlink" title="開啟效能計數器"></a>開啟效能計數器</h3><ol>
-<li>執行 <code>perfmon.exe</code> 開啟效能計數器</li>
-<li>新增效能計數器(點選綠色加符號)</li>
-<li>選取前面所建立監控記數器就能看到當前 ThreadPool 的使用狀況。<br><img src="https://i.imgur.com/HhlbNH2.jpg" alt="開啟效能計數器"></li>
-</ol>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/01/28/2017/aspdotnet_threadpool_monitor/" data-id="ckne1130a001dxsugbir4fcdc" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2017/01/28/2017/aspdotnet_threadpool_monitor/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Net-Framework/" rel="tag">.Net Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/" rel="tag">Thread</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2017/iis_tracing_log_setting" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/24/2017/iis_tracing_log_setting/" class="article-date">
-  <time datetime="2017-01-24T06:27:12.000Z" itemprop="datePublished">2017-01-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/24/2017/iis_tracing_log_setting/">IIS Tracing Log 設定</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="緣由"><a href="#緣由" class="headerlink" title="緣由"></a>緣由</h2><p>當你需要Trace送到IIS的每個Request的細節(包含在pipe line各個模組之間的input/output 與 傳入的參數、header等…),<br>可以透過開啟tracing log來作追蹤</p>
-<h2 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h2><ol>
-<li>Windows Server 2012 R2</li>
-<li>IIS 8.5.9600.16384</li>
-</ol>
-<h2 id="開啟-tracing-log"><a href="#開啟-tracing-log" class="headerlink" title="開啟 tracing log"></a>開啟 tracing log</h2><ol>
-<li>新增 Tracing Rules<br><img src="https://i.imgur.com/4llAgOa.jpg" alt=""><br><img src="https://i.imgur.com/BavVoWy.gif" alt=""></li>
-</ol>
-<ol start="2">
-<li>開啟網站 Tracing 功能<br><img src="https://i.imgur.com/LUgbESR.jpg" alt=""><br><img src="https://i.imgur.com/aKtgj5m.jpg" alt=""></li>
-</ol>
-<h2 id="調整-IE-Security-層級"><a href="#調整-IE-Security-層級" class="headerlink" title="調整 IE Security 層級"></a>調整 IE Security 層級</h2><ol>
-<li><p>使用 IE 開啟 Log，因 Security 設定無法套用版型<br><img src="https://i.imgur.com/4VsuQWp.jpg" alt=""></p>
-</li>
-<li><p>調整ie enhanced security</p>
-</li>
-</ol>
-<p><img src="https://i.imgur.com/Lvnygqr.jpg" alt=""></p>
-<ol start="3">
-<li><p>開啟IE &gt; 點選小齒輪，選擇  Internet Options &gt; 點選 Security 頁籤 &gt; 將 Internet 的 Security Level 調整為 Medium-high<br><img src="https://i.imgur.com/H2F06OU.jpg" alt=""></p>
-</li>
-<li><p>完成<br><img src="https://i.imgur.com/biiX6w8.jpg" alt=""></p>
-</li>
-</ol>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2017/01/24/2017/iis_tracing_log_setting/" data-id="ckne1130f001rxsug96qr42zo" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2017/01/24/2017/iis_tracing_log_setting/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IIS/" rel="tag">IIS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A8%98%E9%8C%84/" rel="tag">記錄</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -987,6 +963,14 @@ ga('send', 'pageview');
       <ul>
         
           <li>
+            <a href="/2021/05/24/2021/book_tdd_by_example/">[實作筆記] Kent Beck 的測試驅動開發 Ch12 Ch13</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/07/2021/about_habits/">[閱讀筆記] 原子習慣/驚人習慣力/烏托邦的日常/象與騎象人</a>
+          </li>
+        
+          <li>
             <a href="/2021/04/14/2021/aglie_larp/">[活動筆記] 令人失望的敏捷劇本殺</a>
           </li>
         
@@ -998,14 +982,6 @@ ga('send', 'pageview');
             <a href="/2021/04/06/2021/create_404/">[實作筆記] 怎麼建立一個網站？(五) - Hexo 的 404 頁面</a>
           </li>
         
-          <li>
-            <a href="/2021/03/22/2021/next_bank_update/">[生活筆記] 將來銀行與純網銀一些有的沒的</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/17/2021/sudo_E/">[A 社筆記] Sudo 與環境變數</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1015,7 +991,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -1115,7 +1091,7 @@ ga('send', 'pageview');
 
 
 <script>  
-  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain","不要停止懷疑，不要停止信仰","你在我左邊，覺得我太右;我在你左邊，你覺得我太左。我不知道我在哪裡，世界是圓的，而你是中心。","Those who can, do, and those who can't, teach."];
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain","不要停止懷疑，不要停止信仰","你在我左邊，覺得我太右;我在你左邊，你覺得我太左。我不知道我在哪裡，世界是圓的，而你是中心。","Those who can, do, and those who can't, teach.","良好的習慣不是枷鎖，而是讓你更忠於自已","寧靜致遠，淡泊明志"];
 </script>
   
 

@@ -83,6 +83,169 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2020/reshaper_tempalte" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/01/08/2020/reshaper_tempalte/" class="article-date">
+  <time datetime="2020-01-08T09:17:17.000Z" itemprop="datePublished">2020-01-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/08/2020/reshaper_tempalte/">[實作筆記] Reshaper Code Template</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>我通常會作一些 Code Snippet 來加速開發，<br>避免同樣的代碼要重複的寫，<br>除了避免重複，能交給工具的儘量交給工具去作，<br>只要是人為的操作就有可能犯錯，就算是簡單的剪下貼上，<br>讓工具作事，用心去檢驗，這是我在 2019 練習的小心得。  </p>
+<p>比如說我使用無蝦米輸入法、刻意練習英打速度，<br>購買 Reshaper 等…，都是為了提昇生產力。<br>今天就是要說說 Reshaper 的 Template ，<br>這是一個跟 Code Snippet 相同的功能 。  </p>
+<h2 id="本文"><a href="#本文" class="headerlink" title="本文"></a>本文</h2><p>Template 與 Code Snippet 並不使用共同的範例檔，<br>所以要如何將已有的 Snippet 轉移過來呢 ? 如果有人知道請跟我說。<br>另一個問題是，他真的比原本的 Snippet 好用嗎 ?</p>
+<p>因為我的 Snippet 並不多，大約 10 個左右<br>為了馬上增加生產力，我手動將主要有用到的 2個重建了<br>剩下的如果真的很少用，就讓他自然淘汰吧。<br>常用的如果有用到再來重建。</p>
+<p>第二件事，我使用上手感是差不多的<br>據說 Resharper 會更智慧化，所以我會選用 Code Template  </p>
+<h2 id="如何新增"><a href="#如何新增" class="headerlink" title="如何新增"></a>如何新增</h2><p>以 Visual Studio 2019 與 Resharper Ultimate 為例，<br>在搜尋框輸入 <code>Template</code> 找到 <code>Template Explorer</code><br>點擊新增圖示，進行編輯，<br>其它就跟原本的 Snippet 差不多，也可以提供參數化入與 short cut<br><img src="/images/2020/1/reshaper_template_01.jpg" alt="Create Template"></p>
+<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><p>如果已經安裝了 Resharper Ultimate 但是 Template 不工作的話記得看一下設定</p>
+<p>Resharper &gt; Option &gt; Intellisense &gt; General</p>
+<p><img src="/images/2020/1/reshaper_template_02.jpg" alt="Option"></p>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.darkthread.net/blog/vs-code-snippet-with-resharper/">https://blog.darkthread.net/blog/vs-code-snippet-with-resharper/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/resharper/Creating_a_File_Template.html">https://www.jetbrains.com/help/resharper/Creating_a_File_Template.html</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2020/01/08/2020/reshaper_tempalte/" data-id="ckne1131k0056xsugbrox5j9d" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2020/01/08/2020/reshaper_tempalte/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="tag">實作筆記</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2019/about_sql_acid_and_srgs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/25/2019/about_sql_acid_and_srgs/" class="article-date">
+  <time datetime="2019-12-24T18:25:55.000Z" itemprop="datePublished">2019-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/25/2019/about_sql_acid_and_srgs/">[學習筆記] SQL 大小事 Isolation Level 與 SARGs</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ACID-與-Isolation-Level"><a href="#ACID-與-Isolation-Level" class="headerlink" title="ACID 與 Isolation Level"></a>ACID 與 Isolation Level</h2><h3 id="什麼是-ACID"><a href="#什麼是-ACID" class="headerlink" title="什麼是 ACID"></a>什麼是 ACID</h3><ul>
+<li>Atomicity（原子性）：<br>  一個交易（transaction）中的所有操作，要嘛全部完成，要嘛全部不完成，<br>  不會在中間某個環節中斷。交易在執行過程中發生錯誤，會被回滾（Rollback）到交易開始前的狀態，<br>  就像這個交易從來沒有執行過一樣。即，交易不可分割、不可約簡。  </li>
+<li>Consistency（一致性）：<br>  在交易開始之前和交易結束以後，資料庫的完整性沒有被破壞。<br>  這表示寫入的資料必須完全符合所有的預設約束、觸發器、級聯回滾等。  </li>
+<li>Isolation（隔離性）：<br>  資料庫允許多個並發交易同時對其數據進行讀寫和修改的能力，<br>  隔離性可以防止多個交易並發執行時由於交叉執行而導致數據的不一致。<br>  交易隔離分為不同級別，<br>  包括未提交讀（Read uncommitted）、<br>  提交讀（read committed）、<br>  可重複讀（repeatable read）和串行化（Serializable）。</li>
+<li>Durability（持久性）：<br>  交易處理結束後，對數據的修改就是永久的，即便系統故障也不會丟失。</li>
+</ul>
+<h3 id="問題，欄位-price-現在為-100，兩筆交易同時發生，A-交易為-price-10-B-交易為-price-15-請問最終的值為何"><a href="#問題，欄位-price-現在為-100，兩筆交易同時發生，A-交易為-price-10-B-交易為-price-15-請問最終的值為何" class="headerlink" title="問題，欄位 price 現在為 100，兩筆交易同時發生，A 交易為 price+10, B 交易為 price-15 請問最終的值為何"></a>問題，欄位 price 現在為 100，兩筆交易同時發生，A 交易為 price+10, B 交易為 price-15 請問最終的值為何</h3><p>MsSQL 預設的 Isolation Level 為 READ COMMITTED</p>
+<p><img src="https://miro.medium.com/max/1438/1*zAaBTdOtFJzISu4KGcwtvQ.png" alt="Isolation Level"></p>
+<h3 id="情境題-amp-SQL"><a href="#情境題-amp-SQL" class="headerlink" title="情境題 &amp; SQL"></a>情境題 &amp; SQL</h3><h4 id="建立測試資料"><a href="#建立測試資料" class="headerlink" title="建立測試資料"></a>建立測試資料</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].[ACIDSample](</span><br><span class="line">    [ACIDSample_Id] [<span class="type">bigint</span>] <span class="keyword">IDENTITY</span>(<span class="number">1</span>,<span class="number">1</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    [ACIDSample_Name] [nvarchar](<span class="number">100</span>) <span class="keyword">NULL</span>,</span><br><span class="line">    [ACIDSample_Price] [<span class="type">Decimal</span>] <span class="keyword">NULL</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> [dbo].[ACIDSample]</span><br><span class="line">           ([ACIDSample_Name]</span><br><span class="line">           ,[ACIDSample_Price])</span><br><span class="line">     <span class="keyword">VALUES</span></span><br><span class="line">        (<span class="string">&#x27;Toy&#x27;</span>,<span class="number">150</span>),</span><br><span class="line">        (<span class="string">&#x27;Shoes&#x27;</span>, <span class="number">120</span>)</span><br><span class="line"></span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+<h4 id="Read-Committed-MsSQL-預設值-vs-Read-Uncommitted"><a href="#Read-Committed-MsSQL-預設值-vs-Read-Uncommitted" class="headerlink" title="Read Committed(MsSQL 預設值) vs Read Uncommitted"></a>Read Committed(MsSQL 預設值) vs Read Uncommitted</h4><p>差別在於會不會讀到髒資料，<br>Read Uncommitted 不會使用 locked 來避免未 commit 的資料被讀取，<br>參考以下範例:</p>
+<p>假設目前 ACIDSample_Price = 100</p>
+<h3 id="Sample-READ-COMMITTED"><a href="#Sample-READ-COMMITTED" class="headerlink" title="Sample READ COMMITTED"></a>Sample READ COMMITTED</h3><p>Session 1，執行 Update 後延遲 10 秒後 Rollback</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> TRANSACTION</span><br><span class="line"><span class="keyword">UPDATE</span> ACIDSample</span><br><span class="line"><span class="keyword">SET</span> ACIDSample_Price <span class="operator">=</span> ACIDSample_Price <span class="operator">+</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">WHERE</span> ACIDSample_Id <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">WaitFor Delay <span class="string">&#x27;00:00:10&#x27;</span></span><br><span class="line"><span class="keyword">Rollback</span> Transaction</span><br></pre></td></tr></table></figure>
+<p>Session 2，<br>設定 TRANSACTION ISOLATION LEVEL 為 READ COMMITTED，<br>目前 ACIDSample_Price = 100<br>執行查詢，在 READ COMMITTED 的情境況下，會等待延遲結束後取得資料  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- SET TRANSACTION ISOLATION LEVEL</span></span><br><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL READ COMMITTED</span><br><span class="line"><span class="keyword">SELECT</span> ACIDSample_Price <span class="keyword">FROM</span> ACIDSample <span class="keyword">WHERE</span> ACIDSample_ID <span class="operator">=</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="Sample-READ-UNCOMMITTED"><a href="#Sample-READ-UNCOMMITTED" class="headerlink" title="Sample READ UNCOMMITTED"></a>Sample READ UNCOMMITTED</h3><p>Session 1，與前一個範例相同，執行 Update 後延遲 10 秒後 Rollback  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> TRANSACTION</span><br><span class="line"><span class="keyword">UPDATE</span> ACIDSample</span><br><span class="line"><span class="keyword">SET</span> ACIDSample_Price <span class="operator">=</span> ACIDSample_Price <span class="operator">+</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">WHERE</span> ACIDSample_Id <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">WaitFor Delay <span class="string">&#x27;00:00:10&#x27;</span></span><br><span class="line"><span class="keyword">Rollback</span> Transaction</span><br></pre></td></tr></table></figure>
+<p>Session 2，執行查詢，在 READ UNCOMMITTED 的情境況下，<br>會立即取得未 Commit 的資料(Dirty Data)，不需要等待10秒  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- SET TRANSACTION ISOLATION LEVEL</span></span><br><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL READ UNCOMMITTED</span><br><span class="line"><span class="keyword">SELECT</span> ACIDSample_Price <span class="keyword">FROM</span> ACIDSample <span class="keyword">WHERE</span> ACIDSample_ID <span class="operator">=</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="Sample-Repeatable-Read"><a href="#Sample-Repeatable-Read" class="headerlink" title="Sample Repeatable Read"></a>Sample Repeatable Read</h3><p>Session 1<br>設定 TRANSACTION ISOLATION LEVEL 為 Repeatable Read<br>執行以下SQL後，立即執行 Session 2 的 SQL，<br>等待 10 秒(Delay)後執行 Session 3 的 SQL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL REPEATABLE READ</span><br><span class="line"><span class="keyword">BEGIN</span> TRANSACTION</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line"></span><br><span class="line">WaitFor Delay <span class="string">&#x27;00:00:10&#x27;</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line">WaitFor Delay <span class="string">&#x27;00:00:10&#x27;</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line"><span class="keyword">COMMIT</span> Transaction</span><br></pre></td></tr></table></figure>
+<p>Session 2 新增一筆資料</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ACIDSample (ACIDSample_Name,ACIDSample_Price)</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="string">&#x27;Cat&#x27;</span>,<span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+<p>Session 3 刪除一列資料</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> ACIDSample <span class="keyword">WHERE</span> ACIDSample_Name <span class="operator">=</span> <span class="string">&#x27;Cat&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>等待 Delay 結束後，可以看到查詢結果如下<br>第2次的查詢會與第3次一致，但是實際上的資料已經被刪除了</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ACIDSample_Id        ACIDSample_Name                                                                                      ACIDSample_Price</span><br><span class="line">-------------------- ---------------------------------------------------------------------------------------------------- ---------------------------------------</span><br><span class="line">1                    Toy                                                                                                  132</span><br><span class="line">2                    Shoes                                                                                                120</span><br><span class="line"></span><br><span class="line">(2 rows affected)</span><br><span class="line"></span><br><span class="line">ACIDSample_Id        ACIDSample_Name                                                                                      ACIDSample_Price</span><br><span class="line">-------------------- ---------------------------------------------------------------------------------------------------- ---------------------------------------</span><br><span class="line">1                    Toy                                                                                                  132</span><br><span class="line">2                    Shoes                                                                                                120</span><br><span class="line">7                    Cat                                                                                                  200</span><br><span class="line"></span><br><span class="line">(3 rows affected)</span><br><span class="line"></span><br><span class="line">ACIDSample_Id        ACIDSample_Name                                                                                      ACIDSample_Price</span><br><span class="line">-------------------- ---------------------------------------------------------------------------------------------------- ---------------------------------------</span><br><span class="line">1                    Toy                                                                                                  132</span><br><span class="line">2                    Shoes                                                                                                120</span><br><span class="line">7                    Cat                                                                                                  200</span><br><span class="line"></span><br><span class="line">(3 rows affected)</span><br></pre></td></tr></table></figure>
+<p>試著把 Session 的 ISOLATION LEVEL 調成 READ COMMITTED</p>
+<p>Session 1 (READ COMMITTED)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL READ COMMITTED</span><br><span class="line"><span class="keyword">BEGIN</span> TRANSACTION</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line"></span><br><span class="line">WaitFor Delay <span class="string">&#x27;00:00:10&#x27;</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line">WaitFor Delay <span class="string">&#x27;00:00:10&#x27;</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line"><span class="keyword">COMMIT</span> Transaction</span><br></pre></td></tr></table></figure>
+<p>結果在同一筆交易內會相同的會查詢到不同的結果</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ACIDSample_Id        ACIDSample_Name                                                                                      ACIDSample_Price</span><br><span class="line">-------------------- ---------------------------------------------------------------------------------------------------- ---------------------------------------</span><br><span class="line">1                    Toy                                                                                                  132</span><br><span class="line">2                    Shoes                                                                                                120</span><br><span class="line"></span><br><span class="line">(2 rows affected)</span><br><span class="line"></span><br><span class="line">ACIDSample_Id        ACIDSample_Name                                                                                      ACIDSample_Price</span><br><span class="line">-------------------- ---------------------------------------------------------------------------------------------------- ---------------------------------------</span><br><span class="line">1                    Toy                                                                                                  132</span><br><span class="line">2                    Shoes                                                                                                120</span><br><span class="line">9                    Cat                                                                                                  200</span><br><span class="line"></span><br><span class="line">(3 rows affected)</span><br><span class="line"></span><br><span class="line">ACIDSample_Id        ACIDSample_Name                                                                                      ACIDSample_Price</span><br><span class="line">-------------------- ---------------------------------------------------------------------------------------------------- ---------------------------------------</span><br><span class="line">1                    Toy                                                                                                  132</span><br><span class="line">2                    Shoes                                                                                                120</span><br><span class="line"></span><br><span class="line">(2 rows affected)</span><br></pre></td></tr></table></figure>
+<h3 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h3><p>上面的範例，雖然確保了查詢的一致性，但實際上會查詢到不存在的資料(Phantom)，<br>為了避免這樣的情況可以考慮使用 Serializable，但實際上會帶來效能的耗損，<br>在這樣嚴格的限制下，所有查詢將有序的執行。</p>
+<p>Session 1</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL Serializable</span><br><span class="line"><span class="keyword">BEGIN</span> TRANSACTION</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line"></span><br><span class="line">WaitFor Delay <span class="string">&#x27;00:00:10&#x27;</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line">WaitFor Delay <span class="string">&#x27;00:00:10&#x27;</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> ACIDSample</span><br><span class="line"><span class="keyword">COMMIT</span> Transaction</span><br></pre></td></tr></table></figure>
+<p>也就是說在執行了 Sesson 1 的 SQL 之後 ，<br>Sesson 2 即使在 Delay 的時間中執行也必須等待 Sesson 1 結束才會執行，<br>這樣確保了資料一致性同時也不會拿到 Dirty Data 或 Phantom</p>
+<p>Session 2 新增一筆資料</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ACIDSample (ACIDSample_Name,ACIDSample_Price)</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="string">&#x27;Cat&#x27;</span>,<span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+<p>Session 3 刪除一列資料</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> ACIDSample <span class="keyword">WHERE</span> ACIDSample_Name <span class="operator">=</span> <span class="string">&#x27;Cat&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="SARGs-Search-Arguments"><a href="#SARGs-Search-Arguments" class="headerlink" title="SARGs (Search Arguments)"></a>SARGs (Search Arguments)</h2><p>SQL 效能調校的一些 GuideLine</p>
+<h3 id="建議使符合「查詢參數-Search-ARGument-SARGs-」規則"><a href="#建議使符合「查詢參數-Search-ARGument-SARGs-」規則" class="headerlink" title="建議使符合「查詢參數(Search ARGument SARGs)」規則"></a>建議使符合「查詢參數(Search ARGument SARGs)」規則</h3><ul>
+<li><p>SARGs的格式：</p>
+<ul>
+<li>「資料欄位 部份運算子 &lt;常數或變數&gt;</li>
+<li>常數或變數&gt; 部份運算子 資料欄位」</li>
+<li>運算子：=、&lt;、&gt;、&gt;=、&lt;=、BETWEEN、LIKE ‘關鍵字%’</li>
+</ul>
+</li>
+<li><p>非SARGs格式：</p>
+<ul>
+<li>對資料欄位做運算</li>
+<li>負向查詢：NOT、!=、&lt;&gt;、!&gt;、!&lt;、NOT EXISTS、NOT IN、NOT LIKE</li>
+<li>對資料欄位使用函數</li>
+<li>使用OR運算子</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/getamis/database-transaction-isolation-a1e448a7736e">https://medium.com/getamis/database-transaction-isolation-a1e448a7736e</a></li>
+<li><a target="_blank" rel="noopener" href="http://vito-note.blogspot.com/2013/05/blog-post_1930.html">http://vito-note.blogspot.com/2013/05/blog-post_1930.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/ricochen/2011/07/31/32374">https://dotblogs.com.tw/ricochen/2011/07/31/32374</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sqlservercentral.com/articles/isolation-levels-in-sql-server">https://www.sqlservercentral.com/articles/isolation-levels-in-sql-server</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@chester.yw.chu/%E5%B0%8D%E6%96%BC-mysql-repeatable-read-isolation-%E5%B8%B8%E8%A6%8B%E7%9A%84%E4%B8%89%E5%80%8B%E8%AA%A4%E8%A7%A3-7a9afbac65af">https://medium.com/@chester.yw.chu/%E5%B0%8D%E6%96%BC-mysql-repeatable-read-isolation-%E5%B8%B8%E8%A6%8B%E7%9A%84%E4%B8%89%E5%80%8B%E8%AA%A4%E8%A7%A3-7a9afbac65af</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=7nv-7XQI7p0">https://www.youtube.com/watch?v=7nv-7XQI7p0</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=ZtPj09tJjnQ">https://www.youtube.com/watch?v=ZtPj09tJjnQ</a></li>
+</ul>
+<p>(fin)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.marsen.me/2019/12/25/2019/about_sql_acid_and_srgs/" data-id="ckne1131x006cxsug8pbcet9u" class="article-share-link">Share</a>
+      
+        <a href="https://blog.marsen.me/2019/12/25/2019/about_sql_acid_and_srgs/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Database/" rel="tag">Database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2019/interview_log" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/11/26/2019/interview_log/" class="article-date">
@@ -1081,470 +1244,6 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2019/book/apprenticeship_patterns" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/07/2019/book/apprenticeship_patterns/" class="article-date">
-  <time datetime="2019-08-06T18:06:15.000Z" itemprop="datePublished">2019-08-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/07/2019/book/apprenticeship_patterns/">[閱讀筆記] 學徒模式--優秀軟體開發者的養成之路</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/2019/8/apprenticeship_patterns.jpg" alt="送書啦"></p>
-<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>最近公司來了幾個來自 Build School 的學員，<br>作為暑期工讀生，開發一些 Side Project ，<br>雖然工作很忙，不過我倒是對帶新人還蠻有信心的。  </p>
-<p>這些小朋友問了一些問題，讓我想到自已剛畢業和剛從資策會出來的那時候。<br>有的問題很大，大到可能要一輩子都無法解決。<br>有的問題很小，小到聽了會笑，但對他們來說可能像是眼裡的一粒沙。  </p>
-<p>我在學習的初期，最困難的問題是<strong>不知道怎麼問問題</strong>。<br>而過了一陣子後，我發現一個更糟的狀況，<strong>我不知道我有問題</strong>。<br>而這本書大致上解決了我的上述的兩個問題。</p>
-<h2 id="為何選擇這本書"><a href="#為何選擇這本書" class="headerlink" title="為何選擇這本書"></a>為何選擇這本書</h2><p>非常好讀，你不需要從頭讀到尾。<br>首先是每個篇幅非常的短，大概只要 5~10 分鐘就能讀完。<br>再來是除了第一章外，每一大章都會有一個地圖，<br>讓你能看見全貌。  </p>
-<h2 id="如何讀這本書"><a href="#如何讀這本書" class="headerlink" title="如何讀這本書"></a>如何讀這本書</h2><p>而每一篇都包含情境、問題、解決方案與參照，<br>情境與問題就像是這本書的 GPS ,<br>讓你知道你落在這本書的哪個點上 。<br>解決方案是通篇的主體，但是對我來說後面的行動更為重要，<br>我開始練習 Kata、寫 Blog、尋找導師大多是因這本書而開始的。  </p>
-<p>最後，都會附上相關章節的參照。<br>這非常有幫助，原因是在這張地圖上，<br>你可能會同時落在幾個點上。<br>那麼地圖與參照就會非常有幫助，你可以查找地圖發現有關連的章節，<br>也可以直接透過參照找到其它章節。  </p>
-<h2 id="會不會是雞湯文"><a href="#會不會是雞湯文" class="headerlink" title="會不會是雞湯文"></a>會不會是雞湯文</h2><p>會不會變成雞湯，其實取決於你自已。<br>書上的行動，你作了嗎 ?<br>如果不行動，就當作喝雞湯吧。  </p>
-<h2 id="這本書的缺點"><a href="#這本書的缺點" class="headerlink" title="這本書的缺點"></a>這本書的缺點</h2><p>這本書強調的是如何成為一個工匠，<br>如何成為一個達人。<br>我知道的現實是，很多工程人員到了一定的程度就會轉換職務<br>如果你的目標是成為管理者，業務等…職務<br>我想這本書在幫助上可能會少一半。<br>畢竟這不是一本教你管理、銷售或領導的書。</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>現實上的工匠真的很少，這不是條發大財的路。<br>走起來也很辛苦，不過這是個革命的時代，<br>各行各業都在與軟體產業發生衝突與融合，<br>如果能有更多優秀的工程師，我們就不需要工程師了。</p>
-<blockquote><p>鍚將會扮演它的角色，直到這個世界不再需要鍚為止，<br>然後鍚就會變成金子。</p>
-<footer><strong>El Alquimista</strong></footer></blockquote>
-
-<p>期許自已和看到這篇文章的你都能成為更好的工程師。</p>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2019/08/07/2019/book/apprenticeship_patterns/" data-id="ckne1133500a2xsug5suxbn35" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2019/08/07/2019/book/apprenticeship_patterns/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2019/book/the_8th_habit_from_effectiveness_to_greatness" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/04/2019/book/the_8th_habit_from_effectiveness_to_greatness/" class="article-date">
-  <time datetime="2019-08-03T18:15:02.000Z" itemprop="datePublished">2019-08-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/04/2019/book/the_8th_habit_from_effectiveness_to_greatness/">[閱讀筆記] 第八個習慣 --- 從成功到卓越</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="找到自已內在的聲音"><a href="#找到自已內在的聲音" class="headerlink" title="找到自已內在的聲音"></a>找到自已內在的聲音</h2><p><img src="/images/2019/8/the_8th_habbit.jpg" alt="第八個習慣"></p>
-<ul>
-<li><p>small things listen to your head , big things listen to your heart</p>
-</li>
-<li><p>孟加拉微形貸款的反思</p>
-<blockquote>
-<p>讓 99% 的人生活更好，並賺取收入成為 1 % 富者</p>
-</blockquote>
-</li>
-<li><p>Most ailing organisations have developed a functional blindness to their own defects. They are not suffering because they cannot resolve their problems, but because they cannot see their problems.  — John Gardner  → 看見全貌 — 李智樺(Rudy Lee)</p>
-</li>
-<li><p>願景和心聲是慢慢演化出來的…感覺到人類的某種需求，而且他們的<strong>良知</strong>的回應試圖滿足這些需求就會出現<strong>願景</strong>。</p>
-</li>
-<li><p>個人領導(發揮影響力)是一種選擇，是一種自已必須去贏得的<strong>自由</strong>——只有當你贏得之後，領導才會變成一種選擇。</p>
-</li>
-<li><p>3+1 的世界(Marsen Lin)</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>Column</th>
-<th>Core</th>
-<th>First</th>
-<th>Second</th>
-<th>Third</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>全人思維模式</td>
-<td>心靈</td>
-<td>心智</td>
-<td>身體</td>
-<td>情感</td>
-</tr>
-<tr>
-<td>四種才能</td>
-<td>SQ 精神</td>
-<td>IQ 智力</td>
-<td>PQ 身體</td>
-<td>EQ 情感</td>
-</tr>
-<tr>
-<td>人類四項基本需求</td>
-<td>發揮影響力</td>
-<td>學習</td>
-<td>生活</td>
-<td>愛</td>
-</tr>
-<tr>
-<td>四種才能的最高表現</td>
-<td>良知</td>
-<td>願景</td>
-<td>自律</td>
-<td>熱情</td>
-</tr>
-<tr>
-<td>四種才能的反模式</td>
-<td>自我</td>
-<td>受害者心理</td>
-<td>放縱</td>
-<td>淪為社會的鏡子</td>
-</tr>
-<tr>
-<td>將人物化的管理</td>
-<td>老闆</td>
-<td>規定</td>
-<td>效率</td>
-<td>控制</td>
-</tr>
-<tr>
-<td>領導的四項職責</td>
-<td>以身作則</td>
-<td>探索方向</td>
-<td>整合體系</td>
-<td>充份授權</td>
-</tr>
-<tr>
-<td>四大管理措施</td>
-<td>文化</td>
-<td>策略</td>
-<td>結構</td>
-<td>執行</td>
-</tr>
-<tr>
-<td>完整工作中的全人</td>
-<td>服務</td>
-<td>計畫</td>
-<td>執行</td>
-<td>評估</td>
-</tr>
-</tbody></table>
-<ul>
-<li>現況</li>
-</ul>
-<blockquote>
-<p>報酬: 不公 / 一般 / 很好<br>尊重: 有 / 無<br>自主性: 有 / 無<br>意義: 有 / 無<br>愛 : 有 / 無</p>
-</blockquote>
-<ul>
-<li><p>通往卓越的地圖 vs 選擇地圖</p>
-<p>  <img src="/images/2019/8/the_8th_habbit_map.jpg" alt="通往卓越的地圖"></p>
-<p>  <img src="/images/2019/8/qt_choice_map.jpg" alt="選擇地圖"></p>
-</li>
-<li><p>目的和手段是不可分的，目的實際存在於手段之中。</p>
-</li>
-<li><p>用於實現目的手段與目的同樣重要 — 康德</p>
-</li>
-<li><p>只要目的合理，用什麼樣的手段都是合理的。— 馬基維利</p>
-</li>
-<li><p>在刺激和回應之間有一段空間，我們有自由和能力選擇自已的回應</p>
-<blockquote>
-<p>聰明是一種天賦，而善良是一種選擇。</p>
-</blockquote>
-</li>
-<li><p>所有事物都是經過兩次創造，一次是心智上的創造，一次是實際的創造</p>
-</li>
-</ul>
-<h3 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h3><ul>
-<li>我在家庭、社區、工作單位裡感受到什麼需求 ?</li>
-<li>我是否擁有可以滿足這個需求的天賦才能 ?</li>
-<li>滿足這個需求的機會是否能激起我的熱情 ?</li>
-<li>我的良知是否在激勵我積極投入、採取行動 ?</li>
-</ul>
-<h2 id="激勵他人尋找內在的聲音"><a href="#激勵他人尋找內在的聲音" class="headerlink" title="激勵他人尋找內在的聲音"></a>激勵他人尋找內在的聲音</h2><ul>
-<li>領導是一種如何充份授權的藝術。</li>
-<li>對人充份授權，對物進行管理與控制</li>
-<li>工業時代的管理，老闆/規定/效率/控制</li>
-</ul>
-<h3 id="七、以身作則"><a href="#七、以身作則" class="headerlink" title="七、以身作則"></a>七、以身作則</h3><ul>
-<li>不論什麼時候，如果你認為問題在別人身上，那麼這個想法本身就有問題。</li>
-<li>主動，是自我授權的一種形式</li>
-<li>有的時候，在某些文化中，得到原諒比得到批准來得容易</li>
-<li>7種自我授權<ol>
-<li>坐等吩附</li>
-<li>詢問</li>
-<li>提出建議</li>
-<li>我想做</li>
-<li>執行並立刻報告</li>
-<li>執行後定期報告</li>
-<li>只管去做</li>
-</ol>
-</li>
-<li>做一個燈塔，不要當法管; 作一個榜樣，不要當批評家。</li>
-</ul>
-<h3 id="八、成為表率"><a href="#八、成為表率" class="headerlink" title="八、成為表率"></a>八、成為表率</h3><ul>
-<li><p>七個習慣</p>
-<ul>
-<li>主動積極</li>
-<li>以終為始</li>
-<li>要事第一</li>
-<li>雙贏思維</li>
-<li>知彼解已</li>
-<li>統合綜效</li>
-<li>不斷更新</li>
-</ul>
-</li>
-<li><p>有系統的個人計劃</p>
-<ul>
-<li>「確定任務與價值」</li>
-<li>願景和價值觀<ol>
-<li>每日計劃</li>
-<li>每周計劃</li>
-<li>設定目標</li>
-<li>確定任務和價值</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="九、贏得信任"><a href="#九、贏得信任" class="headerlink" title="九、贏得信任"></a>九、贏得信任</h3><ul>
-<li><p>儲蓄</p>
-<ol>
-<li>先努力理解他人</li>
-<li>信守承諾</li>
-<li>誠實、開誠布公</li>
-<li>和善、有禮</li>
-<li>雙贏或無交易的思維方式</li>
-<li>明確的期望</li>
-<li>對不在場者保持忠誠</li>
-<li>道歉</li>
-<li>接受回饋意見</li>
-<li>寬恕</li>
-</ol>
-</li>
-<li><p>支出</p>
-<ol>
-<li>先求被他人理解</li>
-<li>破壞承諾</li>
-<li>圓滑的操縱</li>
-<li>冷漠、無禮</li>
-<li>我贏你輸或我輸你贏的思維方式</li>
-<li>破壞期望</li>
-<li>不忠誠、欺騙</li>
-<li>驕傲、自負、傲慢</li>
-<li>不接受回饋意見</li>
-<li>心懷怨恨</li>
-</ol>
-</li>
-<li><p>必要的犧牲</p>
-<ol>
-<li>不耐煩、自我中心</li>
-<li>情緒、感情、時間</li>
-<li>自我中心、傲慢、控制</li>
-<li>自我、時間、感覺、成見、偏見</li>
-<li>勝者為王、競爭意識</li>
-<li>蜻蜓點水式的交流</li>
-<li>某些社會認可、祕而不宣</li>
-<li>自我、傲慢、驕傲、時間</li>
-<li>自我、傲慢、驕傲、起反作用的溝通</li>
-<li>驕傲、自我中心</li>
-</ol>
-</li>
-<li><p>內在原則</p>
-<ol>
-<li>相互了解</li>
-<li>完整／執行</li>
-<li>遠見／價值觀、統一／執行、相互了解</li>
-<li>遠見／價值觀、完整／執行</li>
-<li>相互尊重／互惠</li>
-<li>相互尊重／互惠、相互了解、創造性合作、更新</li>
-<li>遠見／價值觀、完整／執行</li>
-<li>遠見／價值觀、完整／執行</li>
-<li>相互了解</li>
-<li>遠見／價值觀、統一／執行</li>
-</ol>
-</li>
-<li><p>真正的付出，必須是對方願意接受的東西</p>
-</li>
-<li><p>說謊是將問題推給未來，誠實則是將問題留給過去</p>
-</li>
-<li><p>成年人只是大孩子而已</p>
-</li>
-<li><p>你如何看待我的角色與目標 ?　你如何看待自已的角色與目標 ?</p>
-</li>
-<li><p>我們自已選擇什麼樣的回應方式，是決定生活的關鍵因素</p>
-</li>
-<li><p>信任和愛一樣</p>
-<ul>
-<li>愛是一個動詞，而愛情是愛的結果</li>
-<li>讓自已的情感服從價值</li>
-<li>信任需要冒險、磨練， 沒有風險是最大的冒險</li>
-</ul>
-</li>
-<li><p>個人層次</p>
-<ul>
-<li>態度積極的好榜樣。</li>
-<li>不要抱怨、比較、批評、競爭和爭鬥。</li>
-<li>作一個燈塔式的人物，而不要作法官式的人，作一個榜樣而不要作批評家</li>
-<li>無力改變所有的事情(別人)時，改變自已</li>
-</ul>
-</li>
-<li><p>人們需感覺自已被欣賞，需要感覺到自已所從事的工作是有價值的</p>
-</li>
-</ul>
-<h3 id="十-融合心聲"><a href="#十-融合心聲" class="headerlink" title="十 融合心聲"></a>十 融合心聲</h3><ul>
-<li>雙贏思維只要有一方願意改變就可以了</li>
-</ul>
-<p>改變得從願意改變的那個人開始 — 改變提問，改變人生</p>
-<ul>
-<li><p>傾聽的連續性</p>
-<ol>
-<li>忽略</li>
-<li>假裝在聽</li>
-<li>選擇性傾聽</li>
-<li>專心傾聽</li>
-<li>以同理心傾聽 (以對方的框架思考)</li>
-</ol>
-</li>
-<li><p>解決方案</p>
-<ol>
-<li>你輸我贏/你贏我輸 [交易]</li>
-<li>妥協 [交易]</li>
-<li>相互了解(沒有共識) [轉變]</li>
-<li>你輸我贏/你贏我輸(增加了解與關心) [轉變]</li>
-<li>妥協(在關係上取得統合綜效) [轉變]</li>
-<li>在問題和關係上取得統合綜效 [轉變]</li>
-</ol>
-</li>
-<li><p>人們會看到同樣的事實，但是以個人的經驗加上不同的解釋，創造意義並產生行為</p>
-</li>
-<li><p>一但你有了身分上的權利，你會認定只有一個答案是對的，自我愈強烈，愈固執，愈僵化。</p>
-</li>
-<li><p>沉默是必要的，問一個問題「說出自已的真正想法，會比沉默好嗎 ?」</p>
-</li>
-<li><p>兩個步驟</p>
-<ol>
-<li>問「是否願意尋求一種比雙方的方法更好的解決方案 ?」</li>
-<li>覆述對方的意見直到對方認可，確定你真正理解他的意思。</li>
-</ol>
-</li>
-<li><p>第三選擇不一定是第三個方案，而是心態上真正的理解對方，而非妥協</p>
-</li>
-<li><p>領導是一種選擇，而非一種職位</p>
-</li>
-<li><p>與人和文化有關時，快就是慢，慢就是快</p>
-</li>
-</ul>
-<h3 id="十一-同心協力"><a href="#十一-同心協力" class="headerlink" title="十一 同心協力"></a>十一 同心協力</h3><p>問題</p>
-<ol>
-<li>你清楚了解組織的目標嗎 ?</li>
-<li>你對組織忠誠奉獻嗎 ?</li>
-</ol>
-<p>四個現實問題</p>
-<ol>
-<li>市場狀況</li>
-<li>核心競爭力</li>
-<li>利益關系人的期望與所需</li>
-<li>價值觀</li>
-</ol>
-<p>刺蝟概念</p>
-<ol>
-<li>你真正的專長是什麼 ?</li>
-<li>你對什麼事充滿熱情 ?</li>
-<li>人們會對什麼掏腰包 ?</li>
-</ol>
-<ul>
-<li>你的良知期望怎麼作 ?</li>
-</ul>
-<h3 id="十二-整合體系"><a href="#十二-整合體系" class="headerlink" title="十二 整合體系"></a>十二 整合體系</h3><p>問題</p>
-<ul>
-<li>你是怎麼想的 ?</li>
-<li>成長過程中，你最喜歡做什麼 ? 有什麼優秀的表現 ?</li>
-</ul>
-<blockquote>
-<p>持續整合不只是工程的事，而是整個組織與公司的事。</p>
-</blockquote>
-<h3 id="十三-充分授權"><a href="#十三-充分授權" class="headerlink" title="十三 充分授權"></a>十三 充分授權</h3><ul>
-<li>透過目標與責任以達到預期結果。</li>
-<li>若以授權的名義放任員工，自律也無法實現。</li>
-<li>The Doctrine of Stubborn refusal — 出於良知</li>
-<li>服務型的領導人的問題<ul>
-<li>工作進度如何 ? 依據看板</li>
-<li>你正在學習什麼 ?</li>
-<li>你的目標是什麼 ?</li>
-<li>我能幫你作什麼 ?</li>
-<li>作為一個幫助者，我表現得如何 ?</li>
-</ul>
-</li>
-<li>選擇的自由與能力<ul>
-<li>領導<ul>
-<li>意義 : 創造性刺激</li>
-<li>愛 :  真心誠意的保證</li>
-<li>職責: 愉快的合作</li>
-</ul>
-</li>
-<li>管理<ul>
-<li>獎勵 : 自願服從</li>
-<li>恐懼 : 願意服從</li>
-<li>憤怒 : 反抗或退出</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>為不同意見保留一席之地，建立回饋機制讓他理解別人的感受。</li>
-</ul>
-<p>問題</p>
-<ul>
-<li>誰喜歡現在的方式 ?</li>
-<li>誰可以作 ?  誰有能力作 ?  誰有責任作 ?</li>
-<li>真正的考驗是改變能不能持久 ? → 回顧與重溫約定。(類似 Retrospective)</li>
-<li>你的建議是什麼 ? 你們的意見是什麼 ?</li>
-<li>知而不行，是為不知</li>
-<li>你所知道的東西 還不足以讓你提出合適的問題</li>
-</ul>
-<p>參考</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.franklincovey.com/the-7-habits.html">https://www.franklincovey.com/the-7-habits.html</a></li>
-</ul>
-<p>(fin)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.marsen.me/2019/08/04/2019/book/the_8th_habit_from_effectiveness_to_greatness/" data-id="ckne1134d00gexsugbipc0o47" class="article-share-link">Share</a>
-      
-        <a href="https://blog.marsen.me/2019/08/04/2019/book/the_8th_habit_from_effectiveness_to_greatness/#disqus_thread" class="article-comment-link">留言</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/" rel="tag">閱讀筆記</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -1561,6 +1260,14 @@ ga('send', 'pageview');
       <ul>
         
           <li>
+            <a href="/2021/05/24/2021/book_tdd_by_example/">[實作筆記] Kent Beck 的測試驅動開發 Ch12 Ch13</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/07/2021/about_habits/">[閱讀筆記] 原子習慣/驚人習慣力/烏托邦的日常/象與騎象人</a>
+          </li>
+        
+          <li>
             <a href="/2021/04/14/2021/aglie_larp/">[活動筆記] 令人失望的敏捷劇本殺</a>
           </li>
         
@@ -1572,14 +1279,6 @@ ga('send', 'pageview');
             <a href="/2021/04/06/2021/create_404/">[實作筆記] 怎麼建立一個網站？(五) - Hexo 的 404 頁面</a>
           </li>
         
-          <li>
-            <a href="/2021/03/22/2021/next_bank_update/">[生活筆記] 將來銀行與純網銀一些有的沒的</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/17/2021/sudo_E/">[A 社筆記] Sudo 與環境變數</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1589,7 +1288,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -1689,7 +1388,7 @@ ga('send', 'pageview');
 
 
 <script>  
-  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain","不要停止懷疑，不要停止信仰","你在我左邊，覺得我太右;我在你左邊，你覺得我太左。我不知道我在哪裡，世界是圓的，而你是中心。","Those who can, do, and those who can't, teach."];
+  var sayings = ["","理性與感性的界線在好奇心","There's only one way to avoid criticism: do nothing, say nothing, and be nothing.--- Aristotle","Genius is in the idea. Impact comes from action. --- Together is better","The best way to find out if it will work is to do it. --- Together is better","To go fast, go alone. To go far, go together. --- African proverb","保持距離才能安穩飛翔","永遠不夠糟到會往下掉，但也永遠不夠好到可以贏得任何東西，那停滯的狀態讓你沮喪到想要尖叫。--- Fever Pitch","無論多麼精明，也無法改變一個事實：所有的知識都是關於過去的，所有的決定都是關於未來的。--- Ian E. Wilson","知者不言，言者不知。--- 老子","人們只能預見恰巧符合他們意願的未來，而那些最為明顯的事實在不受歡迎之時將被忽視。--- 喬治·奧威爾","預測創造了未來可知的海市蜃樓。--- 彼得·伯恩斯坦","我從不考慮未來，它旋即就到。--- 阿爾伯特·愛因斯坦","在未來到來的時候你自然就會知道，在此之前，不要管它。--- 埃斯庫羅斯","預測通常告訴我們更多預測者自身的情況，而並非未來。--- 沃倫·巴菲特","三個點才可以拉出一個平面,這是三元理論的基礎","假裝是沒有用的，你必須持續假裝，才有可能看起來像真的。","這個圈子很小，也許是你沒有走出去","我們總是騎著大象去摸象","原則上，原則是用來打破的…","知之為知之，不知為不知 --- 孔子","論語告訴我們的事，古代就有毒雞湯","Black Lives Matter 那個不要文字獄","別問，你也會這樣作，不然那就是我為什麼比你優秀的地方","習慣面對失敗，而不是習慣失敗","如果我擁有改變世界的神奇力量，我會希望在不造成痛苦和折磨下，減少地球人口。 --- Jane Goodall","因為我們的數量太多了，我們快要將地球有限的資源消耗完了，這代表未來將會有很多苦難。--- Jane Goodall","Tradition is not the worship of ashes, but the preservation of fire. - Gustav Mahler","要多成熟，才能自然的說出「我很幼稚」呢?","Design is not just what it looks like and feels like. Design is how it works. --- Steve Jobs","成熟是種無奈，長大是種必然","Never mistake motion for action --- Hemingway","天堂裡沒有幽默，因為幽默的祕密來源不是喜悅，而是悲傷。 --- Mark Twain","不要停止懷疑，不要停止信仰","你在我左邊，覺得我太右;我在你左邊，你覺得我太左。我不知道我在哪裡，世界是圓的，而你是中心。","Those who can, do, and those who can't, teach.","良好的習慣不是枷鎖，而是讓你更忠於自已","寧靜致遠，淡泊明志"];
 </script>
   
 
