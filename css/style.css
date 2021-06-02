@@ -366,9 +366,21 @@ body {
 #logo,
 #subtitle {
   text-decoration: none;
-  color: #5a340e;
+  color: #fff;
   font-weight: 300;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  text-shadow: 3px 3px 5px #f00;
+  -webkit-animation: breathing 5s ease-out infinite;
+}
+@-webkit-keyframes breathing {
+  0% {
+    text-shadow: 3px 3px 5px rgba(255,0,0,0);
+  }
+  60% {
+    text-shadow: 3px 3px 10px rgba(255,0,0,0.9);
+  }
+  100% {
+    text-shadow: 3px 3px 20px #f00;
+  }
 }
 #logo {
   font-size: 40px;
@@ -391,7 +403,7 @@ body {
 .nav-icon,
 .main-nav-link {
   float: left;
-  color: #5a340e;
+  color: #fff;
   opacity: 0.6;
   text-decoration: none;
   text-shadow: 0 1px rgba(0,0,0,0.2);

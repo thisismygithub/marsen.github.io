@@ -931,12 +931,14 @@ google_analytics:</code></pre></li>
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <div id="gitalk-container" >
+  Please enable JavaScript to view the Gitalk. :D
+</div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
 <script>
   (function(){
-    //console.log('git talked');
     const gitalk = new Gitalk({
       'clientID': '386c8c11178846ff9a31',
       'clientSecret': '969a7543f3dc518b9e540d1e335df2fcb9c2df57',
@@ -950,6 +952,10 @@ google_analytics:</code></pre></li>
     gitalk.render('gitalk-container')
   })();
 </script>
+
+<div id="likecoin">
+Please enable JavaScript to view the LikeCoin. :P
+</div>
 <script>
 
   (function(){
@@ -961,6 +967,8 @@ google_analytics:</code></pre></li>
     (document.getElementById("likecoin").replaceChild(ifrm, document.getElementById("likecoin").childNodes[0]));
   })();
 
+</script>
+<script>
 
   var disqus_shortname = 'marsenlin';
   
@@ -973,7 +981,6 @@ google_analytics:</code></pre></li>
   })();
 
 </script>
-
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
