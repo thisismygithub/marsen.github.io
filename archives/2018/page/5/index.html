@@ -356,29 +356,7 @@ ga('send', 'pageview');
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
-    <div id="gitalk-container" >
-  Please enable JavaScript to view the Gitalk. :D
-</div>
-<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
-<script>
-  (function(){
-    const gitalk = new Gitalk({
-      'clientID': '386c8c11178846ff9a31',
-      'clientSecret': '969a7543f3dc518b9e540d1e335df2fcb9c2df57',
-      'repo': 'marsen.github.io',
-      'owner': 'marsen',
-      'admin': ['marsen'],
-      'id': md5(location.pathname),      // Ensure uniqueness and length less than 50( use md5)
-      'distractionFreeMode': false  // Facebook-like distraction free mode
-    })
-
-    gitalk.render('gitalk-container')
-  })();
-</script>
-
-<div id="likecoin">
+    <div id="likecoin">
 Please enable JavaScript to view the LikeCoin. :P
 </div>
 <script>
