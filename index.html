@@ -97,7 +97,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/01/2021/mac_terminal_prompts_setting/">[實作筆記] Macbook Terminal 美化與設計</a>
+      <a class="article-title" href="/2021/07/01/2021/mac_terminal_prompts_setting/">[實作筆記] MacBook Terminal 美化與設計</a>
     </h1>
   
 
@@ -105,17 +105,17 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>3 年前寫過<a href="https://blog.marsen.me/2018/11/25/2018/colorfull_cmder/">如何讓 windows 也有美美命令提示視窗</a>,<br>不過在去年我開始使用 Macbook Pro 了, 當然也想要美美的 Terminal 啦.<br>但是這個想法一直在放心裡面沒有實踐, 畢竟只是一個浮誇的東西.<br>不過在防疫期間重新看了一遍<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI">高見龍的即將失傳的古老技藝</a>,<br>除了把 Vim 再熟悉一遍外, 同時也觸動了心中浮誇的那塊.<br>實作比 Windows 簡單很多, 在這裡稍作記錄.  </p>
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>3 年前寫過<a href="https://blog.marsen.me/2018/11/25/2018/colorfull_cmder/">如何讓 windows 也有美美命令提示視窗</a>,<br>不過在去年我開始使用 MacBook Pro 了, 當然也想要美美的 Terminal 啦.<br>但是這個想法一直在放心裡面沒有實踐, 畢竟只是一個浮誇的東西.<br>不過在防疫期間重新看了一遍<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI">高見龍的即將失傳的古老技藝</a>,<br>除了把 Vim 再熟悉一遍外, 同時也觸動了心中浮誇的那塊.<br>實作比 Windows 簡單很多, 在這裡稍作記錄.  </p>
 <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ul>
 <li>下載 iTerm2</li>
 <li>設定 iTerm2</li>
 <li>安裝 oh-my-zsh</li>
-<li>安裝 powerlevel10]</li>
+<li>安裝 powerlevel10k</li>
 </ul>
 <h2 id="第一步-下載並安裝-iTerm2"><a href="#第一步-下載並安裝-iTerm2" class="headerlink" title="第一步 下載並安裝 iTerm2"></a>第一步 下載並安裝 <a href="https://[term2.com/">iTerm2</a></h2><h3 id="設定-iTerm2-的外觀"><a href="#設定-iTerm2-的外觀" class="headerlink" title="設定 iTerm2 的外觀"></a>設定 iTerm2 的外觀</h3><ol>
 <li>可以在這裡尋找<a target="_blank" rel="noopener" href="https://github.com/mbadolato/iTerm2-Color-Schemes">iTerm2-Color-Schemes</a></li>
-<li>Create the .itemcolors files</li>
-<li>Peferences &gt; Profiles &gt; Colors &gt; Choose Presets &gt; import</li>
+<li>Create the <code>.itemcolors</code> files</li>
+<li>Preferences &gt; Profiles &gt; Colors &gt; Choose Presets &gt; import</li>
 </ol>
 <p><img src="https://i.imgur.com/d9qHicD.png" alt="import .itemcolors"></p>
 <p>Profiles 裡有更多的設定, 字型、顏色<br>比如說, 調整啟始視窗大小與背景透明度, 可以前往 Windows 進行設定.<br>更多的細部設定可以自行摸索.  <strong>記得有些效果需要手動重啟 iTerm</strong></p>
@@ -1077,7 +1077,7 @@ ga('send', 'pageview');
       <ul>
         
           <li>
-            <a href="/2021/07/01/2021/mac_terminal_prompts_setting/">[實作筆記] Macbook Terminal 美化與設計</a>
+            <a href="/2021/07/01/2021/mac_terminal_prompts_setting/">[實作筆記] MacBook Terminal 美化與設計</a>
           </li>
         
           <li>
@@ -1171,12 +1171,20 @@ ga('send', 'pageview');
   
 </nav>
     <div id="likecoin">
-  <script type="text/javascript">
-    document.write(
-      "<iframe scrolling='no' frameborder='0' sandbox='allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-storage-access-by-user-activation' style='height: 212px; width: 100%;' src='https://button.like.co/in/embed/marsenlin/button?referrer=" +
-      encodeURIComponent(location.href.split("?")[0].split("#")[0]) + "'></iframe>");
-  </script>
+Please enable JavaScript to view the LikeCoin. :P
 </div>
+<script>
+
+  (function(){
+    var ifrm = document.createElement("iframe");
+    ifrm.setAttribute("src", "https://button.like.co/in/embed/marsenlin/button?referrer=undefined");      
+    ifrm.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox");
+    ifrm.frameborder = "0";
+    ifrm.scrolling = "no";
+    (document.getElementById("likecoin").replaceChild(ifrm, document.getElementById("likecoin").childNodes[0]));
+  })();
+
+</script>
 <script>
 
   var disqus_shortname = 'marsenlin';
