@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.marsen.me/"/>
-  <updated>2021-07-08T07:10:28.871Z</updated>
+  <updated>2021-07-09T02:39:20.095Z</updated>
   <id>https://blog.marsen.me/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>[實作筆記] terminal 設定 alias</title>
+    <link href="https://blog.marsen.me/2021/07/09/2021/alias_terminal/"/>
+    <id>https://blog.marsen.me/2021/07/09/2021/alias_terminal/</id>
+    <published>2021-07-09T02:02:43.000Z</published>
+    <updated>2021-07-09T02:39:20.095Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>在換了<a href="https://blog.marsen.me/2020/03/10/2020/macbook_ssh_add_and_git_fork/">新電腦</a>後, 越來越常使用 terminal,<br>在學習了 Vim 之後, 常常不開任何的 IDE 直接在 terminal 的編輯檔案,<br>指令的使用頻率也更高了, 所以試著設定一下 <code>alias</code> 來提昇開發的效率.<br>什麼是 <code>alias</code> ? 它可以幫助我們使用較短指令, 達到與完整指令一樣的效果,<br>當我們常用的指令縮短了, 就可以加開我們開發的速度.  </p><h2 id="設定檔案"><a href="#設定檔案" class="headerlink" title="設定檔案"></a>設定檔案</h2><p><code>.bashrc</code> 或是 <code>.zshrc</code>, 我使用 iTerm 所以要在 <code>.zshrc</code> 裡設定.<br>目前我最常使用的為 git,此外 hexo (一種靜態網站的發佈策略, 我用來設定我的 blog),<br>設定如下:</p><h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">alias gac=&quot;git add . &amp;&amp; git commit -m&quot; # + commit message</span><br><span class="line">alias gi=&quot;git init &amp;&amp; gac &#x27;Initial commit&#x27;&quot;</span><br><span class="line">alias gp=&quot;git push&quot; # + remote &amp; branch names</span><br><span class="line">alias gl=&quot;git pull&quot; # + remote &amp; branch names</span><br><span class="line">alias gs=&quot;git status&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Pushing/pulling to origin remote</span></span></span><br><span class="line">alias gpo=&quot;git push origin&quot; # + branch name</span><br><span class="line">alias glo=&quot;git pull origin&quot; # + branch name</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Pushing/pulling to origin remote, master branch</span></span></span><br><span class="line">alias gpom=&quot;git push origin master&quot;</span><br><span class="line">alias glom=&quot;git pull origin master&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Branches</span></span></span><br><span class="line">alias gb=&quot;git branch&quot; # + branch name</span><br><span class="line">alias gc=&quot;git checkout&quot; # + branch name</span><br><span class="line">alias gcb=&quot;git checkout -b&quot; # + branch name</span><br></pre></td></tr></table></figure><h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alias hxg&#x3D;&quot;hexo g&quot;</span><br><span class="line">alias hxs&#x3D;&quot;hexo s&quot;</span><br><span class="line">alias hxd&#x3D;&quot;hexo d&quot;</span><br></pre></td></tr></table></figure><h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><p>-<a href="https://bitsofco.de/git-aliases-for-lazy-developers/">Git aliases for lazy developers</a></p><p>(fin)</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前情提要&quot;&gt;&lt;a href=&quot;#前情提要&quot; class=&quot;headerlink&quot; title=&quot;前情提要&quot;&gt;&lt;/a&gt;前情提要&lt;/h2&gt;&lt;p&gt;在換了&lt;a href=&quot;https://blog.marsen.me/2020/03/10/2020/macbook_ssh
+      
+    
+    </summary>
+    
+    
+    
+      <category term="實作筆記" scheme="https://blog.marsen.me/tags/%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
   
   <entry>
     <title>[實作筆記] SendGrid 設定 on Appsmith</title>
@@ -456,28 +480,6 @@
       
       
         &lt;h2 id=&quot;前情提要&quot;&gt;&lt;a href=&quot;#前情提要&quot; class=&quot;headerlink&quot; title=&quot;前情提要&quot;&gt;&lt;/a&gt;前情提要&lt;/h2&gt;&lt;p&gt;2020 年搭客運南下高雄，時間長達 5 小時，&lt;br&gt;有在關注的 Podcast/YouTube 節目都聽完了。&lt;br&gt;百
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>[生活筆記] 2020 回顧</title>
-    <link href="https://blog.marsen.me/2020/12/29/2020/final/"/>
-    <id>https://blog.marsen.me/2020/12/29/2020/final/</id>
-    <published>2020-12-29T01:55:03.000Z</published>
-    <updated>2021-01-18T12:34:23.675Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="大事記"><a href="#大事記" class="headerlink" title="大事記"></a>大事記</h2><h3 id="社會"><a href="#社會" class="headerlink" title="社會"></a>社會</h3><ul><li>武漢肺炎<ul><li>東京奧運停辦</li><li>無限量 QE</li></ul></li><li>香港民主運動失敗</li><li>美國大選與黑人平權運動</li><li>Kobe 墜機死亡</li><li>中天新聞停播</li></ul><h2 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h2><h3 id="足球"><a href="#足球" class="headerlink" title="足球"></a>足球</h3><p>今年只有打一場比賽，2020 Arsenal 足總盃冠軍 2:1 Chelsea，然後賽季表演持續探底。</p><h3 id="Lindy-Hop"><a href="#Lindy-Hop" class="headerlink" title="Lindy Hop"></a>Lindy Hop</h3><p>生涯首次在百人面前表演，所屬教室(YM)結束經營，<br>學了 BaLboa 到放棄，上了 36 堂長課(YM &amp; YM 2.0)，中間因為疫情有延期，<br>會持續到 2021 (還有6堂)</p><p>今年是 Podcast 興起的一年，年初聽了股癌、光說不設計(偶然發現竟然是跳舞的老師，但是我沒跟他說)<br>後來聽了百靈果、台灣通勤第一品牌、徐豫切入點、大人學等…<br>身邊也有一些朋友開始在作，我心裡反而有一個 voice log 的想法，<br>但是還沒有很清晰，2021 或許可以作一些探索，當作日記用聲音記錄一些想法與事情。</p><ul><li>閱讀<ul><li>大話設計模式</li><li>硝煙中的敏捷</li><li>DDD<ul><li>Domain-driven Design</li><li>Implementing Domain-driven Design</li><li>Domain-driven Design Distilled</li></ul></li></ul></li><li>婚禮<ul><li>阿棠</li><li>蛋頭</li></ul></li><li>英文<ul><li>TUTORING APP 第四屆體驗大使</li><li>Voice Tube 零元挑戰成功</li></ul></li><li>體驗<ul><li>潛水: 考証中</li><li>抱石: v0(8/10)，目標 v2</li></ul></li></ul><h3 id="職涯"><a href="#職涯" class="headerlink" title="職涯"></a>職涯</h3><ul><li>2月 N 社離職</li><li>A 社入職，Scrum Master<ul><li>3 月入職</li><li>8 月產品上線</li><li>12 月完整團隊開會<ul><li>QA 納入團隊</li><li>具有 PO 職權的人全數進入會議之中</li></ul></li></ul></li><li>Scrum Guide 2020 改版</li></ul><h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>2020是<strong>外面風好大</strong>的一年，今年的我反過得還算不錯(?)，<br>但是大家都在躲風避雨，所以相對有些寂寞(?)</p><p>生活上最主要的改變是轉換了工作到了 A 社，<br>主要的工作項目也從開發者變成了引導者(Scrum Master)，<br>這裡其實也有一點反思，這是我要的路嗎?<br>長期以來我是以「學徒模式」一書的模式在發展我的職涯，<br>以成為工匠為目標，但是實際上帶來的收入並不豐碩。<br>自動化的時代，自媒體的時代，純粹的工匠思維還足夠嗎 ?<br>狐芳自賞的模式能讓我生存下去嗎 ?<br>在「軟技能」一書中也提到了一些開發之外的選擇，<br>自我營銷、健身、理財等…<br>甚至在現今主流的開發流程框架之中，<br>跨職能跨領域才是未來的生存之道。<br>而我的職業選擇帶我到了這個地方，我應該冷靜評估自身與自處的優劣，<br>找到自已的一片天才是。</p><p>來談談 2021 幾個大目標，</p><ul><li>人際關係</li><li>英文</li><li>作息</li><li>財務</li><li>職涯</li></ul><p>人無遠慮，必有近憂，明年應該調整自已生活的節奏。</p><p>人際關係方面，想改善我的表達技巧，<br>我的表達方式在工作場合相當適用，就事論事講求效率極高，<br>在有相同領域的認知下，可以高度輸出大量訊息。<br>但是在人與人的場合，反而缺乏溫度，太過一板一眼，<br>可以試著模仿一些人，但不確定是否適合我。  </p><p>在財務還算穩定的狀況下，我想強化我的英文與身體健康。<br>英文是個痼疾，我想找到可以直接口說的英文夥伴或老師。<br>具體來說，目前會考慮莫彩曦的課程與 myClass 大人的英語課，<br>要更加有意識的系統化思考時間的運用。</p><p>財務方面，我已經規劃好一連串系統操作，運作順利的話，<br>未來理財會更加的輕鬆寫意才對，關鍵點會在 1/1、1/4、1/5 這幾天。<br>幾個項目:</p><ol><li>設定孝親費轉帳</li><li>主帳戶的轉移</li><li>証券戶的轉移</li><li>消費的預算制</li><li>業外的收入</li></ol><p>而身體隨著年紀漸長，需要更細心保養了，<br>我想先從健身與早睡早起開始，希望體重可以維持在 BMI 正常的水準。<br>並不像理財那樣有長期執行的經驗，希望可以有系統化的作法來維持;<br>此外，飲食也是相同重且複雜的環節，在 2021 年要綜觀全局的認真思考這件事，<br>並減少不必要的聚餐。</p><p>職涯短期我打算更加詳細的記錄我在 A 社推動的敏捷改變，<br>同時鍛鍊我的寫作與表達能力。<br>另外要有計劃的建立我的專案，<br>我想將單元測試與 TDD 的一些概念與心得分享在 YouTube 與 LBRY 上(免費)<br>另外我會想討論一下專業養成與市場需求的落差。  </p><p>(fin)</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;大事記&quot;&gt;&lt;a href=&quot;#大事記&quot; class=&quot;headerlink&quot; title=&quot;大事記&quot;&gt;&lt;/a&gt;大事記&lt;/h2&gt;&lt;h3 id=&quot;社會&quot;&gt;&lt;a href=&quot;#社會&quot; class=&quot;headerlink&quot; title=&quot;社會&quot;&gt;&lt;/a&gt;社會&lt;/h3&gt;&lt;u
       
     
     </summary>
